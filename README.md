@@ -15,9 +15,6 @@ helm repo add factly https://factly.github.io/helm-charts
 
 You can then run `helm search repo factly` to see the charts.
 
-<!-- Keep full URL links to repo files because this README syncs from master to gh-pages.  -->
-Chart documentation is available in [factly directory](https://github.com/factly/helm-charts/blob/master/charts/factly/README.md).
-
 ## Contributing
 
 <!-- Keep full URL links to repo files because this README syncs from master to gh-pages.  -->
