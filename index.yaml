@@ -3,6 +3,16 @@ entries:
   dega:
   - apiVersion: v2
     appVersion: 0.3.12
+    created: "2020-12-31T20:26:05.169544098Z"
+    description: A Helm chart for Kubernetes
+    digest: e961a808b218d89202c35a03c6b55184fff5360ae036947d034b33041854c68f
+    name: dega
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/dega-0.2.0/dega-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 0.3.12
     created: "2020-12-31T02:49:43.546789431Z"
     description: A Helm chart for Kubernetes
     digest: a102cb7195f7fc418593168a080d6f91dc0248e6f7b16d9b8dd249dc7d0c656c
