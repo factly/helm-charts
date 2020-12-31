@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: dega-api
+  name: dega-server
   namespace: {{ template "dega.namespace" . }}
   labels:
     {{- include "server.labels" . | nindent 4 }}
