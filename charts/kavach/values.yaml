@@ -12,7 +12,7 @@ imagePullSecrets: []
 
 global:
   image:
-    tag: "0.3.3"
+    tag: "0.3.4"
     imagePullPolicy: IfNotPresent
   securityContext: {}
     # runAsUser: 999
@@ -25,7 +25,7 @@ server:
   image:
     repository: factly/kavach-server
     pullPolicy: IfNotPresent
-    tag: "0.3.3"
+    tag: "0.3.4"
 
   # imagePullSecrets: []
 
