@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: kavach-server
+  name: {{ template "server.fullname" . }}
   namespace: {{ template "kavach.namespace" . }}
   labels:
     {{- include "server.labels" . | nindent 4 }}
