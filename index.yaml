@@ -3,6 +3,16 @@ entries:
   dega:
   - apiVersion: v2
     appVersion: 0.3.12
+    created: "2020-12-31T22:18:11.118614938Z"
+    description: A Helm chart for Dega. A lightweight, scalable & high performant CMS written in Go. Developed for modern web features with all the best practices built-in.
+    digest: 9dd995e8296abc9cf7a6de3edc69409b71a6515def5613b18c0ac544619b9d00
+    name: dega
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/dega-0.2.2/dega-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 0.3.12
     created: "2020-12-31T20:45:58.230457651Z"
     description: A Helm chart for Kubernetes
     digest: e58a792fa422264e42a8638fc049594a35db649c5cfa23c40b56361a1312f8f6
@@ -53,6 +63,16 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/dega-server-0.1.0/dega-server-0.1.0.tgz
     version: 0.1.0
   kavach:
+  - apiVersion: v2
+    appVersion: 0.3.3
+    created: "2020-12-31T22:18:11.23567509Z"
+    description: A Helm chart for Kavach
+    digest: ab772f02ffcf9a544a96ffa88b27369d132e15d69e37874cd6f0d1521c833e4e
+    name: kavach
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/kavach-0.1.1/kavach-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 0.3.3
     created: "2020-12-31T21:26:56.182137692Z"
