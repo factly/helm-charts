@@ -1,0 +1,48 @@
+{{- if .Values.api.ingress.enabled -}}
+{{- $fullName := include "api.fullname" . -}}
+{{- $serviceName := include "api.fullname" . -}}
+{{- $servicePort := .Values.api.service.port -}}
+{{- $paths := .Values.api.ingress.paths -}}
+{{- $extraPaths := .Values.api.ingress.extraPaths -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ template "dega.namespace" . }}  
+  {{- if .Values.api.ingress.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.api.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+  labels:
+    {{- include "api.labels" . | nindent 4 }}
+    {{- if .Values.api.ingress.labels }}
+    {{- toYaml .Values.api.ingress.labels | nindent 4 }}
+    {{- end }}
+spec:
+  rules:
+  {{- if .Values.api.ingress.hosts }}
+  {{- range $host := .Values.api.ingress.hosts }}
+    - host: {{ $host }}
+      http:
+        paths:
+  {{- if $extraPaths }}
+  {{- toYaml $extraPaths | nindent 10 }}
+  {{- end }}
+  {{- range $p := $paths }}
+          - pathType: ImplementationSpecific
+            path: {{ $p }}
+            backend:
+              service:
+                name: {{ $serviceName }}
+                port: 
+                  number: {{ $servicePort }}
+  {{- end -}}
+  {{- end -}}
+  {{- end -}}
+  {{- if .Values.api.ingress.tls }}
+  tls:
+  {{- toYaml .Values.api.ingress.tls | nindent 4 }}
+  {{- end -}}
+{{- end -}}

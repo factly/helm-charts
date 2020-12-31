@@ -1,0 +1,26 @@
+{{- if and .Values.api.metrics.enabled .Values.api.metrics.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: dega-api
+  namespace: {{ template "dega.namespace" . }}
+  labels:
+    {{- include "api.labels" . | nindent 4 }}
+    {{- if .Values.api.metrics.serviceMonitor.selector }}
+    {{- toYaml .Values.api.metrics.serviceMonitor.selector | nindent 4 }}
+    {{- end }}
+    {{- if .Values.api.metrics.serviceMonitor.labels }}
+    {{- toYaml .Values.api.metrics.serviceMonitor.labels | nindent 4 }}
+    {{- end }}
+spec:
+  endpoints:
+  - interval: {{ .Values.api.metrics.serviceMonitor.interval }}
+    port: metrics
+    scheme: {{ .Values.api.metrics.serviceMonitor.scheme }}
+  namespaceSelector:
+    matchNames:
+    - {{ template "dega.namespace" . }}
+  selector:
+    matchLabels:
+      {{- include "api.selectorLabels" . | nindent 6 }}
+{{- end }}      
