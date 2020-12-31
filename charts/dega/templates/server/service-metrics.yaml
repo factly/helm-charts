@@ -1,0 +1,29 @@
+{{- if .Values.server.metrics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "server.fullname" . }}-metrics
+  namespace: {{ template "dega.namespace" . }}
+  labels:
+    {{- include "server.labels" . | nindent 4 }}
+    {{- if .Values.server.metrics.service.labels }}
+    {{- toYaml .Values.server.metrics.service.labels | nindent 4 }}
+    {{- end }}
+  {{- if .Values.server.metrics.service.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.server.metrics.service.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+spec:
+  selector:
+    {{- include "server.selectorLabels" . | nindent 4 }}
+  type: {{ .Values.server.metrics.service.type }}
+  ports:  
+    - port: {{ .Values.server.metrics.service.port }}
+      targetPort: 8001
+      protocol: TCP
+      {{- if .Values.server.metrics.service.portName }}
+      name: {{ .Values.server.metrics.service.portName }}
+      {{- end }} 
+{{- end }}
