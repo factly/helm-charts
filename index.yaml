@@ -52,4 +52,15 @@ entries:
     urls:
     - https://github.com/factly/helm-charts/releases/download/dega-server-0.1.0/dega-server-0.1.0.tgz
     version: 0.1.0
+  kavach:
+  - apiVersion: v2
+    appVersion: 0.3.3
+    created: "2020-12-31T21:26:56.182137692Z"
+    description: A Helm chart for Kavach
+    digest: 883dd53bb501529ec397918a0246bffea10048b5a2a805c2cb68fda4710822f4
+    name: kavach
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/kavach-0.1.0/kavach-0.1.0.tgz
+    version: 0.1.0
 generated: "2020-12-28T20:52:16.715355082Z"
