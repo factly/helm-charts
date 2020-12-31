@@ -24,13 +24,6 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
-Create API name and version as used by the chart label.
-*/}}
-{{- define "api.fullname" -}}
-{{- printf "%s-%s" (include "dega.fullname" .) .Values.api.name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "dega.chart" -}}
@@ -46,6 +39,31 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/part-of: dega
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "dega.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "dega.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Allow the release namespace to be overridden for multi-namespace deployments in combined charts
+*/}}
+{{- define "dega.namespace" -}}
+    {{- .Release.Namespace -}}
+{{- end -}}
+
+{{/*
+Create API name and version as used by the chart label.
+*/}}
+{{- define "api.fullname" -}}
+{{- printf "%s-%s" (include "dega.fullname" .) .Values.api.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 
 {{/*
 API Common labels
@@ -66,17 +84,6 @@ app.kubernetes.io/name: {{ include "dega.name" . }}-{{ .Values.api.name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
-*/}}
-{{- define "dega.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "dega.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
-
-{{/*
 Create the name of the service account to use for API
 */}}
 {{- define "api.serviceAccountName" -}}
@@ -87,12 +94,40 @@ Create the name of the service account to use for API
 {{- end }}
 {{- end }}
 
+{{/*
+Create Server name and version as used by the chart label.
+*/}}
+{{- define "server.fullname" -}}
+{{- printf "%s-%s" (include "dega.fullname" .) .Values.server.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 
 {{/*
-Allow the release namespace to be overridden for multi-namespace deployments in combined charts
+server Common labels
 */}}
-{{- define "dega.namespace" -}}
-    {{- .Release.Namespace -}}
-{{- end -}}
+{{- define "server.labels" -}}
+{{ include "dega.labels" . }}
+app.kubernetes.io/component: {{ .Values.server.name }}
+app.kubernetes.io/name: {{ include "dega.name" . }}-{{ .Values.server.name }}
+app.kubernetes.io/version: {{ default .Values.global.image.tag .Values.server.image.tag | quote }}
+{{- end }}
+
+{{/*
+server Selector labels
+*/}}
+{{- define "server.selectorLabels" -}}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ include "dega.name" . }}-{{ .Values.server.name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use for server
+*/}}
+{{- define "server.serviceAccountName" -}}
+{{- if .Values.server.serviceAccount.create }}
+{{- default (include "server.fullname" .) .Values.server.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.server.serviceAccount.name }}
+{{- end }}
+{{- end }}
 
 
