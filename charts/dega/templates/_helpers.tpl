@@ -130,4 +130,40 @@ Create the name of the service account to use for server
 {{- end }}
 {{- end }}
 
+{{/*
+Create studio name and version as used by the chart label.
+*/}}
+{{- define "studio.fullname" -}}
+{{- printf "%s-%s" (include "dega.fullname" .) .Values.studio.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+studio Common labels
+*/}}
+{{- define "studio.labels" -}}
+{{ include "dega.labels" . }}
+app.kubernetes.io/component: {{ .Values.studio.name }}
+app.kubernetes.io/name: {{ include "dega.name" . }}-{{ .Values.studio.name }}
+app.kubernetes.io/version: {{ default .Values.global.image.tag .Values.studio.image.tag | quote }}
+{{- end }}
+
+{{/*
+studio Selector labels
+*/}}
+{{- define "studio.selectorLabels" -}}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ include "dega.name" . }}-{{ .Values.studio.name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use for studio
+*/}}
+{{- define "studio.serviceAccountName" -}}
+{{- if .Values.studio.serviceAccount.create }}
+{{- default (include "studio.fullname" .) .Values.studio.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.studio.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
 
