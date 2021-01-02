@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dega-studio-config
+  namespace: {{ template "dega.namespace" . }}
+  labels:
+    {{- include "studio.labels" . | nindent 4 }}
+  {{- if .Values.studio.configAnnotations }}
+  annotations:
+  {{- range $key, $value := .Values.studio.configAnnotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+data:
+  config.js: |-
+    window.REACT_APP_KRATOS_PUBLIC_URL = "https://kratos.factly.org";
+    window.REACT_APP_API_URL = "https://dega-server.factly.org";
+    window.REACT_APP_COMPANION_URL = "https://companion.factly.org";
+    window.PUBLIC_URL = "https://dega.factly.org";

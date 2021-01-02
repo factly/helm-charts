@@ -1,0 +1,30 @@
+{{- if .Values.studio.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "studio.fullname" . }}
+  namespace: {{ template "dega.namespace" . }}
+  labels:
+    {{- include "studio.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "dega.fullname" . }}
+  minReplicas: {{ .Values.studio.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.studio.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.studio.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.studio.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.studio.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.studio.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
+
