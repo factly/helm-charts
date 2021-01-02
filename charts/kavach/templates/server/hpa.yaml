@@ -2,7 +2,7 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ template "server.fullname" . }}-hpa
+  name: {{ template "server.fullname" . }}
   namespace: {{ template "kavach.namespace" . }}
   labels:
     {{- include "server.labels" . | nindent 4 }}
