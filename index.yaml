@@ -3,6 +3,16 @@ entries:
   dega:
   - apiVersion: v2
     appVersion: 0.3.12
+    created: "2021-01-02T06:33:09.958918517Z"
+    description: A Helm chart for Dega. A lightweight, scalable & high performant CMS written in Go. Developed for modern web features with all the best practices built-in.
+    digest: 232fc883f33889d6142756c541551cde2dba9eb5defaa2452a42330196ec891e
+    name: dega
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/dega-0.3.2/dega-0.3.2.tgz
+    version: 0.3.2
+  - apiVersion: v2
+    appVersion: 0.3.12
     created: "2021-01-02T06:26:08.330569876Z"
     description: A Helm chart for Dega. A lightweight, scalable & high performant CMS written in Go. Developed for modern web features with all the best practices built-in.
     digest: 6329bc5b8cfac76682962e90420d5bbfbfec75becb24e37e03b4a4e427a3dcc7
