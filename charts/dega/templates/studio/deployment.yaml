@@ -45,24 +45,6 @@ spec:
             - name: {{ .Values.studio.service.portName }}
               containerPort: {{ .Values.studio.service.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.studio.service.port }}
-            initialDelaySeconds: {{ .Values.studio.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.studio.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.studio.livenessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.studio.livenessProbe.successThreshold }}
-            failureThreshold: {{ .Values.studio.livenessProbe.failureThreshold }}             
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.studio.service.port }}
-            initialDelaySeconds: {{ .Values.studio.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.studio.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.studio.readinessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.studio.readinessProbe.successThreshold }}
-            failureThreshold: {{ .Values.studio.readinessProbe.failureThreshold }}             
           resources:
             {{- toYaml .Values.studio.resources | nindent 12 }}
           volumeMounts:
