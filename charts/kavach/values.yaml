@@ -154,7 +154,7 @@ web:
   image:
     repository: factly/kavach-web
     pullPolicy: IfNotPresent
-    tag: "0.3.3"
+    tag: "0.2.0"
 
   # imagePullSecrets: []
 
