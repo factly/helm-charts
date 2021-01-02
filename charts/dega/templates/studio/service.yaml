@@ -20,7 +20,7 @@ spec:
   type: {{ .Values.server.service.type }}
   ports:
     - port: {{ .Values.server.service.port }}
-      targetPort: 8000
+      targetPort: 80
       protocol: TCP
       {{- if .Values.server.service.portName }}
       name: {{ .Values.server.service.portName }}
