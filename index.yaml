@@ -105,6 +105,16 @@ entries:
   kavach:
   - apiVersion: v2
     appVersion: 0.3.4
+    created: "2021-01-02T07:02:26.204007597Z"
+    description: A Helm chart for Kavach
+    digest: a33fec35eb0165092dd8abf045eddf3974fcd0500b849dddbfd043a13dfe0dff
+    name: kavach
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/kavach-0.2.2/kavach-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: 0.3.4
     created: "2021-01-02T06:59:33.448974321Z"
     description: A Helm chart for Kavach
     digest: 8a0bb56e6911d8c7267da6fb5bd18ae59cde7b96d52bde918c235839e7f1b058
