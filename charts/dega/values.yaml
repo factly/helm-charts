@@ -388,7 +388,7 @@ studio:
 
   service:
     type: ClusterIP
-    port: 8000
+    port: 80
     portName: http
     annotations: {}
     labels: {}
