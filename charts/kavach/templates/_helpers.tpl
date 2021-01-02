@@ -130,4 +130,40 @@ Create the name of the service account to use for server
 {{- end }}
 {{- end }}
 
+{{/*
+Create web name and version as used by the chart label.
+*/}}
+{{- define "web.fullname" -}}
+{{- printf "%s-%s" (include "dega.fullname" .) .Values.web.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+web Common labels
+*/}}
+{{- define "web.labels" -}}
+{{ include "dega.labels" . }}
+app.kubernetes.io/component: {{ .Values.web.name }}
+app.kubernetes.io/name: {{ include "dega.name" . }}-{{ .Values.web.name }}
+app.kubernetes.io/version: {{ default .Values.global.image.tag .Values.web.image.tag | quote }}
+{{- end }}
+
+{{/*
+web Selector labels
+*/}}
+{{- define "web.selectorLabels" -}}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/name: {{ include "dega.name" . }}-{{ .Values.web.name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use for web
+*/}}
+{{- define "web.serviceAccountName" -}}
+{{- if .Values.web.serviceAccount.create }}
+{{- default (include "web.fullname" .) .Values.web.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.web.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
 
