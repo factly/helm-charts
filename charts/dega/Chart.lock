@@ -1,0 +1,6 @@
+dependencies:
+- name: imgproxy
+  repository: file://../imgproxy
+  version: 0.1.1
+digest: sha256:4b043b79d862b04c030f9441ee2463ace0d3575e42c6fd136fe23e1aaae524af
+generated: "2021-01-05T09:46:05.750054-06:00"
