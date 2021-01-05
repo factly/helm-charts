@@ -10,7 +10,7 @@ namespaceOverride: "apps"
 
 imagePullSecrets: []
 
-name: imgroxy
+name: imgproxy
 
 image:
   repository: darthsim/imgproxy
