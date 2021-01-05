@@ -1,0 +1,6 @@
+dependencies:
+- name: imgproxy
+  repository: https://factly.github.io/helm-charts
+  version: 0.1.1
+digest: sha256:d0a91e96826e3f5904365aa29e956e7b9f8451d9463376512e3cf9187c1305ad
+generated: "2021-01-05T10:01:56.711316-06:00"
