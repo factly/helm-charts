@@ -1,0 +1,173 @@
+# Default values for Imgproxy.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: imgproxy
+fullnameOverride: imgproxy
+
+## Override the deployment namespace
+namespaceOverride: "apps"
+
+imagePullSecrets: []
+
+name: imgroxy
+
+image:
+  repository: darthsim/imgproxy
+  pullPolicy: IfNotPresent
+  tag: "v2.15.0"
+
+# imagePullSecrets: []
+
+# This value will be ignored if Autoscaling is enabled
+replicaCount: 1
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+## Environment variables to pass to Imgproxy
+env:
+  # Base URL prefix that will be added to every requested image URL.
+  - name: IMGPROXY_BASE_URL
+    value: "http://minio.dega.svc.cluster.local:9000/"
+  # Enables WebP support detection. 
+  - name: IMGPROXY_ENABLE_WEBP_DETECTION
+    value: "true"
+  # Enables WebP support detection and enforces WebP usage. If the browser supports WebP, it will be used as resulting format even if another extension is specified in the imgproxy URL.
+  - name: IMGPROXY_ENFORCE_WEBP
+    value: "true"
+  # Duration (in seconds) sent in Expires and Cache-Control: max-age HTTP headers.
+  - name: IMGPROXY_TTL
+    value: "31536000"
+  # The maximum resolution of the source image, in megapixels. Images with larger actual size will be rejected. 
+  - name: IMGPROXY_MAX_SRC_RESOLUTION
+    value: "16.8"
+  # The maximum size of the source image, in bytes. Images with larger file size will be rejected. 
+  - name: IMGPROXY_MAX_SRC_FILE_SIZE
+    value: "104857600"
+  # Enables using ETag HTTP header for HTTP cache control. 
+  - name: IMGPROXY_USE_ETAG
+    value: "true"
+  # Prometheus metrics server binding. Can’t be the same as IMGPROXY_BIND
+  - name: IMGPROXY_PROMETHEUS_BIND
+    value: ":8081"
+  # - name: IMGPROXY_JPEG_PROGRESSIVE
+  #   value: "true"
+  # - name: IMGPROXY_PNG_INTERLACED
+  #   value: "true"
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # Labels to add to the service account
+  labels: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "imgproxy"
+
+podAnnotations: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+  portName: http
+  annotations: {}
+  labels: {}
+
+metrics:
+  enabled: true
+
+  service:
+    type: ClusterIP
+    port: 8081
+    portName: metrics
+    annotations: {}
+    labels: {}
+
+  serviceMonitor:
+    enabled: true
+    selector:
+      # prometheus: kube-prometheus
+      release: monitoring
+    labels: {}
+    interval: 30s
+
+    scheme: http
+    tlsConfig: {}
+    scrapeTimeout: 30s
+    relabelings: []
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/from-to-www-redirect: 'true'
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($args = '') {
+        rewrite ^/f/(.*)$ /insecure/plain/$1? last;
+      }
+      rewrite ^/f/(.*)$ /insecure/$args/plain/$1? last;    
+  ## Hostnames must be provided if Ingress is enabled.
+  ## Secrets must be manually created in the namespace
+  ##
+  hosts:
+    - images.factly.org
+    - www.images.factly.org
+  paths:
+    - /
+  extraPaths: []
+  tls:
+    - secretName: images-factly-org-tls
+      hosts:
+        - images.factly.org
+        - www.images.factly.org        
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 1
+    memory: 1024Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+## Readiness and liveness probes for default backend
+## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+##
+readinessProbe:
+  initialDelaySeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+  periodSeconds: 10
+livenessProbe:
+  initialDelaySeconds: 50
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+  periodSeconds: 10
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
