@@ -102,6 +102,24 @@ entries:
     urls:
     - https://github.com/factly/helm-charts/releases/download/dega-server-0.1.0/dega-server-0.1.0.tgz
     version: 0.1.0
+  imgproxy:
+  - apiVersion: v2
+    appVersion: 2.15.0
+    created: "2021-01-05T02:17:06.824418233Z"
+    description: A fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
+    digest: d772a10e333755fd927c5e33c62c130512a6246b67c8c3d11ff21257fcce0eb5
+    home: https://github.com/imgproxy/imgproxy
+    keywords:
+    - imgproxy
+    - image
+    - processing
+    name: imgproxy
+    sources:
+    - https://github.com/imgproxy/imgproxy
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/imgproxy-0.1.0/imgproxy-0.1.0.tgz
+    version: 0.1.0
   kavach:
   - apiVersion: v2
     appVersion: 0.3.4
