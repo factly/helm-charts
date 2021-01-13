@@ -605,6 +605,8 @@ imgproxy:
   affinity: {}
 
 minio:
+  enabled: true
+  
   ## Provide a name in place of minio for `app:` labels
   ##
   nameOverride: ""
