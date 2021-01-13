@@ -3,6 +3,30 @@ entries:
   dega:
   - apiVersion: v2
     appVersion: 0.3.12
+    created: "2021-01-13T01:25:52.897612979Z"
+    dependencies:
+    - alias: imgproxy
+      condition: imgproxy.enabled
+      name: imgproxy
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://helm.min.io/
+      version: 8.0.*
+    description: A Helm chart for Dega. A lightweight, scalable & high performant CMS written in Go. Developed for modern web features with all the best practices built-in.
+    digest: 2560fe9561ab31627b754bc42787dba46043745d3ece6219efe32a844da13dd3
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: dega
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/dega-0.5.1/dega-0.5.1.tgz
+    version: 0.5.1
+  - apiVersion: v2
+    appVersion: 0.3.12
     created: "2021-01-05T16:48:03.674638365Z"
     dependencies:
     - alias: imgproxy
