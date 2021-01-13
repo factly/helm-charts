@@ -57,7 +57,7 @@ server:
     - name: KAVACH_DATABASE_USER
       value: "postgres"
     - name: KAVACH_DATABASE_PASSWORD
-      value: "***REMOVED***"
+      value: "mFzhT53o4EMkAp2EdQNc"
     - name: KAVACH_DATABASE_SSL_MODE
       value: "disable"
 
