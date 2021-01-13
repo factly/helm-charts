@@ -32,3 +32,8 @@ dependencies:
     repository: https://factly.github.io/helm-charts
     condition: imgproxy.enabled
     alias: imgproxy
+  - name: minio
+    version: "8.0.*"
+    repository: https://helm.min.io/
+    condition: minio.enabled
+    alias: minio    
