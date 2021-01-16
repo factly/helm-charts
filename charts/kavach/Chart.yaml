@@ -21,3 +21,43 @@ version: 0.2.2
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 appVersion: 0.3.4
+
+namespaces:
+ - dega
+
+dependencies:
+  - name: imgproxy
+    version: "0.1.*"
+    repository: https://factly.github.io/helm-charts
+    condition: imgproxy.enabled
+    alias: imgproxy
+  - name: minio
+    version: "8.0.*"
+    repository: https://helm.min.io/
+    condition: minio.enabled
+    alias: minio    
+  - name: postgresql
+    version: "10.2.*"
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+    alias: postgresql
+  - name: kratos
+    version: "0.5.*"
+    repository: https://k8s.ory.sh/helm/charts
+    condition: kratos.enabled
+    alias: kratos
+  - name: oathkeeper
+    version: "0.5.*"
+    repository: https://k8s.ory.sh/helm/charts
+    condition: oathkeeper.enabled
+    alias: oathkeeper
+#   - name: keto
+#     version: "0.1.*"
+#     repository: https://k8s.ory.sh/helm/charts
+#     condition: keto.enabled
+#     alias: keto    
+  - name: companion
+    version: 0.1.0
+    condition: companion.enabled
+    alias: companion
+    repository: file://../companion

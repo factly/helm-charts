@@ -2,15 +2,15 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ template "imgproxy.fullname" . }}
-  namespace: {{ template "imgproxy.namespace" . }}
+  name: {{ template "companion.fullname" . }}
+  namespace: {{ template "companion.namespace" . }}
   labels:
-    {{- include "imgproxy.labels" . | nindent 4 }}
+    {{- include "companion.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "imgproxy.fullname" . }}
+    name: {{ include "companion.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

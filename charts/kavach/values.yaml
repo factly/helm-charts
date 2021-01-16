@@ -49,13 +49,14 @@ server:
     - name: KAVACH_KETO_URL
       value: "http://keto.dega.svc.cluster.local:4466"
     - name: KAVACH_DATABASE_HOST
-      value: "postgres-postgresql.dega.svc.cluster.local"
+      value: "kavach-postgresql.dega.svc.cluster.local"
     - name: KAVACH_DATABASE_NAME
       value: "kavach"
     - name: KAVACH_DATABASE_PORT
       value: "5432"
     - name: KAVACH_DATABASE_USER
       value: "postgres"
+    # **** THIS NEEDS TO BE MODIFIED ****      
     - name: KAVACH_DATABASE_PASSWORD
       value: "***REMOVED***"
     - name: KAVACH_DATABASE_SSL_MODE
@@ -102,7 +103,7 @@ server:
       labels: {}
 
     serviceMonitor:
-      enabled: true
+      enabled: false
       selector:
         # prometheus: kube-prometheus
         release: monitoring
@@ -195,7 +196,8 @@ web:
   configAnnotations: {}
 
   service:
-    type: ClusterIP
+    # type: ClusterIP
+    type: NodePort
     port: 80
     portName: http
     annotations: {}
@@ -234,3 +236,464 @@ web:
   tolerations: []
 
   affinity: {}
+
+postgresql:
+  enabled: true
+
+  ## Global Docker image parameters
+  ## Please, note that this will override the image parameters, including dependencies, configured to use the global value
+  ## Current available global Docker image parameters: imageRegistry and imagePullSecrets
+  ##
+  global:
+    postgresql: {}
+  #   imageRegistry: myRegistryName
+  #   imagePullSecrets:
+  #     - myRegistryKeySecretName
+  #   storageClass: myStorageClass
+
+  ## Bitnami PostgreSQL image version
+  ## ref: https://hub.docker.com/r/bitnami/postgresql/tags/
+  ##
+  image:
+    registry: docker.io
+    repository: bitnami/postgresql
+    tag: 11.9.0-debian-10-r73
+    ## Specify a imagePullPolicy
+    ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+    ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+    ##
+    pullPolicy: IfNotPresent
+    ## Optionally specify an array of imagePullSecrets.
+    ## Secrets must be manually created in the namespace.
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ##
+    # pullSecrets:
+    #   - myRegistryKeySecretName
+
+    ## Set to true if you would like to see extra information on logs
+    ## It turns BASH and NAMI debugging in minideb
+    ## ref:  https://github.com/bitnami/minideb-extras/#turn-on-bash-debugging
+    ##
+    debug: false
+
+  replication:
+    enabled: true
+    user: repl_user
+    password: repl_password
+    slaveReplicas: 1
+    ## Set synchronous commit mode: on, off, remote_apply, remote_write and local
+    ## ref: https://www.postgresql.org/docs/9.6/runtime-config-wal.html#GUC-WAL-LEVEL
+    ##
+    synchronousCommit: "on"
+    ## From the number of `slaveReplicas` defined above, set the number of those that will have synchronous replication
+    ## NOTE: It cannot be > slaveReplicas
+    ##
+    numSynchronousReplicas: 1
+    ## Replication Cluster application name. Useful for defining multiple replication policies
+    ##
+    applicationName: dega
+
+  ## PostgreSQL user (has superuser privileges if username is `postgres`)
+  ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#setting-the-root-password-on-first-run
+  ##
+  postgresqlUsername: postgres
+
+  ## PostgreSQL password using existing secret
+  existingSecret: postgres
+
+  ## Mount PostgreSQL secret as a file instead of passing environment variable
+  # usePasswordFile: false
+
+  ## Create a database
+  ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#creating-a-database-on-first-run
+  ##
+  postgresqlDatabase: postgres
+
+  ## PostgreSQL data dir
+  ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md
+  ##
+  postgresqlDataDir: /bitnami/postgresql/data
+
+  ## An array to add extra environment variables
+  ## For example:
+  ## extraEnv:
+  ##   - name: FOO
+  ##     value: "bar"
+  ##
+  # extraEnv:
+  extraEnv: []
+
+  ## Name of a ConfigMap containing extra env vars
+  ##
+  # extraEnvVarsCM:
+
+  ## initdb scripts
+  ## Specify dictionary of scripts to be run at first boot
+  ## Alternatively, you can put your scripts under the files/docker-entrypoint-initdb.d directory
+  ##
+  initdbScripts:
+    my_init_script.sh: |
+      #!/bin/bash
+
+      set -e
+      set -u
+
+      POSTGRES_MULTIPLE_DATABASES="kratos,keto,kavach,dega"
+
+      function create_user_and_database() {
+        local database=$1
+        echo "Creating user and database '$database'"
+        psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+            CREATE USER $database;
+            CREATE DATABASE $database;
+            GRANT ALL PRIVILEGES ON DATABASE $database TO $database;
+      EOSQL
+      }
+
+      if [ -n "$POSTGRES_MULTIPLE_DATABASES" ]; then
+        echo "Multiple database creation requested: $POSTGRES_MULTIPLE_DATABASES"
+        for db in $(echo $POSTGRES_MULTIPLE_DATABASES | tr ',' ' '); do
+          create_user_and_database $db
+        done
+        echo "Multiple databases created"
+      fi
+
+  ## Specify the PostgreSQL username and password to execute the initdb scripts
+  # initdbUser:
+  # initdbPassword:
+
+  ## ConfigMap with scripts to be run at first boot
+  ## NOTE: This will override initdbScripts
+  # initdbScriptsConfigMap:
+
+  ## Secret with scripts to be run at first boot (in case it contains sensitive information)
+  ## NOTE: This can work along initdbScripts or initdbScriptsConfigMap
+  # initdbScriptsSecret:
+
+  ## Optional duration in seconds the pod needs to terminate gracefully.
+  ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod/#termination-of-pods
+  ##
+  # terminationGracePeriodSeconds: 30
+
+  ## Shared preload libraries
+  ##
+  postgresqlSharedPreloadLibraries: "pgaudit"
+
+  ## Maximum total connections
+  ##
+  postgresqlMaxConnections:
+
+  ## Maximum connections for the postgres user
+  ##
+  postgresqlPostgresConnectionLimit:
+
+  ## Maximum connections for the created user
+  ##
+  postgresqlDbUserConnectionLimit:
+
+  ## TCP keepalives interval
+  ##
+  postgresqlTcpKeepalivesInterval:
+
+  ## TCP keepalives idle
+  ##
+  postgresqlTcpKeepalivesIdle:
+
+  ## TCP keepalives count
+  ##
+  postgresqlTcpKeepalivesCount:
+
+  ## Statement timeout
+  ##
+  postgresqlStatementTimeout:
+
+  ## Remove pg_hba.conf lines with the following comma-separated patterns
+  ## (cannot be used with custom pg_hba.conf)
+  ##
+  postgresqlPghbaRemoveFilters:
+
+  ## updateStrategy for PostgreSQL StatefulSet and its slaves StatefulSets
+  ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+  ##
+  updateStrategy:
+    type: RollingUpdate
+
+  ## Configure extra options for liveness and readiness probes
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
+  ##
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+
+  ## Custom Liveness probe
+  ##
+  customLivenessProbe: {}
+
+  ## Custom Rediness probe
+  ##
+  customReadinessProbe: {}
+
+  ## Configure metrics exporter
+  ##
+  metrics:
+    enabled: true
+    # resources: {}
+    service:
+      type: ClusterIP
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9187"
+      loadBalancerIP:
+    serviceMonitor:
+      enabled: false
+      additionalLabels:
+        release: monitoring
+      # namespace: monitoring
+      # interval: 30s
+      # scrapeTimeout: 10s
+    ## Custom PrometheusRule to be defined
+    ## The value is evaluated as a template, so, for example, the value can depend on .Release or .Chart
+    ## ref: https://github.com/coreos/prometheus-operator#customresourcedefinitions
+    ##
+    prometheusRule:
+      enabled: false
+      additionalLabels: {}
+      namespace: ""
+      ## These are just examples rules, please adapt them to your needs.
+      ## Make sure to constraint the rules to the current postgresql service.
+      ## rules:
+      ##   - alert: HugeReplicationLag
+      ##     expr: pg_replication_lag{service="{{ template "postgresql.fullname" . }}-metrics"} / 3600 > 1
+      ##     for: 1m
+      ##     labels:
+      ##       severity: critical
+      ##     annotations:
+      ##       description: replication for {{ template "postgresql.fullname" . }} PostgreSQL is lagging by {{ "{{ $value }}" }} hour(s).
+      ##       summary: PostgreSQL replication is lagging by {{ "{{ $value }}" }} hour(s).
+      ##
+      rules: []
+
+    image:
+      registry: docker.io
+      repository: bitnami/postgres-exporter
+      tag: 0.8.0-debian-10-r262
+      pullPolicy: IfNotPresent
+      ## Optionally specify an array of imagePullSecrets.
+      ## Secrets must be manually created in the namespace.
+      ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+      ##
+      # pullSecrets:
+      #   - myRegistryKeySecretName
+    ## Define additional custom metrics
+    ## ref: https://github.com/wrouesnel/postgres_exporter#adding-new-metrics-via-a-config-file
+    # customMetrics:
+    #   pg_database:
+    #     query: "SELECT d.datname AS name, CASE WHEN pg_catalog.has_database_privilege(d.datname, 'CONNECT') THEN pg_catalog.pg_database_size(d.datname) ELSE 0 END AS size FROM pg_catalog.pg_database d where datname not in ('template0', 'template1', 'postgres')"
+    #     metrics:
+    #       - name:
+    #           usage: "LABEL"
+    #           description: "Name of the database"
+    #       - size_bytes:
+    #           usage: "GAUGE"
+    #           description: "Size of the database in bytes"
+    ## An array to add extra env vars to configure postgres-exporter
+    ## see: https://github.com/wrouesnel/postgres_exporter#environment-variables
+    ## For example:
+    #  extraEnvVars:
+    #  - name: PG_EXPORTER_DISABLE_DEFAULT_METRICS
+    #    value: "true"
+    extraEnvVars: {}
+
+    ## Pod Security Context
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+    ##
+    securityContext:
+      enabled: false
+      runAsUser: 1001
+    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
+    ## Configure extra options for liveness and readiness probes
+    ##
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 6
+      successThreshold: 1
+
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 6
+      successThreshold: 1
+
+
+minio:
+  enabled: false
+
+  ## minio server mode, i.e. standalone or distributed.
+  ## Distributed Minio ref: https://docs.minio.io/docs/distributed-minio-quickstart-guide
+  ##
+  # mode: standalone
+  mode: distributed
+
+  ## Update strategy for Deployments
+  DeploymentUpdate:
+    type: RollingUpdate
+    maxUnavailable: 0
+    maxSurge: 100%
+
+  ## Update strategy for StatefulSets
+  StatefulSetUpdate:
+    updateStrategy: RollingUpdate
+
+  ## Use existing Secret that store following variables:
+  ##
+  ## | Chart var             | .data.<key> in Secret    |
+  ## |:----------------------|:-------------------------|
+  ## | accessKey             | accesskey                |
+  ## | secretKey             | secretkey                |
+  ## | gcsgateway.gcsKeyJson | gcs_key.json             |
+  ## | s3gateway.accessKey   | awsAccessKeyId           |
+  ## | s3gateway.secretKey   | awsSecretAccessKey       |
+  ## | etcd.clientCert       | etcd_client_cert.pem     |
+  ## | etcd.clientCertKey    | etcd_client_cert_key.pem |
+  ##
+  ## All mentioned variables will be ignored in values file.
+  ## .data.accesskey and .data.secretkey are mandatory,
+  ## others depend on enabled status of corresponding sections.
+  existingSecret: "minio"
+
+  # Number of MinIO containers running
+  replicas: 4
+  # Number of expanded MinIO clusters
+  zones: 1
+
+  ## Enable persistence using Persistent Volume Claims
+  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ##
+  persistence:
+    enabled: true
+
+    ## A manually managed Persistent Volume and Claim
+    ## Requires persistence.enabled: true
+    ## If defined, PVC must be created manually before volume will be bound
+    existingClaim: ""
+
+    ## minio data Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    ## Storage class of PV to bind. By default it looks for standard storage class.
+    ## If the PV uses a different storage class, specify that here.
+    storageClass: ""
+    VolumeName: ""
+    accessMode: ReadWriteOnce
+    size: 10Gi
+
+    ## If subPath is set mount a sub folder of a volume instead of the root of the volume.
+    ## This is especially handy for volume plugins that don't natively support sub mounting (like glusterfs).
+    ##
+    subPath: ""
+
+  ## Expose the Minio service to be accessed from outside the cluster (LoadBalancer service).
+  ## or access it from within the cluster (ClusterIP service). Set the service type and the port to serve it.
+  ## ref: http://kubernetes.io/docs/user-guide/services/
+  ##
+
+  service:
+    type: ClusterIP
+    clusterIP: ~
+    port: 9000
+    nodePort: 32000
+
+    ## List of IP addresses at which the Prometheus server service is available
+    ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+    ##
+    externalIPs: []
+    #   - externalIp1
+
+    annotations: {}
+      # prometheus.io/scrape: 'true'
+      # prometheus.io/path:   '/minio/prometheus/metrics'
+      # prometheus.io/port:   '9000'
+
+
+  ## Node labels for pod assignment
+  ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
+  ##
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+  # Additational pod annotations
+  podAnnotations: {}
+
+  # Additional pod labels
+  podLabels: {}
+
+  ## Configure resource requests and limits
+  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources:
+    requests:
+    memory: 1Gi
+    cpu: 250m
+  limits:
+    memory: 4Gi
+    cpu: 1
+
+  ## Create a bucket after minio install
+  ##
+  defaultBucket:
+    enabled: true
+    ## If enabled, must be a string with length > 0
+    name: dega
+    ## Can be one of none|download|upload|public
+    policy: download
+    ## Purge if bucket exists already
+    purge: false
+    ## set versioning for bucket true|false
+    # versioning: false
+
+  # environment:
+  #   MINIO_PROMETHEUS_AUTH_TYPE: "public"
+
+  metrics:
+    # Metrics can not be disabled yet: https://github.com/minio/minio/issues/7493
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        release: monitoring
+      # namespace: dega
+      # interval: 30s
+      # scrapeTimeout: 10s
+
+imgproxy:
+  enabled: false
+
+kratos:
+  enabled: false
+
+oathkeeper:
+  enabled: false
+
+keto:
+  enabled: true

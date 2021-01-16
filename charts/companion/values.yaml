@@ -1,0 +1,284 @@
+# Default values for companion.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: companion
+fullnameOverride: companion
+
+## Override the deployment namespace
+namespaceOverride: ""
+
+imagePullSecrets: []
+
+name: companion
+
+image:
+  repository: transloadit/companion
+  pullPolicy: IfNotPresent
+  tag: "2600b3ed953f15b1b13c8b07383c470343127bda"
+
+# imagePullSecrets: []
+
+# This value will be ignored if Autoscaling is enabled
+replicaCount: 1
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+## Environment variables to pass to Companion
+## Find the possible values from here: https://uppy.io/docs/companion/#Running-as-a-standalone-server 
+env:
+  ####### Mandatory variables ###########
+
+  # any long set of random characters for the server session
+  - name: COMPANION_SECRET
+    value: "CHANGE_ME"
+  # specifying a secret file will override a directly set secret
+  # - name: COMPANION_SECRET_FILE
+  #   value: "PATH/TO/COMPANION/SECRET/FILE"
+  # corresponds to the server.host option
+  - name: COMPANION_DOMAIN
+    value: "YOUR SERVER DOMAIN"
+  # corresponds to the filePath option
+  - name: COMPANION_DATADIR
+    value: "/"
+
+  ###### Optional variables ##########
+
+  # corresponds to the server.protocol option, defaults to http
+  - name: COMPANION_PROTOCOL
+    value: "http"
+  # the port on which to start the server, defaults to 3020. helm chart currently only supports working on port 3020
+  - name: COMPANION_PORT
+    value: "3020"
+  # corresponds to the server.port option, defaults to ''
+  # - name: COMPANION_PATH
+  #   value: "/SERVER/PATH/TO/WHERE/COMPANION/LIVES"
+  # disables the welcome page, defaults to false
+  # - name: COMPANION_HIDE_WELCOME
+  #   value: "true"
+  # disables the metrics page, defaults to false
+  # - name: COMPANION_HIDE_METRICS
+  #   value: "true"
+
+  # use this in place of COMPANION_PATH if the server path should not be
+  # handled by the express.js app, but maybe by an external server configuration
+  # instead (e.g Nginx).
+  # - name: COMPANION_IMPLICIT_PATH
+  #   value: "/SERVER/PATH/TO/WHERE/UPPY/SERVER/LIVES"
+
+  # comma-separated client hosts to whitlelist by the server
+  # if not specified, the server would allow any host
+  # - name: COMPANION_CLIENT_ORIGINS
+  #   value: "localhost:3452,uppy.io"
+
+  ###### corresponds to the redisUrl option ######
+  # this also enables Redis session storage if set
+  # - name: COMPANION_REDIS_URL
+  #   value: "REDIS URL"
+
+  ###### to enable Dropbox ######
+  # - name: COMPANION_DROPBOX_KEY
+  #   value: "YOUR DROPBOX KEY"
+  # - name: COMPANION_DROPBOX_SECRET
+  #   value: "YOUR DROPBOX SECRET"
+  # # specifying a secret file will override a directly set secret
+  # - name: COMPANION_DROPBOX_SECRET_FILE
+  #   value: "PATH/TO/DROPBOX/SECRET/FILE"
+
+  ###### to enable Box ######
+  # - name: COMPANION_BOX_KEY
+  #   value: "YOUR BOX KEY"
+  # - name: COMPANION_BOX_SECRET
+  #   value: "YOUR BOX SECRET"
+  # # specifying a secret file will override a directly set secret
+  # - name: COMPANION_BOX_SECRET_FILE
+  #   value: "PATH/TO/BOX/SECRET/FILE"
+
+  ###### to enable Google Drive ######
+  # - name: COMPANION_GOOGLE_KEY
+  #   value: "YOUR GOOGLE DRIVE KEY"
+  # - name: COMPANION_GOOGLE_SECRET
+  #   value: "YOUR GOOGLE DRIVE SECRET"
+  # # specifying a secret file will override a directly set secret
+  # - name: COMPANION_GOOGLE_SECRET_FILE
+  #   value: "PATH/TO/GOOGLEDRIVE/SECRET/FILE"
+
+  ###### to enable Instagram ######
+  # - name: COMPANION_INSTAGRAM_KEY
+  #   value: "YOUR INSTAGRAM KEY"
+  # - name: COMPANION_INSTAGRAM_SECRET
+  #   value: "YOUR INSTAGRAM SECRET"
+  # # specifying a secret file will override a directly set secret
+  # - name: COMPANION_INSTAGRAM_SECRET_FILE
+  #   value: "PATH/TO/INSTAGRAM/SECRET/FILE"
+
+  ###### to enable Facebook ######
+  # - name: COMPANION_FACEBOOK_KEY
+  #   value: "YOUR FACEBOOK KEY"
+  # - name: COMPANION_FACEBOOK_SECRET
+  #   value: "YOUR FACEBOOK SECRET"
+  # # specifying a secret file will override a directly set secret
+  # - name: COMPANION_FACEBOOK_SECRET_FILE
+  #   value: "PATH/TO/FACEBOOK/SECRET/FILE"
+
+  ###### to enable Onedrive ######
+  # - name: COMPANION_ONEDRIVE_KEY
+  #   value: "YOUR ONEDRIVE KEY"
+  # - name: COMPANION_ONEDRIVE_SECRET
+  #   value: "YOUR ONEDRIVE SECRET"
+  # # specifying a secret file will override a directly set secret
+  # - name: COMPANION_ONEDRIVE_SECRET_FILE
+  #   value: "PATH/TO/ONEDRIVE/SECRET/FILE"
+
+  ###### to enable Zoom ######
+  # - name: COMPANION_ZOOM_KEY
+  #   value: "YOUR ZOOM KEY"
+  # - name: COMPANION_ZOOM_SECRET
+  #   value: "YOUR ZOOM SECRET"
+  # # specifying a secret file will override a directly set secret
+  # - name: COMPANION_ZOOM_SECRET_FILE
+  #   value: "PATH/TO/ZOOM/SECRET/FILE"
+
+  ###### to enable S3 ######
+  # - name: COMPANION_AWS_KEY
+  #   value: "YOUR AWS KEY"
+  # - name: COMPANION_AWS_SECRET
+  #   value: "YOUR AWS SECRET"
+  # # specifying a secret file will override a directly set secret
+  # - name: COMPANION_AWS_SECRET_FILE
+  #   value: "PATH/TO/AWS/SECRET/FILE"
+  # - name: COMPANION_AWS_BUCKET
+  #   value: "YOUR AWS S3 BUCKET"
+  # - name: COMPANION_AWS_REGION
+  #   value: "AWS REGION"
+  # # to enable S3 Transfer Acceleration (default: false)
+  # - name: COMPANION_AWS_USE_ACCELERATE_ENDPOINT
+  #   value: "false"
+  # # to set X-Amz-Expires query param in presigned urls (in seconds, default: 300)
+  # - name: COMPANION_AWS_EXPIRES
+  #   value: "300"
+  # # to set a canned ACL for uploaded objects: https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl
+  # - name: COMPANION_AWS_ACL
+  #   value: "public-read"
+
+  # # corresponds to the server.oauthDomain option
+  # - name: COMPANION_OAUTH_DOMAIN
+  #   value: "sub.domain.com"
+  # # corresponds to the server.validHosts option
+  # - name: COMPANION_DOMAINS
+  #   value: "sub1.domain.com,sub2.domain.com,sub3.domain.com"
+
+  # corresponds to the sendSelfEndpoint option
+  - name: COMPANION_SELF_ENDPOINT
+    value: "THIS SHOULD BE SAME AS YOUR DOMAIN + PATH"
+
+  # # comma-separated URLs
+  # # corresponds to the uploadUrls option
+  # - name: COMPANION_UPLOAD_URLS
+  #   value: "http://tusd.tusdemo.net/files/,https://tusd.tusdemo.net/files/"    
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # Labels to add to the service account
+  labels: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "companion"
+
+podAnnotations: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  # type: ClusterIP
+  type: NodePort
+  port: 3020
+  portName: http
+  annotations: {}
+  labels: {}
+
+metrics:
+  enabled: false
+
+  serviceMonitor:
+    enabled: true
+    selector:
+      # prometheus: kube-prometheus
+      release: monitoring
+    labels: {}
+    interval: 30s
+
+    scheme: http
+    tlsConfig: {}
+    scrapeTimeout: 30s
+    relabelings: []    
+
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/from-to-www-redirect: 'true' 
+  ## Hostnames must be provided if Ingress is enabled.
+  ## Secrets must be manually created in the namespace
+  ##
+  hosts:
+    - change-to-your-domain.com
+    - www.change-to-your-domain.com
+  paths:
+    - /
+  extraPaths: []
+  tls:
+    - secretName: change-to-your-tls
+      hosts:
+        - change-to-your-domain.com
+        - www.change-to-your-domain.com
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 1
+    memory: 1024Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+## Readiness and liveness probes for default backend
+## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+##
+readinessProbe:
+  initialDelaySeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+  periodSeconds: 10
+livenessProbe:
+  initialDelaySeconds: 50
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+  periodSeconds: 10
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

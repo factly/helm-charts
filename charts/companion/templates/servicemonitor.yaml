@@ -2,10 +2,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ template "imgproxy.fullname" . }}
-  namespace: {{ template "imgproxy.namespace" . }}
+  name: {{ template "companion.fullname" . }}
+  namespace: {{ template "companion.namespace" . }}
   labels:
-    {{- include "imgproxy.labels" . | nindent 4 }}
+    {{- include "companion.labels" . | nindent 4 }}
     {{- if .Values.metrics.serviceMonitor.selector }}
     {{- toYaml .Values.metrics.serviceMonitor.selector | nindent 4 }}
     {{- end }}
@@ -15,12 +15,12 @@ metadata:
 spec:
   endpoints:
   - interval: {{ .Values.metrics.serviceMonitor.interval }}
-    port: metrics
+    port: http
     scheme: {{ .Values.metrics.serviceMonitor.scheme }}
   namespaceSelector:
     matchNames:
-    - {{ template "imgproxy.namespace" . }}
+    - {{ template "companion.namespace" . }}
   selector:
     matchLabels:
-      {{- include "imgproxy.selectorLabels" . | nindent 6 }}
+      {{- include "companion.selectorLabels" . | nindent 6 }}
 {{- end }}      
