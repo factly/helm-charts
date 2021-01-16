@@ -227,6 +227,7 @@ metrics:
     scrapeTimeout: 30s
     relabelings: []    
 
+# Ingress configuration
 ingress:
   enabled: false
   annotations:
