@@ -30,35 +30,9 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 ## Environment variables to pass to Imgproxy
-env:
-  # Base URL prefix that will be added to every requested image URL.
-  - name: IMGPROXY_BASE_URL
-    value: "http://minio.dega.svc.cluster.local:9000/"
-  # Enables WebP support detection. 
-  - name: IMGPROXY_ENABLE_WEBP_DETECTION
-    value: "true"
-  # Enables WebP support detection and enforces WebP usage. If the browser supports WebP, it will be used as resulting format even if another extension is specified in the imgproxy URL.
-  - name: IMGPROXY_ENFORCE_WEBP
-    value: "true"
-  # Duration (in seconds) sent in Expires and Cache-Control: max-age HTTP headers.
-  - name: IMGPROXY_TTL
-    value: "31536000"
-  # The maximum resolution of the source image, in megapixels. Images with larger actual size will be rejected. 
-  - name: IMGPROXY_MAX_SRC_RESOLUTION
-    value: "16.8"
-  # The maximum size of the source image, in bytes. Images with larger file size will be rejected. 
-  - name: IMGPROXY_MAX_SRC_FILE_SIZE
-    value: "104857600"
-  # Enables using ETag HTTP header for HTTP cache control. 
-  - name: IMGPROXY_USE_ETAG
-    value: "true"
-  # Prometheus metrics server binding. Can’t be the same as IMGPROXY_BIND
-  - name: IMGPROXY_PROMETHEUS_BIND
-    value: ":8081"
-  # - name: IMGPROXY_JPEG_PROGRESSIVE
-  #   value: "true"
-  # - name: IMGPROXY_PNG_INTERLACED
-  #   value: "true"
+# All the possible congifurations possible are available here: https://github.com/imgproxy/imgproxy/blob/master/docs/configuration.md
+env: {}
+
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -89,7 +63,7 @@ service:
   labels: {}
 
 metrics:
-  enabled: true
+  enabled: false
 
   service:
     type: ClusterIP
@@ -112,31 +86,26 @@ metrics:
     relabelings: []
 
 ingress:
-  enabled: true
+  enabled: false
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/ssl-redirect: 'true'
-    nginx.ingress.kubernetes.io/from-to-www-redirect: 'true'
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      if ($args = '') {
-        rewrite ^/f/(.*)$ /insecure/plain/$1? last;
-      }
-      rewrite ^/f/(.*)$ /insecure/$args/plain/$1? last;    
+    nginx.ingress.kubernetes.io/from-to-www-redirect: 'true' 
   ## Hostnames must be provided if Ingress is enabled.
   ## Secrets must be manually created in the namespace
   ##
   hosts:
-    - images.factly.org
-    - www.images.factly.org
+    - change-to-your-domain.com
+    - www.change-to-your-domain.com
   paths:
     - /
   extraPaths: []
   tls:
-    - secretName: images-factly-org-tls
+    - secretName: change-to-your-tls
       hosts:
-        - images.factly.org
-        - www.images.factly.org        
+        - change-to-your-domain.com
+        - www.change-to-your-domain.com
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
