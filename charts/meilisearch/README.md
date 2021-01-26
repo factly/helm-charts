@@ -75,3 +75,15 @@ helm delete my-release
 The `env` block allows to specify all the environment variables declared on [MeiliSearch Configuration](https://docs.meilisearch.com/guides/advanced_guides/configuration.html#passing-arguments-via-the-command-line)
 
 For production deployment, setting the environment variable `MEILI_MASTER_KEY` is mandatory.
+
+`MEILI_MASTER_KEY` for eg is set with the following code in `env`:
+
+```
+  - name: MEILI_MASTER_KEY
+    valueFrom:
+      secretKeyRef:
+        name: meilisearch
+        key: meili_key 
+```        
+
+The above for example expects a `secret` with the name `meilisearch` to exist, with key specified as `meili_key`
