@@ -1,0 +1,149 @@
+# Default values for meilisearch.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: meilisearch
+fullnameOverride: meilisearch
+
+## Override the deployment namespace
+namespaceOverride: ""
+
+imagePullSecrets: []
+
+name: meilisearch
+
+image:
+  repository: getmeili/meilisearch
+  tag: v0.18.1
+  pullPolicy: IfNotPresent
+
+# imagePullSecrets: []
+
+# This value will be ignored if Autoscaling is enabled
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+## See `kubectl explain poddisruptionbudget.spec` for more
+## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+podDisruptionBudget: {}
+  # minAvailable: 1
+  # maxUnavailable: 1
+  # labels: {}
+  # annotations: {}
+
+## Environment variables to pass to meilisearch
+# All the possible congifurations possible are available here: https://github.com/meilisearch/meilisearch/blob/master/docs/configuration.md
+env:
+  - name: MEILI_ENV
+    value: "production"
+  - name: MEILI_MASTER_KEY
+    valueFrom:
+      secretKeyRef:
+        name: meilisearch
+        key: meili_key 
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # Labels to add to the service account
+  labels: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "meilisearch"
+
+podAnnotations: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 7700
+  portName: http
+  annotations: {}
+  labels: {}
+
+ingress:
+  enabled: false
+  labels: {}
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    # nginx.ingress.kubernetes.io/from-to-www-redirect: 'true' 
+  ## Hostnames must be provided if Ingress is enabled.
+  ## Secrets must be manually created in the namespace
+  ##
+  hosts:
+    - change-to-your-domain.com
+    - www.change-to-your-domain.com
+  paths:
+    - /
+  extraPaths: []
+  tls:
+    - secretName: change-to-your-tls
+      hosts:
+        - change-to-your-domain.com
+        - www.change-to-your-domain.com
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  ## Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+  size: 20Gi
+  annotations: {}
+  labels: {}   
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 1
+    memory: 1024Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+## Readiness and liveness probes for default backend
+## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+##
+readinessProbe:
+  initialDelaySeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+  periodSeconds: 10
+livenessProbe:
+  initialDelaySeconds: 50
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+  periodSeconds: 10
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
