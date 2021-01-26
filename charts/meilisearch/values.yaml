@@ -39,14 +39,14 @@ podDisruptionBudget: {}
 
 ## Environment variables to pass to meilisearch
 # All the possible congifurations possible are available here: https://github.com/meilisearch/meilisearch/blob/master/docs/configuration.md
-env:
-  - name: MEILI_ENV
-    value: "production"
-  - name: MEILI_MASTER_KEY
-    valueFrom:
-      secretKeyRef:
-        name: meilisearch
-        key: meili_key 
+env: {}
+  # - name: MEILI_ENV
+  #   value: "production"
+  # - name: MEILI_MASTER_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: meilisearch
+  #       key: meili_key 
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -100,7 +100,7 @@ ingress:
         - www.change-to-your-domain.com
 
 persistence:
-  enabled: true
+  enabled: false
   accessMode: ReadWriteOnce
   ## Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
@@ -114,17 +114,18 @@ persistence:
   annotations: {}
   labels: {}   
 
-resources:
+resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: 1
-    memory: 1024Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+
+  # limits:
+  #   cpu: 1
+  #   memory: 1024Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 ## Readiness and liveness probes for default backend
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/

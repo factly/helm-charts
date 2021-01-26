@@ -1020,7 +1020,7 @@ companion:
     - name: COMPANION_AWS_BUCKET
       value: dega
     - name: COMPANION_AWS_KEY
-      value: ***REMOVED***
+      value: degaaccess
     - name: COMPANION_AWS_SECRET
       value: CHANGE_ME
 
