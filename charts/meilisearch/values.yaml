@@ -2,8 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-nameOverride: meilisearch
-fullnameOverride: meilisearch
+nameOverride: ""
+fullnameOverride: ""
 
 ## Override the deployment namespace
 namespaceOverride: ""
@@ -16,8 +16,6 @@ image:
   repository: getmeili/meilisearch
   tag: v0.18.1
   pullPolicy: IfNotPresent
-
-# imagePullSecrets: []
 
 # This value will be ignored if Autoscaling is enabled
 replicaCount: 1
@@ -38,7 +36,7 @@ podDisruptionBudget: {}
   # annotations: {}
 
 ## Environment variables to pass to meilisearch
-# All the possible congifurations possible are available here: https://github.com/meilisearch/meilisearch/blob/master/docs/configuration.md
+# All the possible congifurations possible are available here: https://docs.meilisearch.com/guides/advanced_guides/configuration.html
 env: {}
   # - name: MEILI_ENV
   #   value: "production"
