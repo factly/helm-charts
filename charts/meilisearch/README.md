@@ -60,7 +60,7 @@ helm uninstall my-release
 | `autoscaling.targetCPUUtilizationPercentage` | Average CPU utilization percentage for the HPA     | `80`
 | `autoscaling.targetMemoryUtilizationPercentage` | Average Memory utilization percentage for the HPA  | `80`
 | `podDisruptionBudget.minAvailable` | Pod disruption minimum available                             | `nil`
-| `podDisruptionBudget.maxAvailable` | Pod disruption maximum available                             | `nil`
+| `podDisruptionBudget.maxUnavailable` | Pod disruption maximum unavailable                         | `nil`
 | `podDisruptionBudget.labels`     | Additional labels for poddisruptionbudget                      | `{}`
 | `podDisruptionBudget.annotations`| Additional annotations for poddisruptionbudget                 | `{}`
 | `env`                            | Environment variables to pass for configuration                | `nil`
