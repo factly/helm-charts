@@ -45,9 +45,8 @@ helm uninstall my-release
 
 | Parameter                        | Description                                                    | Default                           |
 |----------------------------------|----------------------------------------------------------------|-----------------------------------|
-| `nameOverride`                   | String to partially override meilisearch.fullname              | `""`
-| `fullnameOverride`               | String to fully override meilisearch.fullname                  | `""`
-| `namespaceOverride`              | Override the deployment namespace                              | `""`
+| `nameOverride`                   | String to partially override meilisearch.fullname              | `"meilisearch"`
+| `fullnameOverride`               | String to fully override meilisearch.fullname                  | `"meilisearch"`
 | `namespaceOverride`              | Override the deployment namespace                              | `""`
 | `imagePullSecrets`               | List of container registry secretse                            | `[]`
 | `name`                           | Name of the Release                                            | `"meilisearch"`
