@@ -695,7 +695,7 @@ oathkeeper:
   enabled: false
 
 keto:
-  enabled: true
+  enabled: false
 
 companion:
   enabled: false
