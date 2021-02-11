@@ -19,6 +19,35 @@ entries:
   dega:
   - apiVersion: v2
     appVersion: 0.4.0
+    created: "2021-02-11T23:35:39.02586509Z"
+    dependencies:
+    - alias: imgproxy
+      condition: imgproxy.enabled
+      name: imgproxy
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    - alias: meilisearch
+      condition: meilisearch.enabled
+      name: meilisearch
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://helm.min.io/
+      version: 8.0.*
+    description: A Helm chart for Dega. A lightweight, scalable & high performant CMS written in Go. Developed for modern web features with all the best practices built-in.
+    digest: 8096dfcfa7e5e8900d9fd1bc918b0bd6846f2d2a1bad9ddfcb6ce1f549b34e1d
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: dega
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/dega-0.7.3/dega-0.7.3.tgz
+    version: 0.7.3
+  - apiVersion: v2
+    appVersion: 0.4.0
     created: "2021-02-11T03:14:25.199044548Z"
     dependencies:
     - alias: imgproxy
@@ -306,6 +335,37 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/imgproxy-0.1.0/imgproxy-0.1.0.tgz
     version: 0.1.0
   kavach:
+  - apiVersion: v2
+    appVersion: 0.3.6
+    created: "2021-02-11T23:35:39.17609026Z"
+    dependencies:
+    - alias: imgproxy
+      condition: imgproxy.enabled
+      name: imgproxy
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://helm.min.io/
+      version: 8.0.*
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.2.*
+    - alias: companion
+      condition: companion.enabled
+      name: companion
+      repository: file://../companion
+      version: 0.1.0
+    description: A Helm chart for Kavach
+    digest: f5643daec8cb112428a4219063993bbe891aec5ba78067baad561b96ca698aa4
+    name: kavach
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/kavach-0.3.4/kavach-0.3.4.tgz
+    version: 0.3.4
   - apiVersion: v2
     appVersion: 0.3.5
     created: "2021-02-11T03:14:25.330043203Z"
