@@ -696,3 +696,6 @@ oathkeeper:
 
 keto:
   enabled: true
+
+companion:
+  enabled: false
