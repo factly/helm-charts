@@ -8,14 +8,8 @@ dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 10.2.8
-- name: kratos
-  repository: https://k8s.ory.sh/helm/charts
-  version: 0.5.3
-- name: oathkeeper
-  repository: https://k8s.ory.sh/helm/charts
-  version: 0.5.3
 - name: companion
   repository: file://../companion
   version: 0.1.3
-digest: sha256:f2b1f0311ad3c029c74fb135f4842328e58687dc0f6de2b189c50815c428529b
-generated: "2021-02-10T22:04:35.785491-06:00"
+digest: sha256:6dd519a6f927bd870b7a302b822b7750694b86f27e0d7b5069b4a2254e31ac4c
+generated: "2021-02-11T17:33:54.910084-06:00"
