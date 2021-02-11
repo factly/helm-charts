@@ -1,0 +1,17 @@
+{{- if .Values.keto.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: keto
+  namespace: dega
+  labels:
+    app: keto
+spec:
+  selector:
+    app: keto
+  type: ClusterIP
+  ports:
+  - name: "http"
+    port: 4466
+    targetPort: 4466
+{{- end }}
