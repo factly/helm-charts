@@ -1109,3 +1109,6 @@ companion:
   tolerations: []
 
   affinity: {}
+
+meilisearch:
+  enabled: false
