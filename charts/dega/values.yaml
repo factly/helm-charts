@@ -429,7 +429,7 @@ studio:
   affinity: {}
 
 imgproxy:
-  enabled: true
+  enabled: false
 
   # Default values for Imgproxy.
   # This is a YAML-formatted file.
@@ -606,7 +606,7 @@ imgproxy:
   affinity: {}
 
 minio:
-  enabled: true
+  enabled: false
   
   ## Provide a name in place of minio for `app:` labels
   ##
@@ -969,7 +969,7 @@ minio:
     clientCertKey: ""
 
 companion:
-  enabled: true
+  enabled: false
 
   # Default values for companion.
   # This is a YAML-formatted file.
