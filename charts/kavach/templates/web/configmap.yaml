@@ -18,3 +18,4 @@ data:
     window.PUBLIC_URL = 'https://kavach.factly.org';
     window.REACT_APP_DEGA_PUBLIC_URL = 'https://dega.factly.org';
     window.REACT_APP_BINDU_PUBLIC_URL = 'https://bindu.factly.org';
+    window.REACT_APP_COMPANION_URL = "https://companion.factly.org";
