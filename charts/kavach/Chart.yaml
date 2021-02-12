@@ -15,7 +15,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.3.4
+version: 0.4.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -41,21 +41,21 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
     alias: postgresql
-  # - name: kratos
-  #   version: "0.5.*"
-  #   repository: https://k8s.ory.sh/helm/charts
-  #   condition: kratos.enabled
-  #   alias: kratos
-  # - name: oathkeeper
-  #   version: "0.5.*"
-  #   repository: https://k8s.ory.sh/helm/charts
-  #   condition: oathkeeper.enabled
-  #   alias: oathkeeper
-#   - name: keto
-#     version: "0.1.*"
-#     repository: https://k8s.ory.sh/helm/charts
-#     condition: keto.enabled
-#     alias: keto    
+  - name: kratos
+    version: "0.5.*"
+    repository: https://k8s.ory.sh/helm/charts
+    condition: kratos.enabled
+    alias: kratos
+  - name: oathkeeper
+    version: "0.5.*"
+    repository: https://k8s.ory.sh/helm/charts
+    condition: oathkeeper.enabled
+    alias: oathkeeper
+  - name: keto
+    version: "0.5.*"
+    repository: https://k8s.ory.sh/helm/charts
+    condition: keto.enabled
+    alias: keto    
   - name: companion
     version: 0.1.0
     condition: companion.enabled
