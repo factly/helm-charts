@@ -41,19 +41,19 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
     alias: postgresql
-  - name: kratos
-    version: "0.5.*"
-    repository: "https://k8s.ory.sh/helm/charts"
-    condition: kratos.enabled
-    alias: kratos
-  - name: oathkeeper
-    version: "0.5.*"
-    repository: "https://k8s.ory.sh/helm/charts"
-    condition: oathkeeper.enabled
-    alias: oathkeeper
+  # - name: kratos
+  #   version: "0.5.*"
+  #   repository: https://k8s.ory.sh/helm/charts
+  #   condition: kratos.enabled
+  #   alias: kratos
+  # - name: oathkeeper
+  #   version: "0.5.*"
+  #   repository: https://k8s.ory.sh/helm/charts
+  #   condition: oathkeeper.enabled
+  #   alias: oathkeeper
   - name: keto
     version: "0.5.*"
-    repository: "https://k8s.ory.sh/helm/charts"
+    repository: https://k8s.ory.sh/helm/charts
     condition: keto.enabled
     alias: keto    
   - name: companion
