@@ -8,11 +8,8 @@ dependencies:
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 10.2.8
-- name: keto
-  repository: https://k8s.ory.sh/helm/charts
-  version: 0.5.3
 - name: companion
   repository: file://../companion
   version: 0.1.3
-digest: sha256:097da34583313d82ffd9d00c91903625fca2bf5ad1c2e0c9fa759c808341a8b3
-generated: "2021-02-12T03:51:00.501009-06:00"
+digest: sha256:6dd519a6f927bd870b7a302b822b7750694b86f27e0d7b5069b4a2254e31ac4c
+generated: "2021-02-12T04:06:55.437373-06:00"
