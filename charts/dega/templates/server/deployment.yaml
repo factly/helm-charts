@@ -31,6 +31,43 @@ spec:
       serviceAccountName: {{ include "server.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.global.securityContext | nindent 8 }}
+      {{- if or .Values.server.autoMigrate .Values.server.createSuperOrg }}        
+      initContainers:
+        {{- if .Values.server.autoMigrate}}
+        - name: {{ .Values.server.name }}-automigrate
+          securityContext:
+            {{- toYaml .Values.server.securityContext | nindent 12 }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          args: ["migrate"]
+          {{- if .Values.server.env }}
+          env:
+          {{- toYaml .Values.server.env | nindent 12 }}
+          {{- end }}      
+          resources:
+            {{- toYaml .Values.server.resources | nindent 12 }}
+          volumeMounts:
+            - name: dega-server-data
+              mountPath: ./data   
+        {{- end }}
+        {{- if .Values.server.createSuperOrg}}
+        - name: {{ .Values.server.name }}-create-super-org
+          securityContext:
+            {{- toYaml .Values.server.securityContext | nindent 12 }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          args: ["create-super-org"]
+          {{- if .Values.server.env }}
+          env:
+          {{- toYaml .Values.server.env | nindent 12 }}
+          {{- end }}      
+          resources:
+            {{- toYaml .Values.server.resources | nindent 12 }}
+          volumeMounts:
+            - name: dega-server-data
+              mountPath: ./data   
+        {{- end }}        
+      {{- end }}
       containers:
         - name: {{ .Values.server.name }}
           securityContext:
