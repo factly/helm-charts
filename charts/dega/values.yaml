@@ -181,7 +181,7 @@ server:
   image:
     repository: factly/dega-server
     pullPolicy: IfNotPresent
-    tag: "0.4.4"
+    tag: "0.5.0"
 
   # imagePullSecrets: []
 
@@ -194,6 +194,9 @@ server:
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
+
+  autoMigrate: false
+  createSuperOrg: false    
 
   ## Environment variables to pass to Dega Server
   env:
