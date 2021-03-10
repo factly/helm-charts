@@ -17,3 +17,4 @@ data:
     window.REACT_APP_API_URL = "https://dega-server.factly.org";
     window.REACT_APP_COMPANION_URL = "https://companion.factly.org";
     window.PUBLIC_URL = "https://dega.factly.org";
+    window.REACT_APP_KAVACH_PUBLIC_URL = 'https://kavach.factly.org';
