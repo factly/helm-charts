@@ -15,7 +15,7 @@ data:
   config.js: |-
     window.REACT_APP_KRATOS_PUBLIC_URL = 'https://kratos.factly.org';
     window.REACT_APP_API_URL = 'https://kavach-server.factly.org';
-    window.PUBLIC_URL = 'https://kavach.factly.org';
+    window.REACT_APP_KAVACH_PUBLIC_URL = 'https://kavach.factly.org';
     window.REACT_APP_DEGA_PUBLIC_URL = 'https://dega.factly.org';
     window.REACT_APP_BINDU_PUBLIC_URL = 'https://bindu.factly.org';
     window.REACT_APP_COMPANION_URL = "https://companion.factly.org";
