@@ -1,0 +1,28 @@
+{{- if .Values.podDisruptionBudget }}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "hukz.fullname" . }}
+  namespace: {{ template "hukz.namespace" . }}
+  labels:
+    {{- include "hukz.labels" . | nindent 4 }}
+{{- if .Values.podDisruptionBudget.labels }}
+{{ toYaml .Values.podDisruptionBudget.labels | indent 4 }}
+{{- end }}
+  {{- if .Values.podDisruptionBudget.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.podDisruptionBudget.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+spec:
+{{- if .Values.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.podDisruptionBudget.minAvailable }}
+{{- end }}
+{{- if .Values.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.podDisruptionBudget.maxUnavailable }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "hukz.selectorLabels" . | nindent 6 }}
+{{- end }}

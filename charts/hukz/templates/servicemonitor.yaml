@@ -1,0 +1,26 @@
+{{- if and .Values.metrics.enabled .Values.metrics.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "hukz.fullname" . }}
+  namespace: {{ template "hukz.namespace" . }}
+  labels:
+    {{- include "hukz.labels" . | nindent 4 }}
+    {{- if .Values.metrics.serviceMonitor.selector }}
+    {{- toYaml .Values.metrics.serviceMonitor.selector | nindent 4 }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.labels }}
+    {{- toYaml .Values.metrics.serviceMonitor.labels | nindent 4 }}
+    {{- end }}
+spec:
+  endpoints:
+  - interval: {{ .Values.metrics.serviceMonitor.interval }}
+    port: metrics
+    scheme: {{ .Values.metrics.serviceMonitor.scheme }}
+  namespaceSelector:
+    matchNames:
+    - {{ template "hukz.namespace" . }}
+  selector:
+    matchLabels:
+      {{- include "hukz.selectorLabels" . | nindent 6 }}
+{{- end }}

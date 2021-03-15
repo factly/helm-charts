@@ -1,0 +1,29 @@
+{{- if .Values.swagger.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "hukz.fullname" . }}-swagger
+  namespace: {{ template "hukz.namespace" . }}
+  labels:
+    {{- include "hukz.labels" . | nindent 4 }}
+    {{- if .Values.swagger.service.labels }}
+    {{- toYaml .Values.swagger.service.labels | nindent 4 }}
+    {{- end }}
+  {{- if .Values.swagger.service.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.swagger.service.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+spec:
+  selector:
+    {{- include "hukz.selectorLabels" . | nindent 4 }}
+  type: {{ .Values.swagger.service.type }}
+  ports:  
+    - port: {{ .Values.swagger.service.port }}
+      targetPort: 8000
+      protocol: TCP
+      {{- if .Values.swagger.service.portName }}
+      name: {{ .Values.swagger.service.portName }}
+      {{- end }} 
+{{- end }}

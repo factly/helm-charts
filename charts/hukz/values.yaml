@@ -1,0 +1,208 @@
+# Default values for HUKZ.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: hukz
+fullnameOverride: hukz
+
+## Override the deployment namespace
+namespaceOverride: ""
+
+imagePullSecrets: []
+
+name: hukz
+
+image:
+  repository: factly/hukz
+  pullPolicy: IfNotPresent
+  tag: "0.2.0"
+
+# This value will be ignored if Autoscaling is enabled
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+## See `kubectl explain poddisruptionbudget.spec` for more
+## ref: https://kubernetes.io/docs/tasks/run-application/configure-pdb/
+podDisruptionBudget: {}
+  # minAvailable: 1
+  # maxUnavailable: 1
+  # labels: {}
+  # annotations: {}
+
+# If enabled, creates a secret with the name `hukz` used in the chart by default 
+createSecret: 
+  enabled: true
+  postgresqlPostgresPassword: mysupersecretp@ssw0rd
+  postgresqlPassword: mysupersecretp@ssw0rd
+  postgresqlReplicationPassword: mysupersecretp@ssw0rd
+
+# This is to enable swagger client. It is not recommended for Production environments.
+# In fact, swagger is enabled only when environment variable `HUKZ_MODE` is set to `development`
+# Swagger client can be accessed at <host>:<port>/swagger/index.html
+swagger:
+  enabled: true
+
+  service:
+    type: ClusterIP
+    port: 7790
+    portName: swagger
+    annotations: {}
+    labels: {}  
+
+## Environment variables to pass to HUKZ
+env: 
+  - name: HUKZ_DATABASE_NAME
+    value: postgres    
+  - name: HUKZ_DATABASE_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: hukz
+        key: postgresql-password
+  - name: HUKZ_DATABASE_HOST
+    value: hukz-postgresql.dega.svc.cluster.local 
+  - name: HUKZ_DATABASE_USER
+    value: postgres        
+  - name: HUKZ_DATABASE_PORT
+    value: "5432"   
+  - name: HUKZ_DATABASE_SSL_MODE
+    value: disable   
+  # If `nats.enabled` is `true` this should be 
+  - name: HUKZ_NATS_URL
+    value: nats://hukz-nats-client.dega.svc.cluster.local:4222 
+  # If `nats.enabled` is `true` this should be the same as `nats.auth.user`
+  - name: HUKZ_NATS_USER_NAME
+    value: nats_client
+  # If `nats.enabled` is `true` this should be the same as `nats.auth.password`
+  - name: NATS_USER_PASSWORD
+    value: T0pS3cr3t
+  - name: HUKZ_MODE
+    value: development   
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # Labels to add to the service account
+  labels: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "hukz"
+
+podAnnotations: {}
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8000
+  portName: http
+  annotations: {}
+  labels: {}
+
+metrics:
+  enabled: true
+
+  service:
+    type: ClusterIP
+    port: 8001
+    portName: metrics
+    annotations: {}
+    labels: {}
+
+  serviceMonitor:
+    enabled: false
+    selector:
+      # prometheus: kube-prometheus
+      release: monitoring
+    labels: {}
+    annotations: {}
+    interval: 30s
+
+    scheme: http
+    tlsConfig: {}
+    scrapeTimeout: 30s
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    # nginx.ingress.kubernetes.io/from-to-www-redirect: 'true' 
+  ## Hostnames must be provided if Ingress is enabled.
+  ## Secrets must be manually created in the namespace
+  ##
+  hosts:
+    - change-to-your-domain.com
+    - www.change-to-your-domain.com
+  paths:
+    - /
+  extraPaths: []
+  tls:
+    - secretName: change-to-your-tls
+      hosts:
+        - change-to-your-domain.com
+        - www.change-to-your-domain.com
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+## Readiness and liveness probes for default backend
+## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+##
+readinessProbe:
+  initialDelaySeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+  periodSeconds: 10
+livenessProbe:
+  initialDelaySeconds: 50
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+  periodSeconds: 10
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+postgresql:
+  enabled: true
+
+  ## PostgreSQL password using existing secret
+  existingSecret: hukz
+
+
+nats:
+  enabled: true
+
+  auth:
+    # It is mandatory for HUKZ to have a secured NATS server. So `enabled` should be set `true`
+    enabled: true
+    user: nats_client
+    password: T0pS3cr3t

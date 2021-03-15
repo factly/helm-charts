@@ -1,0 +1,9 @@
+dependencies:
+- name: nats
+  repository: https://charts.bitnami.com/bitnami
+  version: 6.2.1
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.3.11
+digest: sha256:afa94bdc6e755e83a29df600e24ebdbae198622343ead22eeba5f133a7a2d78d
+generated: "2021-03-08T16:32:20.172617-06:00"
