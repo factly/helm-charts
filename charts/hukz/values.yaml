@@ -1,4 +1,4 @@
-# Default values for HUKZ.
+# Default values for HUKZ. Installs PostgreSQL and NATS charts if enabled
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
