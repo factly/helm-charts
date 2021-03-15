@@ -346,6 +346,39 @@ entries:
     urls:
     - https://github.com/factly/helm-charts/releases/download/dega-server-0.1.0/dega-server-0.1.0.tgz
     version: 0.1.0
+  hukz:
+  - apiVersion: v2
+    appVersion: 0.2.0
+    created: "2021-03-15T22:11:59.407919868Z"
+    dependencies:
+    - alias: nats
+      condition: nats.enabled
+      name: nats
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.2.*
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.3.*
+    description: A simple, lightweight service written in Go to manage outgoing webhooks from any application.
+    digest: 830f7f7def0f113ef63e52e168712ae3cf08750f7f5785887c42807bb67a1172
+    home: https://github.com/factly/hukz
+    keywords:
+    - hukz
+    - webhooks
+    - hooks
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    - name: hetjagani
+    name: hukz
+    sources:
+    - https://github.com/factly/hukz
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/hukz-0.1.0/hukz-0.1.0.tgz
+    version: 0.1.0
   imgproxy:
   - apiVersion: v2
     appVersion: 2.15.0
