@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "studio.fullname" . }}
+  namespace: {{ template "vidcheck.namespace" . }}
+  labels:
+    {{- include "studio.labels" . | nindent 4 }}
+    {{- if .Values.studio.service.labels }}
+    {{- toYaml .Values.studio.service.labels | nindent 4 }}
+    {{- end }}
+  {{- if .Values.studio.service.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.studio.service.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+spec:
+  selector:
+    {{- include "studio.selectorLabels" . | nindent 4 }}
+  type: {{ .Values.studio.service.type }}
+  ports:
+    - port: {{ .Values.studio.service.port }}
+      targetPort: 80
+      protocol: TCP
+      {{- if .Values.studio.service.portName }}
+      name: {{ .Values.studio.service.portName }}
+      {{- end }}

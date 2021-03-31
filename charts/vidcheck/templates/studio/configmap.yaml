@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vidcheck-studio-config
+  namespace: {{ template "vidcheck.namespace" . }}
+  labels:
+    {{- include "studio.labels" . | nindent 4 }}
+  {{- if .Values.studio.configAnnotations }}
+  annotations:
+  {{- range $key, $value := .Values.studio.configAnnotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+data:
+  config.js: |-
+    window.PUBLIC_URL = "https://vidcheck.factly.org";
+    window.REACT_APP_API_URL = "https://vidcheck-server.factly.org";
+    window.CHOKIDAR_USEPOLLING = "true";
