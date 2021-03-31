@@ -909,4 +909,18 @@ entries:
     urls:
     - https://github.com/factly/helm-charts/releases/download/meilisearch-0.1.0/meilisearch-0.1.0.tgz
     version: 0.1.0
+  vidcheck:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2021-03-31T21:50:08.763442919Z"
+    description: Web application to publish video fact-checks. Developed in Go and React.
+    digest: d21cc00be485402f81d36a34466e3a43e7c5121e316f29f3036226516f1a9130
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: vidcheck
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/vidcheck-0.1.0/vidcheck-0.1.0.tgz
+    version: 0.1.0
 generated: "2020-12-28T20:52:16.715355082Z"
