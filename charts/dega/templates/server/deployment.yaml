@@ -110,7 +110,7 @@ spec:
           volumeMounts:
             - name: dega-server-data
               mountPath: ./data
-            - name: dega-server-data
+            - name: dega-server-web
               mountPath: ./web/templates              
       volumes:
         - name: dega-server-data
