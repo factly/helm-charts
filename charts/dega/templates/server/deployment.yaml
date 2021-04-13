@@ -110,10 +110,15 @@ spec:
           volumeMounts:
             - name: dega-server-data
               mountPath: ./data
+            - name: dega-server-data
+              mountPath: ./web/templates              
       volumes:
         - name: dega-server-data
           configMap:
             name: dega-server-data
+        - name: dega-server-web
+          configMap:
+            name: dega-server-web            
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
