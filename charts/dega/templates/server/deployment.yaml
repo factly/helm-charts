@@ -65,7 +65,7 @@ spec:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
             - name: dega-server-data
-              mountPath: ./data   
+              mountPath: ./data
         {{- end }}        
       {{- end }}
       containers:
@@ -111,14 +111,14 @@ spec:
             - name: dega-server-data
               mountPath: ./data
             - name: dega-server-web
-              mountPath: ./app/web/templates          
+              mountPath: ./web/templates          
       volumes:
         - name: dega-server-data
           configMap:
             name: dega-server-data
         - name: dega-server-web
           configMap:
-            name: dega-server-web            
+            name: dega-server-web         
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
