@@ -25,3 +25,7 @@ spec:
       {{- if .Values.server.service.portName }}
       name: {{ .Values.server.service.portName }}
       {{- end }}
+    - port: 8002
+      targetPort: 8002
+      protocol: TCP
+      name: feeds
