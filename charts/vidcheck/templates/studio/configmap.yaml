@@ -15,4 +15,4 @@ data:
   config.js: |-
     window.PUBLIC_URL = "https://vidcheck.factly.org";
     window.REACT_APP_API_URL = "https://vidcheck-server.factly.org";
-    window.CHOKIDAR_USEPOLLING = "true";
+    window.REACT_APP_KRATOS_PUBLIC_URL = "https://kratos.factly.org";

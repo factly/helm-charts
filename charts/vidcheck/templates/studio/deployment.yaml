@@ -47,14 +47,14 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.studio.resources | nindent 12 }}
-      #     volumeMounts:
-      #       - name: vidcheck-studio-config
-      #         mountPath: /usr/share/nginx/html/config.js
-      #         subPath: config.js
-      # volumes:
-      #   - name: vidcheck-studio-config
-      #     configMap:
-      #       name: vidcheck-studio-config
+          volumeMounts:
+            - name: vidcheck-studio-config
+              mountPath: /usr/share/nginx/html/config.js
+              subPath: config.js
+      volumes:
+        - name: vidcheck-studio-config
+          configMap:
+            name: vidcheck-studio-config
       {{- with .Values.studio.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
