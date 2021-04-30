@@ -1056,6 +1056,19 @@ entries:
     version: 0.1.0
   vidcheck:
   - apiVersion: v2
+    appVersion: 0.4.0
+    created: "2021-04-30T16:38:53.848928975Z"
+    description: Web application to publish video fact-checks. Developed in Go and React.
+    digest: e21d492ff344fc163e7dfedbf6853e7382ff7e513bf30c0feed155c6aa6ba145
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: vidcheck
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/vidcheck-0.2.0/vidcheck-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 0.1.0
     created: "2021-03-31T21:57:36.776604525Z"
     description: Web application to publish video fact-checks. Developed in Go and React.
