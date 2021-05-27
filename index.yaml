@@ -939,6 +939,20 @@ entries:
     urls:
     - https://github.com/factly/helm-charts/releases/download/kavach-0.1.0/kavach-0.1.0.tgz
     version: 0.1.0
+  mande:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2021-05-27T17:17:41.775577055Z"
+    description: Open-source application to develop data portals to publish datasets in various formats. Developed in Go and React.
+    digest: c8ddccfed09a4fab3c6a2d022b3d11e32a51c6f13689da785b4f80376bf64fc7
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: mande
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/mande-0.1.0/mande-0.1.0.tgz
+    version: 0.1.0
   meilisearch:
   - apiVersion: v2
     appVersion: v0.18.1
