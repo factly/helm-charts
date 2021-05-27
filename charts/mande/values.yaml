@@ -71,7 +71,7 @@ server:
     - name: MANDE_MEILI_KEY
       valueFrom:
         secretKeyRef:
-          name: dega-server
+          name: mande-server
           key: meili_key
     - name: MANDE_KETO_URL
       value: "http://keto.dega.svc.cluster.local:4466"
