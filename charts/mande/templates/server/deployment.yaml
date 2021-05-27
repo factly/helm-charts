@@ -62,7 +62,7 @@ spec:
             - name: {{ .Values.server.service.admin.portName }}
               containerPort: {{ .Values.server.service.admin.port }}
               protocol: TCP
-            - name: {{ .Values.server.service.pubic.portName }}
+            - name: {{ .Values.server.service.public.portName }}
               containerPort: {{ .Values.server.service.public.port }}
               protocol: TCP              
             {{ if .Values.server.metrics.enabled }}
