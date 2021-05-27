@@ -1,0 +1,292 @@
+# Default values for mande.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: mande
+fullnameOverride: mande
+
+## Override the deployment namespace
+namespaceOverride: mande
+
+imagePullSecrets: []
+
+
+global:
+  image:
+    tag: "0.1.0"
+    imagePullPolicy: IfNotPresent
+  securityContext: {}
+    # runAsUser: 999
+    # runAsGroup: 999
+    # fsGroup: 999
+
+server:
+  name: server
+
+  image:
+    repository: factly/mande-server
+    pullPolicy: IfNotPresent
+    tag: "0.1.0"
+
+  # imagePullSecrets: []
+
+  # This value will be ignored if Autoscaling is enabled
+  replicaCount: 1
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  autoMigrate: true
+  createSuperOrg: false  
+
+  ## Environment variables to pass to mande Server
+  env:
+    - name: MANDE_MODE
+      value: "development"
+    - name: MANDE_DATABASE_HOST
+      value: "postgres-postgresql.dega.svc.cluster.local"        
+    - name: MANDE_DATABASE_NAME
+      value: "mande"
+    - name: MANDE_DATABASE_PORT
+      value: "5432"
+    - name: MANDE_DATABASE_SSL_MODE
+      value: "disable"                 
+    - name: MANDE_DATABASE_USER
+      value: "postgres"
+    - name: MANDE_DATABASE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mande-server
+          key: database_password
+    - name: MANDE_KAVACH_URL
+      value: "http://kavach-server.dega.svc.cluster.local:8000"
+    - name: MANDE_OATHKEEPER_HOST
+      value: "oathkeeper.dega.svc.cluster.local:4455"      
+    - name: MANDE_MEILI_URL
+      value: "http://meilisearch.dega.svc.cluster.local:7700"
+    - name: MANDE_MEILI_KEY
+      valueFrom:
+        secretKeyRef:
+          name: dega-server
+          key: meili_key
+    - name: MANDE_KETO_URL
+      value: "http://keto.dega.svc.cluster.local:4466"
+    - name: MANDE_KRATOS_PUBLIC_URL
+      value: "http://kratos-public.dega.svc.cluster.local:80"
+    - name: MANDE_KAVACH_URL
+      value: "http://kavach-server.dega.svc.cluster.local:8000"      
+    - name: MANDE_SUPER_ORGANISATION_TITLE
+      value: "MandE Administration"
+    - name: MANDE_DEFAULT_USER_EMAIL
+      value: "admin@factly.in"
+    - name: MANDE_DEFAULT_USER_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mande-server
+          key: default_user_password
+    - name: MANDE_IMAGEPROXY_URL
+      value: "https://images.factly.org/f"    
+    - name: MANDE_RAZORPAY_KEY
+      valueFrom:
+        secretKeyRef:
+          name: mande-razorpay
+          key: razorpay_key
+    - name: MANDE_RAZORPAY_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: mande-razorpay
+          key: razorpay_secret                        
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # Labels to add to the service account
+    labels: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: "mande-server"
+
+  podAnnotations: {}
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  configAnnotations: {}
+
+  service:
+    annotations: {}
+    labels: {}  
+    type: ClusterIP  
+    
+    public:
+      port: 8002
+      portName: http-public
+
+    admin:
+      port: 8000
+      portName: http-admin
+
+  metrics:
+    enabled: true
+
+    service:
+      type: ClusterIP
+      port: 8001
+      portName: metrics
+      annotations: {}
+      labels: {}
+
+    serviceMonitor:
+      enabled: true
+      selector:
+        # prometheus: kube-prometheus
+        release: monitoring
+      labels: {}
+      interval: 30s
+
+      scheme: http
+      tlsConfig: {}
+      scrapeTimeout: 30s
+      relabelings: []    
+
+  notifications:
+    enabled: false
+
+    service:
+      type: ClusterIP
+      port: 8003
+      portName: notifications
+      annotations: {}
+      labels: {}      
+
+  resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  ## Readiness and liveness probes for default backend
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+  ##
+  readinessProbe:
+    initialDelaySeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 5
+    periodSeconds: 10
+  livenessProbe:
+    initialDelaySeconds: 50
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 5
+    periodSeconds: 10
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+studio:
+  name: studio
+
+  image:
+    repository: factly/mande-studio
+    pullPolicy: IfNotPresent
+    tag: "0.1.0"
+
+  # imagePullSecrets: []
+
+  # This value will be ignored if Autoscaling is enabled
+  replicaCount: 1
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  ## Environment variables to pass to mande studio
+  env: {}
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations: {}
+    # Labels to add to the service account
+    labels: {}
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: "mande-studio"
+
+  podAnnotations: {}
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+  configAnnotations: {}
+
+  service:
+    type: ClusterIP
+    port: 80
+    portName: http
+    annotations: {}
+    labels: {}
+
+  resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  ## Readiness and liveness probes for default backend
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
+  ##
+  readinessProbe:
+    initialDelaySeconds: 10
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 5
+    periodSeconds: 10
+  livenessProbe:
+    initialDelaySeconds: 50
+    timeoutSeconds: 5
+    successThreshold: 1
+    failureThreshold: 5
+    periodSeconds: 10
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

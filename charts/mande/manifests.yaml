@@ -1,0 +1,551 @@
+---
+# Source: mande/templates/server/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mande-server
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: server
+    app.kubernetes.io/name: mande-server
+    app.kubernetes.io/version: "0.1.0"
+---
+# Source: mande/templates/studio/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mande-studio
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: studio
+    app.kubernetes.io/name: mande-studio
+    app.kubernetes.io/version: "0.1.0"
+---
+# Source: mande/templates/studio/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mande-studio-config
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: studio
+    app.kubernetes.io/name: mande-studio
+    app.kubernetes.io/version: "0.1.0"
+data:
+  config.js: |-
+    window.REACT_APP_KRATOS_PUBLIC_URL = "https://kratos.factly.org";
+    window.REACT_APP_API_URL = "https://mande-server.factly.org";
+    window.PUBLIC_URL = "https://mande.factly.org";
+    window.REACT_APP_COMPANION_URL = "https://companion.factly.org";
+---
+# Source: mande/templates/server/service-metrics.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mande-server-metrics
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: server
+    app.kubernetes.io/name: mande-server
+    app.kubernetes.io/version: "0.1.0"
+spec:
+  selector:
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/name: mande-server
+  type: ClusterIP
+  ports:  
+    - port: 8001
+      targetPort: 8001
+      protocol: TCP
+      name: metrics
+---
+# Source: mande/templates/server/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mande-server
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: server
+    app.kubernetes.io/name: mande-server
+    app.kubernetes.io/version: "0.1.0"
+spec:
+  selector:
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/name: mande-server
+  type: ClusterIP
+  ports:
+    - port: 8002
+      targetPort: 8002
+      protocol: TCP
+      name: http-public
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
+      name: http-admin
+---
+# Source: mande/templates/studio/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mande-studio
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: studio
+    app.kubernetes.io/name: mande-studio
+    app.kubernetes.io/version: "0.1.0"
+spec:
+  selector:
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/name: mande-studio
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+---
+# Source: mande/templates/server/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mande-server
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: server
+    app.kubernetes.io/name: mande-server
+    app.kubernetes.io/version: "0.1.0"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: mande
+      app.kubernetes.io/name: mande-server
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: mande-0.1.0
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/part-of: mande
+        app.kubernetes.io/instance: mande
+        app.kubernetes.io/component: server
+        app.kubernetes.io/name: mande-server
+        app.kubernetes.io/version: "0.1.0"
+    spec:
+      serviceAccountName: mande-server
+      securityContext:
+        {}        
+      initContainers:
+        - name: server-automigrate
+          securityContext:
+            {}
+          image: "factly/mande-server:0.1.0"
+          imagePullPolicy: IfNotPresent
+          args: ["migrate"]
+          env:
+            - name: MANDE_MODE
+              value: development
+            - name: MANDE_DATABASE_HOST
+              value: postgres-postgresql.dega.svc.cluster.local
+            - name: MANDE_DATABASE_NAME
+              value: mande
+            - name: MANDE_DATABASE_PORT
+              value: "5432"
+            - name: MANDE_DATABASE_SSL_MODE
+              value: disable
+            - name: MANDE_DATABASE_USER
+              value: postgres
+            - name: MANDE_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: database_password
+                  name: mande-server
+            - name: MANDE_KAVACH_URL
+              value: http://kavach-server.dega.svc.cluster.local:8000
+            - name: MANDE_OATHKEEPER_HOST
+              value: oathkeeper.dega.svc.cluster.local:4455
+            - name: MANDE_MEILI_URL
+              value: http://meilisearch.dega.svc.cluster.local:7700
+            - name: MANDE_MEILI_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: meili_key
+                  name: dega-server
+            - name: MANDE_KETO_URL
+              value: http://keto.dega.svc.cluster.local:4466
+            - name: MANDE_KRATOS_PUBLIC_URL
+              value: http://kratos-public.dega.svc.cluster.local:80
+            - name: MANDE_KAVACH_URL
+              value: http://kavach-server.dega.svc.cluster.local:8000
+            - name: MANDE_SUPER_ORGANISATION_TITLE
+              value: MandE Administration
+            - name: MANDE_DEFAULT_USER_EMAIL
+              value: admin@factly.in
+            - name: MANDE_DEFAULT_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: default_user_password
+                  name: mande-server
+            - name: MANDE_IMAGEPROXY_URL
+              value: https://images.factly.org/f
+            - name: MANDE_RAZORPAY_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: razorpay_key
+                  name: mande-razorpay
+            - name: MANDE_RAZORPAY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: razorpay_secret
+                  name: mande-razorpay      
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      containers:
+        - name: server
+          securityContext:
+            {}
+          image: "factly/mande-server:0.1.0"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MANDE_MODE
+              value: development
+            - name: MANDE_DATABASE_HOST
+              value: postgres-postgresql.dega.svc.cluster.local
+            - name: MANDE_DATABASE_NAME
+              value: mande
+            - name: MANDE_DATABASE_PORT
+              value: "5432"
+            - name: MANDE_DATABASE_SSL_MODE
+              value: disable
+            - name: MANDE_DATABASE_USER
+              value: postgres
+            - name: MANDE_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: database_password
+                  name: mande-server
+            - name: MANDE_KAVACH_URL
+              value: http://kavach-server.dega.svc.cluster.local:8000
+            - name: MANDE_OATHKEEPER_HOST
+              value: oathkeeper.dega.svc.cluster.local:4455
+            - name: MANDE_MEILI_URL
+              value: http://meilisearch.dega.svc.cluster.local:7700
+            - name: MANDE_MEILI_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: meili_key
+                  name: dega-server
+            - name: MANDE_KETO_URL
+              value: http://keto.dega.svc.cluster.local:4466
+            - name: MANDE_KRATOS_PUBLIC_URL
+              value: http://kratos-public.dega.svc.cluster.local:80
+            - name: MANDE_KAVACH_URL
+              value: http://kavach-server.dega.svc.cluster.local:8000
+            - name: MANDE_SUPER_ORGANISATION_TITLE
+              value: MandE Administration
+            - name: MANDE_DEFAULT_USER_EMAIL
+              value: admin@factly.in
+            - name: MANDE_DEFAULT_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: default_user_password
+                  name: mande-server
+            - name: MANDE_IMAGEPROXY_URL
+              value: https://images.factly.org/f
+            - name: MANDE_RAZORPAY_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: razorpay_key
+                  name: mande-razorpay
+            - name: MANDE_RAZORPAY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: razorpay_secret
+                  name: mande-razorpay
+          ports:
+            - name: 
+              containerPort: 
+              protocol: TCP
+            
+            - name: metrics
+              containerPort: 8001
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health/alive
+              port: 
+            initialDelaySeconds: 50
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5             
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5             
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+---
+# Source: mande/templates/studio/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mande-studio
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: studio
+    app.kubernetes.io/name: mande-studio
+    app.kubernetes.io/version: "0.1.0"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: mande
+      app.kubernetes.io/name: mande-studio
+  template:
+    metadata:
+      labels:
+        helm.sh/chart: mande-0.1.0
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/part-of: mande
+        app.kubernetes.io/instance: mande
+        app.kubernetes.io/component: studio
+        app.kubernetes.io/name: mande-studio
+        app.kubernetes.io/version: "0.1.0"
+    spec:
+      serviceAccountName: mande-studio
+      securityContext:
+        {}        
+      initContainers:
+        - name: server-automigrate
+          securityContext:
+            {}
+          image: "factly/mande-server:0.1.0"
+          imagePullPolicy: IfNotPresent
+          args: ["migrate"]
+          env:
+            - name: MANDE_MODE
+              value: development
+            - name: MANDE_DATABASE_HOST
+              value: postgres-postgresql.dega.svc.cluster.local
+            - name: MANDE_DATABASE_NAME
+              value: mande
+            - name: MANDE_DATABASE_PORT
+              value: "5432"
+            - name: MANDE_DATABASE_SSL_MODE
+              value: disable
+            - name: MANDE_DATABASE_USER
+              value: postgres
+            - name: MANDE_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: database_password
+                  name: mande-server
+            - name: MANDE_KAVACH_URL
+              value: http://kavach-server.dega.svc.cluster.local:8000
+            - name: MANDE_OATHKEEPER_HOST
+              value: oathkeeper.dega.svc.cluster.local:4455
+            - name: MANDE_MEILI_URL
+              value: http://meilisearch.dega.svc.cluster.local:7700
+            - name: MANDE_MEILI_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: meili_key
+                  name: dega-server
+            - name: MANDE_KETO_URL
+              value: http://keto.dega.svc.cluster.local:4466
+            - name: MANDE_KRATOS_PUBLIC_URL
+              value: http://kratos-public.dega.svc.cluster.local:80
+            - name: MANDE_KAVACH_URL
+              value: http://kavach-server.dega.svc.cluster.local:8000
+            - name: MANDE_SUPER_ORGANISATION_TITLE
+              value: MandE Administration
+            - name: MANDE_DEFAULT_USER_EMAIL
+              value: admin@factly.in
+            - name: MANDE_DEFAULT_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: default_user_password
+                  name: mande-server
+            - name: MANDE_IMAGEPROXY_URL
+              value: https://images.factly.org/f
+            - name: MANDE_RAZORPAY_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: razorpay_key
+                  name: mande-razorpay
+            - name: MANDE_RAZORPAY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: razorpay_secret
+                  name: mande-razorpay      
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          # volumeMounts:
+          #   - name: dega-server-data
+          #     mountPath: ./data        
+      containers:
+        - name: studio
+          securityContext:
+            {}
+          image: "factly/mande-studio:0.1.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          volumeMounts:
+            - name: mande-studio-config
+              mountPath: /usr/share/nginx/html/config.js
+              subPath: config.js
+      volumes:
+        - name: mande-studio-config
+          configMap:
+            name: mande-studio-config
+---
+# Source: mande/templates/server/hpa.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mande-server
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: server
+    app.kubernetes.io/name: mande-server
+    app.kubernetes.io/version: "0.1.0"
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mande
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
+---
+# Source: mande/templates/studio/hpa.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mande-studio
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: studio
+    app.kubernetes.io/name: mande-studio
+    app.kubernetes.io/version: "0.1.0"
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mande
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
+---
+# Source: mande/templates/server/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mande-server
+  namespace: mande
+  labels:
+    helm.sh/chart: mande-0.1.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: mande
+    app.kubernetes.io/instance: mande
+    app.kubernetes.io/component: server
+    app.kubernetes.io/name: mande-server
+    app.kubernetes.io/version: "0.1.0"
+    release: monitoring
+spec:
+  endpoints:
+  - interval: 30s
+    port: metrics
+    scheme: http
+  namespaceSelector:
+    matchNames:
+    - mande
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: mande
+      app.kubernetes.io/name: mande-server

@@ -1,0 +1,29 @@
+{{- if .Values.server.notifications.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "server.fullname" . }}-notifications
+  namespace: {{ template "mande.namespace" . }}
+  labels:
+    {{- include "server.labels" . | nindent 4 }}
+    {{- if .Values.server.notifications.service.labels }}
+    {{- toYaml .Values.server.notifications.service.labels | nindent 4 }}
+    {{- end }}
+  {{- if .Values.server.notifications.service.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.server.notifications.service.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+spec:
+  selector:
+    {{- include "server.selectorLabels" . | nindent 4 }}
+  type: {{ .Values.server.notifications.service.type }}
+  ports:  
+    - port: {{ .Values.server.notifications.service.port }}
+      targetPort: 8003
+      protocol: TCP
+      {{- if .Values.server.notifications.service.portName }}
+      name: {{ .Values.server.notifications.service.portName }}
+      {{- end }} 
+{{- end }}

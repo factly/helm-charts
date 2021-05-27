@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "studio.fullname" . }}
+  namespace: {{ template "mande.namespace" . }}
+  labels:
+    {{- include "studio.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.studio.autoscaling.enabled }}
+  replicas: {{ .Values.studio.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "studio.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.studio.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "studio.labels" . | nindent 8 }}
+        {{- if .Values.studio.podLabels }}
+        {{- toYaml .Values.studio.podLabels | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "studio.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.global.securityContext | nindent 8 }}
+      {{- if or .Values.server.autoMigrate .Values.server.createSuperOrg }}        
+      initContainers:
+        {{- if .Values.server.autoMigrate}}
+        - name: {{ .Values.server.name }}-automigrate
+          securityContext:
+            {{- toYaml .Values.server.securityContext | nindent 12 }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          args: ["migrate"]
+          {{- if .Values.server.env }}
+          env:
+          {{- toYaml .Values.server.env | nindent 12 }}
+          {{- end }}      
+          resources:
+            {{- toYaml .Values.server.resources | nindent 12 }}
+          # volumeMounts:
+          #   - name: dega-server-data
+          #     mountPath: ./data   
+        {{- end }}
+        {{- if .Values.server.createSuperOrg}}
+        - name: {{ .Values.server.name }}-create-super-org
+          securityContext:
+            {{- toYaml .Values.server.securityContext | nindent 12 }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          args: ["create-super-org"]
+          {{- if .Values.server.env }}
+          env:
+          {{- toYaml .Values.server.env | nindent 12 }}
+          {{- end }}      
+          resources:
+            {{- toYaml .Values.server.resources | nindent 12 }}
+          # volumeMounts:
+          #   - name: dega-server-data
+          #     mountPath: ./data
+        {{- end }}        
+      {{- end }}        
+      containers:
+        - name: {{ .Values.studio.name }}
+          securityContext:
+            {{- toYaml .Values.studio.securityContext | nindent 12 }}
+          image: "{{ .Values.studio.image.repository }}:{{ .Values.studio.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.studio.image.pullPolicy }}
+          {{- if .Values.studio.env }}
+          env:
+          {{- toYaml .Values.studio.env | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: {{ .Values.studio.service.portName }}
+              containerPort: {{ .Values.studio.service.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.studio.resources | nindent 12 }}
+          volumeMounts:
+            - name: mande-studio-config
+              mountPath: /usr/share/nginx/html/config.js
+              subPath: config.js
+      volumes:
+        - name: mande-studio-config
+          configMap:
+            name: mande-studio-config
+      {{- with .Values.studio.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studio.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.studio.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
