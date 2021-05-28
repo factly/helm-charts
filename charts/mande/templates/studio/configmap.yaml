@@ -14,6 +14,6 @@ metadata:
 data:
   config.js: |-
     window.REACT_APP_KRATOS_PUBLIC_URL = "https://kratos.factly.org";
-    window.REACT_APP_API_URL = "https://mande-server.factly.org";
+    window.REACT_APP_API_URL = "https://mande-server.factly.org/admin";
     window.PUBLIC_URL = "https://mande.factly.org";
     window.REACT_APP_COMPANION_URL = "https://companion.factly.org";
