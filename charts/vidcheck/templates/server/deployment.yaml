@@ -46,6 +46,9 @@ spec:
           {{- end }}      
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
+          volumeMounts:
+            - name: vidcheck-server-data
+              mountPath: ./data             
         {{- end }}   
       {{- end }}
       containers:
@@ -87,6 +90,18 @@ spec:
             failureThreshold: {{ .Values.server.readinessProbe.failureThreshold }}             
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
+          volumeMounts:
+            - name: vidcheck-server-data
+              mountPath: ./data
+            - name: vidcheck-server-web
+              mountPath: ./web/templates          
+      volumes:
+        - name: vidcheck-server-data
+          configMap:
+            name: vidcheck-server-data
+        - name: vidcheck-server-web
+          configMap:
+            name: vidcheck-server-web               
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
