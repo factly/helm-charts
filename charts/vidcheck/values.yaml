@@ -41,6 +41,7 @@ server:
     targetMemoryUtilizationPercentage: 80
 
   autoMigrate: true
+  createSuperOrg: true
 
   ## Environment variables to pass to vidcheck Server
   env:
