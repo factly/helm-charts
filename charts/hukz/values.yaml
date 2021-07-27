@@ -17,6 +17,8 @@ image:
   pullPolicy: IfNotPresent
   tag: "0.3.0"
 
+autoMigrate: true  
+
 # This value will be ignored if Autoscaling is enabled
 replicaCount: 1
 
