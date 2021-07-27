@@ -523,6 +523,38 @@ entries:
   hukz:
   - apiVersion: v2
     appVersion: 0.3.0
+    created: "2021-07-27T23:54:11.73933916Z"
+    dependencies:
+    - alias: nats
+      condition: nats.enabled
+      name: nats
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.2.*
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.3.*
+    description: A simple, lightweight service written in Go to manage outgoing webhooks from any application.
+    digest: 6c6ab652fbcdb0085e05e5e2f959045a55469996af39dc61bbc20a0200006c5c
+    home: https://github.com/factly/hukz
+    keywords:
+    - hukz
+    - webhooks
+    - hooks
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    - name: hetjagani
+    name: hukz
+    sources:
+    - https://github.com/factly/hukz
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/hukz-0.3.0/hukz-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 0.3.0
     created: "2021-07-27T21:41:43.057228408Z"
     dependencies:
     - alias: nats
