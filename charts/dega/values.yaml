@@ -13,7 +13,7 @@ imagePullSecrets: []
 
 global:
   image:
-    tag: "0.4.0"
+    tag: "0.12.0"
     imagePullPolicy: IfNotPresent
   securityContext: {}
     # runAsUser: 999
@@ -26,7 +26,7 @@ api:
   image:
     repository: factly/dega-api
     pullPolicy: IfNotPresent
-    tag: "0.4.1"
+    tag: "0.12.0"
 
   # imagePullSecrets: []
 
@@ -350,7 +350,7 @@ studio:
   image:
     repository: factly/dega-studio
     pullPolicy: IfNotPresent
-    tag: "0.4.3"
+    tag: "0.11.0"
 
   # imagePullSecrets: []
 
