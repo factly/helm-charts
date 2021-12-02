@@ -47,14 +47,14 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.web.resources | nindent 12 }}
-          volumeMounts:
-            - name: kavach-web-config
-              mountPath: /usr/share/nginx/html/config.js
-              subPath: config.js
-      volumes:
-        - name: kavach-web-config
-          configMap:
-            name: kavach-web-config
+      #     volumeMounts:
+      #       - name: kavach-web-config
+      #         mountPath: /usr/share/nginx/html/config.js
+      #         subPath: config.js
+      # volumes:
+      #   - name: kavach-web-config
+      #     configMap:
+      #       name: kavach-web-config
       {{- with .Values.web.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
