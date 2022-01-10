@@ -19,5 +19,4 @@ data:
     window.REACT_APP_DEGA_PUBLIC_URL = 'https://dega.factly.org';
     window.REACT_APP_BINDU_PUBLIC_URL = 'https://bindu.factly.org';
     window.REACT_APP_COMPANION_URL = "https://companion.factly.org";
-    window.REACT_APP_KAVACH_TITLE=Factly
-    window.REACT_APP_LOGO_URL=LOGO_URL
+    window.REACT_APP_KAVACH_TITLE = "Factly";
