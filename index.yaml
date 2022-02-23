@@ -1578,6 +1578,37 @@ entries:
   umami:
   - apiVersion: v2
     appVersion: 1.26.0
+    created: "2022-02-23T23:07:53.830563451Z"
+    dependencies:
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.*.*
+    description: A simple, lightweight service written in Go to manage outgoing webhooks from any application.
+    digest: 919d32ea9471c7d39473c74492ed5982fc51cccd9615712843a9871af87ea55d
+    home: https://github.com/mikecao/umami
+    keywords:
+    - umami
+    - charts
+    - statistics
+    - analytics
+    - google-analytics
+    - web-analytics
+    - privacy
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    - name: mikecao
+    name: umami
+    sources:
+    - https://github.com/mikecao/umami
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/umami-0.0.2/umami-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v2
+    appVersion: 1.26.0
     created: "2022-02-23T12:59:51.559012564Z"
     dependencies:
     - alias: postgresql
