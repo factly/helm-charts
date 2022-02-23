@@ -202,7 +202,7 @@ postgresql:
       scripts:
         # Install the SQL script at the startup. The SQL is copied from here: https://github.com/mikecao/umami/blob/master/sql/schema.postgresql.sql
         # Needs to be updated accordingly, as the schema changes with the application.
-        create_tables.sql: |
+        umami_schema.sql: |
           drop table if exists event;
           drop table if exists pageview;
           drop table if exists session;
