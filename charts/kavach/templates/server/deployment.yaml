@@ -28,7 +28,9 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.server.serviceAccount.annotations }}
       serviceAccountName: {{ include "server.serviceAccountName" . }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.global.securityContext | nindent 8 }}
       {{- if .Values.server.autoMigrate}}
