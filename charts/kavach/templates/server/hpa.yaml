@@ -1,5 +1,6 @@
 {{- if .Values.server.autoscaling.enabled }}
-apiVersion: autoscaling/v2
+# apiVersion: autoscaling/v2
+apiVersion: extensions/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ template "server.fullname" . }}
@@ -18,17 +19,19 @@ spec:
     - type: Resource
       resource:
         name: cpu
-        target:
-          type: "Utilization"
-          averageUtilization: {{ .Values.server.autoscaling.targetCPUUtilizationPercentage }}
+        # target:
+        #   type: "Utilization"
+        #   averageUtilization: {{ .Values.server.autoscaling.targetCPUUtilizationPercentage }}
+        targetAverageUtilization: {{ .Values.server.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
     {{- if .Values.server.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
-        target:
-          type: "Utilization"
-          averageUtilization: {{ .Values.server.autoscaling.targetMemoryUtilizationPercentage }}
+        # target:
+        #   type: "Utilization"
+        #   averageUtilization: {{ .Values.server.autoscaling.targetMemoryUtilizationPercentage }}
+        targetAverageUtilization: {{ .Values.server.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
 {{- end }}
 
