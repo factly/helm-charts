@@ -3,21 +3,6 @@ entries:
   companion:
   - apiVersion: v2
     appVersion: 2600b3ed953f15b1b13c8b07383c470343127bda
-    created: "2022-03-21T23:22:20.838782938Z"
-    description: The companion plugin can be used to upload files to Transloadit for all kinds of processing, such as transcoding video, resizing images, zipping/unzipping, and much more.
-    digest: 73667e8885e1abdc9fe31422574c63a804bb8cd90a2325a65d2bf415d3c1fe17
-    keywords:
-    - companion
-    maintainers:
-    - name: deshetti
-    - name: shreeharsha-factly
-    name: companion
-    type: application
-    urls:
-    - https://github.com/factly/helm-charts/releases/download/companion-0.1.5/companion-0.1.5.tgz
-    version: 0.1.5
-  - apiVersion: v2
-    appVersion: 2600b3ed953f15b1b13c8b07383c470343127bda
     created: "2021-01-16T19:08:43.984832058Z"
     description: The companion plugin can be used to upload files to Transloadit for all kinds of processing, such as transcoding video, resizing images, zipping/unzipping, and much more.
     digest: f03a05f3a296ad3a7f662030822b02e40433ae0f616a6c45163de4caaec119fe
@@ -32,6 +17,35 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/companion-0.1.3/companion-0.1.3.tgz
     version: 0.1.3
   dega:
+  - apiVersion: v2
+    appVersion: 0.15.1
+    created: "2022-03-21T23:23:03.53669305Z"
+    dependencies:
+    - alias: imgproxy
+      condition: imgproxy.enabled
+      name: imgproxy
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    - alias: meilisearch
+      condition: meilisearch.enabled
+      name: meilisearch
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://helm.min.io/
+      version: 8.0.*
+    description: A Helm chart for Dega. A lightweight, scalable & high performant CMS written in Go. Developed for modern web features with all the best practices built-in.
+    digest: d02ed4758a2c2e22449af7eadd30916357b57086754995261d24f9aba625d639
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: dega
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/dega-0.10.1/dega-0.10.1.tgz
+    version: 0.10.1
   - apiVersion: v2
     appVersion: 0.12.0
     created: "2021-07-28T18:45:04.85938151Z"
