@@ -15,7 +15,7 @@ name: imgproxy
 image:
   repository: darthsim/imgproxy
   pullPolicy: IfNotPresent
-  tag: "v2.15.0"
+  tag: ""
 
 # This value will be ignored if Autoscaling is enabled
 replicaCount: 1

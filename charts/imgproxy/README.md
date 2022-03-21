@@ -114,23 +114,4 @@ helm uninstall my-release
 
 ### Environment Variables
 
-The `env` block allows to configure any environment variables as documented on [Imgproxy Configuration](https://github.com/imgproxy/imgproxy/blob/master/docs/configuration.md)
-
-For production deployment, setting the environment variable `MEILI_MASTER_KEY` is mandatory.
-
-`MEILI_MASTER_KEY` for eg is set with the following code in `env`:
-
-```
-  - name: MEILI_MASTER_KEY
-    valueFrom:
-      secretKeyRef:
-        name: imgproxy
-        key: meili_key 
-```        
-
-The above for example expects a `secret` with the name `imgproxy` to exist, with key specified as `meili_key`. This would be the suggested way to add the MASTER_KEY. Other insecure way to add the MASTER_KEY is to add it like any other env variable like below:
-
-```
-  - name: MEILI_MASTER_KEY
-    value: PLEASE_CHANGE_ME
-```   
+Refer to the options in the following URL for environment variables: https://github.com/imgproxy/imgproxy/blob/master/docs/configuration.md
