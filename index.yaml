@@ -1920,37 +1920,6 @@ entries:
     version: 0.1.0
   umami:
   - apiVersion: v2
-    appVersion: postgresql-1e4c3eb
-    created: "2022-03-21T23:25:47.949439554Z"
-    dependencies:
-    - alias: postgresql
-      condition: postgresql.enabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 11.*.*
-    description: A simple, lightweight service written in Go to manage outgoing webhooks from any application.
-    digest: 26a58c0356663f6217d2e25dfbdb243c2ff0b7674265030db38ae098e71539c8
-    home: https://github.com/mikecao/umami
-    keywords:
-    - umami
-    - charts
-    - statistics
-    - analytics
-    - google-analytics
-    - web-analytics
-    - privacy
-    maintainers:
-    - name: deshetti
-    - name: shreeharsha-factly
-    - name: mikecao
-    name: umami
-    sources:
-    - https://github.com/mikecao/umami
-    type: application
-    urls:
-    - https://github.com/factly/helm-charts/releases/download/umami-0.0.4/umami-0.0.4.tgz
-    version: 0.0.4
-  - apiVersion: v2
     appVersion: 1.26.0
     created: "2022-02-23T23:07:53.830563451Z"
     dependencies:
@@ -2013,6 +1982,19 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/umami-0.0.1/umami-0.0.1.tgz
     version: 0.0.1
   vidcheck:
+  - apiVersion: v2
+    appVersion: 0.12.0
+    created: "2022-03-21T23:26:05.512051663Z"
+    description: Web application to publish video fact-checks. Developed in Go and React.
+    digest: 9be1e0a5a46cc27c2c6a7f8d7970b87ae27b508f45bb5563d782eb681af4c418
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: vidcheck
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/vidcheck-0.5.1/vidcheck-0.5.1.tgz
+    version: 0.5.1
   - apiVersion: v2
     appVersion: 0.4.0
     created: "2021-06-25T15:22:59.139294512Z"
