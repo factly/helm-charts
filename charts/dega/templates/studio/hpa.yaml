@@ -14,17 +14,17 @@ spec:
   minReplicas: {{ .Values.studio.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.studio.autoscaling.maxReplicas }}
   metrics:
-    {{- if .Values.studio.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        targetAverageUtilization: {{ .Values.studio.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
     {{- if .Values.studio.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
         targetAverageUtilization: {{ .Values.studio.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}  
+    {{- if .Values.studio.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.studio.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
 {{- end }}
 

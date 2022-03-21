@@ -14,7 +14,7 @@ name: meilisearch
 
 image:
   repository: getmeili/meilisearch
-  tag: v0.21.0rc4
+  tag: ""
   pullPolicy: IfNotPresent
 
 # This value will be ignored if Autoscaling is enabled
@@ -48,7 +48,7 @@ env: {}
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # Labels to add to the service account

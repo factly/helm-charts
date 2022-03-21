@@ -1,5 +1,4 @@
 {{- if .Values.web.autoscaling.enabled }}
-# apiVersion: autoscaling/v2 
 apiVersion: extensions/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -15,23 +14,17 @@ spec:
   minReplicas: {{ .Values.web.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.web.autoscaling.maxReplicas }}
   metrics:
-    {{- if .Values.web.autoscaling.targetCPUUtilizationPercentage }}
-    - type: Resource
-      resource:
-        name: cpu
-        # target:
-        #   type: "Utilization"
-        #   averageUtilization: {{ .Values.web.autoscaling.targetCPUUtilizationPercentage }}
-        targetAverageUtilization: {{ .Values.web.autoscaling.targetCPUUtilizationPercentage }}
-    {{- end }}
     {{- if .Values.web.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
-        # target:
-        #   type: "Utilization"
-        #   averageUtilization: {{ .Values.web.autoscaling.targetMemoryUtilizationPercentage }}
         targetAverageUtilization: {{ .Values.web.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.web.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.web.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
 {{- end }}
 

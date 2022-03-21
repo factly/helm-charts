@@ -13,7 +13,7 @@ imagePullSecrets: []
 
 global:
   image:
-    tag: "0.12.0"
+    tag: ""
     imagePullPolicy: IfNotPresent
   securityContext: {}
     # runAsUser: 999
@@ -26,7 +26,7 @@ api:
   image:
     repository: factly/dega-api
     pullPolicy: IfNotPresent
-    tag: "0.12.0"
+    tag: ""
 
   # imagePullSecrets: []
 
@@ -34,35 +34,35 @@ api:
   replicaCount: 1
 
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
   ## Environment variables to pass to Dega API
-  env:
-    - name: DEGA_API_KAVACH_URL
-      value: "http://kavach-server.dega.svc.cluster.local:8000"
-    - name: DEGA_API_DATABASE_HOST
-      value: "postgres-postgresql.dega.svc.cluster.local"
-    - name: DEGA_API_DATABASE_NAME
-      value: "dega"
-    - name: DEGA_API_DATABASE_PORT
-      value: "5432"
-    - name: DEGA_API_DATABASE_SSL_MODE
-      value: "disable"                 
-    - name: DEGA_API_DATABASE_USER
-      value: "postgres"
-    - name: DEGA_API_DATABASE_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: dega-api
-          key: database_password
+  env: {}
+    # - name: DEGA_API_KAVACH_URL
+    #   value: "http://kavach-server.dega.svc.cluster.local:8000"
+    # - name: DEGA_API_DATABASE_HOST
+    #   value: "postgres-postgresql.dega.svc.cluster.local"
+    # - name: DEGA_API_DATABASE_NAME
+    #   value: "dega"
+    # - name: DEGA_API_DATABASE_PORT
+    #   value: "5432"
+    # - name: DEGA_API_DATABASE_SSL_MODE
+    #   value: "disable"                 
+    # - name: DEGA_API_DATABASE_USER
+    #   value: "postgres"
+    # - name: DEGA_API_DATABASE_PASSWORD
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: dega-api
+    #       key: database_password
 
   serviceAccount:
     # Specifies whether a service account should be created
-    create: true
+    create: false
     # Annotations to add to the service account
     annotations: {}
     # Labels to add to the service account
@@ -89,7 +89,7 @@ api:
     labels: {}
 
   metrics:
-    enabled: true
+    enabled: false
 
     service:
       type: ClusterIP
@@ -99,7 +99,7 @@ api:
       labels: {}
 
     serviceMonitor:
-      enabled: true
+      enabled: false
       selector:
         # prometheus: kube-prometheus
         release: monitoring
@@ -112,7 +112,7 @@ api:
       relabelings: []
 
   ingress:
-    enabled: true
+    enabled: false
     annotations:
       kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -141,17 +141,17 @@ api:
           - dega-api.factly.org
           - www.dega-api.factly.org        
 
-  resources:
+  resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      cpu: 500m
-      memory: 1024Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
+    # limits:
+    #   cpu: 500m
+    #   memory: 1024Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
 
   ## Readiness and liveness probes for default backend
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
@@ -181,7 +181,7 @@ server:
   image:
     repository: factly/dega-server
     pullPolicy: IfNotPresent
-    tag: "0.5.0"
+    tag: ""
 
   # imagePullSecrets: []
 
@@ -189,7 +189,7 @@ server:
   replicaCount: 1
 
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
@@ -199,63 +199,63 @@ server:
   createSuperOrg: false    
 
   ## Environment variables to pass to Dega Server
-  env:
-    - name: DEGA_MODE
-      value: "development"
-    - name: DEGA_KAVACH_URL
-      value: "http://kavach-server.dega.svc.cluster.local:8000"
-    - name: DEGA_MEILI_URL
-      value: "http://meilisearch.dega.svc.cluster.local:7700"
-    - name: DEGA_MEILI_KEY
-      valueFrom:
-        secretKeyRef:
-          name: dega-server
-          key: meili_key
-    - name: DEGA_GOOGLE_KEY
-      valueFrom:
-        secretKeyRef:
-          name: dega-server
-          key: google_key
-    - name: DEGA_IMAGEPROXY_URL
-      value: "https://images.factly.org/f"
-    - name: DEGA_KETO_URL
-      value: "http://keto.dega.svc.cluster.local:4466"
-    - name: DEGA_KRATOS_PUBLIC_URL
-      value: "http://kratos-public.dega.svc.cluster.local:80"
-    - name: DEGA_IFRAMELY_URL
-      value: "http://iframely.apps.svc.cluster.local:8061"
-    - name: DEGA_DATABASE_HOST
-      value: "postgres-postgresql.dega.svc.cluster.local"
-    - name: DEGA_DATABASE_NAME
-      value: "dega"
-    - name: DEGA_DATABASE_PORT
-      value: "5432"
-    - name: DEGA_DATABASE_SSL_MODE
-      value: "disable"                 
-    - name: DEGA_DATABASE_USER
-      value: "postgres"
-    - name: DEGA_DATABASE_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: dega-server
-          key: database_password
-    - name: DEGA_CREATE_SUPER_ORGANISATION
-      value: "true"
-    - name: DEGA_SUPER_ORGANISATION_TITLE
-      value: "Super Organisation"
-    - name: DEGA_DEFAULT_NUMBER_OF_MEDIA
-      value: "10"
-    - name: DEGA_DEFAULT_NUMBER_OF_SPACES
-      value: "1"
-    - name: DEGA_DEFAULT_NUMBER_OF_POSTS
-      value: "10"
-    - name: DEGA_DEFAULT_USER_EMAIL
-      value: "shashi@factly.in"
-    - name: DEGA_DEFAULT_USER_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: dega-server
-          key: default_user_password
+  env: {}
+    # - name: DEGA_MODE
+    #   value: "development"
+    # - name: DEGA_KAVACH_URL
+    #   value: "http://kavach-server.dega.svc.cluster.local:8000"
+    # - name: DEGA_MEILI_URL
+    #   value: "http://meilisearch.dega.svc.cluster.local:7700"
+    # - name: DEGA_MEILI_KEY
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: dega-server
+    #       key: meili_key
+    # - name: DEGA_GOOGLE_KEY
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: dega-server
+    #       key: google_key
+    # - name: DEGA_IMAGEPROXY_URL
+    #   value: "https://images.example.com/f"
+    # - name: DEGA_KETO_URL
+    #   value: "http://keto.dega.svc.cluster.local:4466"
+    # - name: DEGA_KRATOS_PUBLIC_URL
+    #   value: "http://kratos-public.dega.svc.cluster.local:80"
+    # - name: DEGA_IFRAMELY_URL
+    #   value: "http://iframely.apps.svc.cluster.local:8061"
+    # - name: DEGA_DATABASE_HOST
+    #   value: "postgres-postgresql.dega.svc.cluster.local"
+    # - name: DEGA_DATABASE_NAME
+    #   value: "dega"
+    # - name: DEGA_DATABASE_PORT
+    #   value: "5432"
+    # - name: DEGA_DATABASE_SSL_MODE
+    #   value: "disable"                 
+    # - name: DEGA_DATABASE_USER
+    #   value: "postgres"
+    # - name: DEGA_DATABASE_PASSWORD
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: dega-server
+    #       key: database_password
+    # - name: DEGA_CREATE_SUPER_ORGANISATION
+    #   value: "true"
+    # - name: DEGA_SUPER_ORGANISATION_TITLE
+    #   value: "Super Organisation"
+    # - name: DEGA_DEFAULT_NUMBER_OF_MEDIA
+    #   value: "10"
+    # - name: DEGA_DEFAULT_NUMBER_OF_SPACES
+    #   value: "1"
+    # - name: DEGA_DEFAULT_NUMBER_OF_POSTS
+    #   value: "10"
+    # - name: DEGA_DEFAULT_USER_EMAIL
+    #   value: "test@example.com"
+    # - name: DEGA_DEFAULT_USER_PASSWORD
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: dega-server
+    #       key: default_user_password
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -288,7 +288,7 @@ server:
     labels: {}
 
   metrics:
-    enabled: true
+    enabled: false
 
     service:
       type: ClusterIP
@@ -298,7 +298,7 @@ server:
       labels: {}
 
     serviceMonitor:
-      enabled: true
+      enabled: false
       selector:
         # prometheus: kube-prometheus
         release: monitoring
@@ -310,17 +310,17 @@ server:
       scrapeTimeout: 30s
       relabelings: []    
 
-  resources:
+  resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      cpu: 500m
-      memory: 1024Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
+    # limits:
+    #   cpu: 500m
+    #   memory: 1024Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
 
   ## Readiness and liveness probes for default backend
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
@@ -350,7 +350,7 @@ studio:
   image:
     repository: factly/dega-studio
     pullPolicy: IfNotPresent
-    tag: "0.11.0"
+    tag: ""
 
   # imagePullSecrets: []
 
@@ -358,7 +358,7 @@ studio:
   replicaCount: 1
 
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
@@ -369,7 +369,7 @@ studio:
 
   serviceAccount:
     # Specifies whether a service account should be created
-    create: true
+    create: false
     # Annotations to add to the service account
     annotations: {}
     # Labels to add to the service account
@@ -397,17 +397,17 @@ studio:
     annotations: {}
     labels: {}
 
-  resources:
+  resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      cpu: 500m
-      memory: 1024Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
+    # limits:
+    #   cpu: 500m
+    #   memory: 1024Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
 
   ## Readiness and liveness probes for default backend
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
@@ -451,7 +451,7 @@ imgproxy:
   image:
     repository: darthsim/imgproxy
     pullPolicy: IfNotPresent
-    tag: "v2.15.0"
+    tag: ""
 
   # imagePullSecrets: []
 
@@ -991,7 +991,7 @@ companion:
   image:
     repository: transloadit/companion
     pullPolicy: IfNotPresent
-    tag: "2600b3ed953f15b1b13c8b07383c470343127bda"
+    tag: ""
 
   # imagePullSecrets: []
 

@@ -41,7 +41,7 @@ server:
   autoMigrate: false
 
   ## Environment variables to pass to kavach Server
-  env: []
+  env: {}
     # Setup IMGPROXY usage within the cluster
     # - name: KAVACH_IMAGEPROXY_URL
     #   value: "https://images.factly.org"
@@ -181,7 +181,7 @@ web:
     targetMemoryUtilizationPercentage: 80
 
   ## Environment variables to pass to kavach web
-  env: []
+  env: {}
     # - name: PUBLIC_URL
     #   value: "https://kavach.factly.org"
     # - name: REACT_APP_KAVACH_TITLE
@@ -500,7 +500,7 @@ keto:
 
   nodeSelector: {}
 
-  extraEnv: []
+  extraenv: {}
 
   # Configuration for tracing providers. Only datadog is currently supported through this block.
   # If you need to use a different tracing provider, please manually set the configuration values

@@ -15,7 +15,7 @@ name: umami
 image:
   repository: ghcr.io/mikecao/umami
   pullPolicy: IfNotPresent
-  tag: "postgresql-1e4c3eb"
+  tag: ""
 
 # This value will be ignored if Autoscaling is enabled
 replicaCount: 1
@@ -86,7 +86,7 @@ env:
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # Labels to add to the service account
@@ -192,7 +192,7 @@ postgresql:
     postgresPassword: "CHANGE_ME"
 
   image:
-    tag: "14.1.0-debian-10-r80"
+    tag: ""
 
   ## PostgreSQL password using existing secret
   # existingSecret: umami

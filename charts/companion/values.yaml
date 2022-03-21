@@ -15,7 +15,7 @@ name: companion
 image:
   repository: transloadit/companion
   pullPolicy: IfNotPresent
-  tag: "2600b3ed953f15b1b13c8b07383c470343127bda"
+  tag: ""
 
 # imagePullSecrets: []
 
@@ -23,7 +23,7 @@ image:
 replicaCount: 1
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
@@ -34,7 +34,7 @@ autoscaling:
 env:
   ####### Mandatory variables ###########
 
-  # any long set of random characters for the server session
+  # # any long set of random characters for the server session
   - name: COMPANION_SECRET
     value: "CHANGE_ME"
   # specifying a secret file will override a directly set secret
@@ -184,7 +184,7 @@ env:
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # Labels to add to the service account
@@ -215,7 +215,7 @@ metrics:
   enabled: false
 
   serviceMonitor:
-    enabled: true
+    enabled: false
     selector:
       # prometheus: kube-prometheus
       release: monitoring
@@ -250,17 +250,17 @@ ingress:
         - change-to-your-domain.com
         - www.change-to-your-domain.com
 
-resources:
+resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: 1
-    memory: 1024Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+  # limits:
+  #   cpu: 1
+  #   memory: 1024Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 ## Readiness and liveness probes for default backend
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/

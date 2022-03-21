@@ -1,5 +1,7 @@
 # umami
 
+** This Chart is Deprecated and is not maintained anymore. **
+
 Helm works as a package manager to run pre-configured Kubernetes resources.
 
 This a customizable Helm chart, ready to deploy a [umami](https://github.com/factly/umami) instance on your Kubernetes cluster.

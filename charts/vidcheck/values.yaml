@@ -13,7 +13,7 @@ imagePullSecrets: []
 
 global:
   image:
-    tag: "0.4.0"
+    tag: ""
     imagePullPolicy: IfNotPresent
   securityContext: {}
     # runAsUser: 999
@@ -26,7 +26,7 @@ server:
   image:
     repository: factly/vidcheck-server
     pullPolicy: IfNotPresent
-    tag: "0.1.0"
+    tag: ""
 
   # imagePullSecrets: []
 
@@ -34,7 +34,7 @@ server:
   replicaCount: 1
 
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
@@ -44,30 +44,30 @@ server:
   createSuperOrg: true
 
   ## Environment variables to pass to vidcheck Server
-  env:
-    - name: VIDCHECK_DATABASE_NAME
-      value: "vidcheck"
-    - name: VIDCHECK_DATABASE_PORT
-      value: "5432"
-    - name: VIDCHECK_DATABASE_SSL_MODE
-      value: "disable"                 
-    - name: VIDCHECK_DATABASE_USER
-      value: "postgres"
-    - name: VIDCHECK_DATABASE_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: vidcheck-server
-          key: database_password
-    - name: VIDCHECK_KAVACH_URL
-      value: "http://kavach-server.dega.svc.cluster.local:8000"
-    - name: VIDCHECK_DEGA_INTEGRATION
-      value: "true"
-    - name: VIDCHECK_DEGA_URL
-      value: "https://dega-server.dega.svc.cluster.local:8000"
+  env: {}
+    # - name: VIDCHECK_DATABASE_NAME
+    #   value: "vidcheck"
+    # - name: VIDCHECK_DATABASE_PORT
+    #   value: "5432"
+    # - name: VIDCHECK_DATABASE_SSL_MODE
+    #   value: "disable"                 
+    # - name: VIDCHECK_DATABASE_USER
+    #   value: "postgres"
+    # - name: VIDCHECK_DATABASE_PASSWORD
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: vidcheck-server
+    #       key: database_password
+    # - name: VIDCHECK_KAVACH_URL
+    #   value: "http://kavach-server.dega.svc.cluster.local:8000"
+    # - name: VIDCHECK_DEGA_INTEGRATION
+    #   value: "true"
+    # - name: VIDCHECK_DEGA_URL
+    #   value: "https://dega-server.dega.svc.cluster.local:8000"
 
   serviceAccount:
     # Specifies whether a service account should be created
-    create: true
+    create: false
     # Annotations to add to the service account
     annotations: {}
     # Labels to add to the service account
@@ -96,7 +96,7 @@ server:
     labels: {}
 
   metrics:
-    enabled: true
+    enabled: false
 
     service:
       type: ClusterIP
@@ -106,7 +106,7 @@ server:
       labels: {}
 
     serviceMonitor:
-      enabled: true
+      enabled: false
       selector:
         # prometheus: kube-prometheus
         release: monitoring
@@ -118,17 +118,17 @@ server:
       scrapeTimeout: 30s
       relabelings: []    
 
-  resources:
+  resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      cpu: 500m
-      memory: 1024Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
+    # limits:
+    #   cpu: 500m
+    #   memory: 1024Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
 
   ## Readiness and liveness probes for default backend
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
@@ -158,7 +158,7 @@ studio:
   image:
     repository: factly/vidcheck-studio
     pullPolicy: IfNotPresent
-    tag: "0.1.0"
+    tag: ""
 
   # imagePullSecrets: []
 
@@ -166,7 +166,7 @@ studio:
   replicaCount: 1
 
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 5
     targetCPUUtilizationPercentage: 80
@@ -177,7 +177,7 @@ studio:
 
   serviceAccount:
     # Specifies whether a service account should be created
-    create: true
+    create: false
     # Annotations to add to the service account
     annotations: {}
     # Labels to add to the service account
@@ -205,17 +205,17 @@ studio:
     annotations: {}
     labels: {}
 
-  resources:
+  resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-    limits:
-      cpu: 500m
-      memory: 1024Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
+    # limits:
+    #   cpu: 500m
+    #   memory: 1024Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
 
   ## Readiness and liveness probes for default backend
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
