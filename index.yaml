@@ -1768,25 +1768,6 @@ entries:
   meilisearch:
   - apiVersion: v2
     appVersion: v0.21.0rc4
-    created: "2022-03-21T23:25:25.219537347Z"
-    description: Meilisearch is an open source, blazingly fast and hyper relevant search-engine that will improve your search experience.
-    digest: 95e429415e9f1b8c1828667550c8ae581a93604012a5def6184c99ad122c6209
-    home: https://github.com/meilisearch/meilisearch
-    keywords:
-    - meilisearch
-    - search
-    maintainers:
-    - name: deshetti
-    - name: shreeharsha-factly
-    name: meilisearch
-    sources:
-    - https://github.com/meilisearch/meilisearch
-    type: application
-    urls:
-    - https://github.com/factly/helm-charts/releases/download/meilisearch-0.3.2/meilisearch-0.3.2.tgz
-    version: 0.3.2
-  - apiVersion: v2
-    appVersion: v0.21.0rc4
     created: "2021-08-11T20:00:50.403614108Z"
     description: Meilisearch is an open source, blazingly fast and hyper relevant search-engine that will improve your search experience.
     digest: 8fa241ac047448b2bf951ce0aec81943a25a5faba89549ac99b83816c71f65c3
@@ -1938,6 +1919,37 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/meilisearch-0.1.0/meilisearch-0.1.0.tgz
     version: 0.1.0
   umami:
+  - apiVersion: v2
+    appVersion: postgresql-1e4c3eb
+    created: "2022-03-21T23:25:47.949439554Z"
+    dependencies:
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.*.*
+    description: A simple, lightweight service written in Go to manage outgoing webhooks from any application.
+    digest: 26a58c0356663f6217d2e25dfbdb243c2ff0b7674265030db38ae098e71539c8
+    home: https://github.com/mikecao/umami
+    keywords:
+    - umami
+    - charts
+    - statistics
+    - analytics
+    - google-analytics
+    - web-analytics
+    - privacy
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    - name: mikecao
+    name: umami
+    sources:
+    - https://github.com/mikecao/umami
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/umami-0.0.4/umami-0.0.4.tgz
+    version: 0.0.4
   - apiVersion: v2
     appVersion: 1.26.0
     created: "2022-02-23T23:07:53.830563451Z"
