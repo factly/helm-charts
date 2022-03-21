@@ -710,26 +710,6 @@ entries:
   imgproxy:
   - apiVersion: v2
     appVersion: v3.3.2
-    created: "2022-03-21T23:24:23.724000559Z"
-    description: A fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
-    digest: e24d4d5f424d177be97baec710d381c101886d20a3fbe93a9aa4386d359c8b1d
-    home: https://github.com/imgproxy/imgproxy
-    keywords:
-    - imgproxy
-    - image
-    - processing
-    maintainers:
-    - name: deshetti
-    - name: shreeharsha-factly
-    name: imgproxy
-    sources:
-    - https://github.com/imgproxy/imgproxy
-    type: application
-    urls:
-    - https://github.com/factly/helm-charts/releases/download/imgproxy-0.2.4/imgproxy-0.2.4.tgz
-    version: 0.2.4
-  - apiVersion: v2
-    appVersion: v3.3.2
     created: "2022-03-21T21:25:21.031953714Z"
     description: A fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
     digest: 8dca542f8fb0f34ffa62a0888afe6a05626e6c5b6875022dd2f8d3bd69074a33
@@ -883,6 +863,32 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/imgproxy-0.1.0/imgproxy-0.1.0.tgz
     version: 0.1.0
   kavach:
+  - apiVersion: v2
+    appVersion: 0.20.0
+    created: "2022-03-21T23:24:57.899131139Z"
+    dependencies:
+    - alias: imgproxy
+      condition: imgproxy.enabled
+      name: imgproxy
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://helm.min.io/
+      version: 8.0.*
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.*
+    description: A Helm chart for Kavach
+    digest: dc58a8e99db1adced89ef830c744f66dc079bb505055a77c7b98e21ecd2b4b30
+    name: kavach
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/kavach-0.7.9/kavach-0.7.9.tgz
+    version: 0.7.9
   - apiVersion: v2
     appVersion: 0.20.0
     created: "2022-03-21T06:30:07.095407706Z"
