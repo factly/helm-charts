@@ -580,38 +580,6 @@ entries:
     version: 0.1.0
   hukz:
   - apiVersion: v2
-    appVersion: 0.3.1
-    created: "2022-03-21T23:24:03.153306096Z"
-    dependencies:
-    - alias: nats
-      condition: nats.enabled
-      name: nats
-      repository: https://charts.bitnami.com/bitnami
-      version: 6.2.*
-    - alias: postgresql
-      condition: postgresql.enabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 10.3.*
-    description: A simple, lightweight service written in Go to manage outgoing webhooks from any application.
-    digest: 2034f0e3ac3f276c8512aae679b833b448bb3308ad5b2d909b4af7ea7c263661
-    home: https://github.com/factly/hukz
-    keywords:
-    - hukz
-    - webhooks
-    - hooks
-    maintainers:
-    - name: deshetti
-    - name: shreeharsha-factly
-    - name: hetjagani
-    name: hukz
-    sources:
-    - https://github.com/factly/hukz
-    type: application
-    urls:
-    - https://github.com/factly/helm-charts/releases/download/hukz-0.3.1/hukz-0.3.1.tgz
-    version: 0.3.1
-  - apiVersion: v2
     appVersion: 0.3.0
     created: "2021-07-27T23:54:11.73933916Z"
     dependencies:
@@ -740,6 +708,26 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/hukz-0.1.0/hukz-0.1.0.tgz
     version: 0.1.0
   imgproxy:
+  - apiVersion: v2
+    appVersion: v3.3.2
+    created: "2022-03-21T23:24:23.724000559Z"
+    description: A fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
+    digest: e24d4d5f424d177be97baec710d381c101886d20a3fbe93a9aa4386d359c8b1d
+    home: https://github.com/imgproxy/imgproxy
+    keywords:
+    - imgproxy
+    - image
+    - processing
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: imgproxy
+    sources:
+    - https://github.com/imgproxy/imgproxy
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/imgproxy-0.2.4/imgproxy-0.2.4.tgz
+    version: 0.2.4
   - apiVersion: v2
     appVersion: v3.3.2
     created: "2022-03-21T21:25:21.031953714Z"
