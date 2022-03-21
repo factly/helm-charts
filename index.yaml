@@ -3,6 +3,21 @@ entries:
   companion:
   - apiVersion: v2
     appVersion: 2600b3ed953f15b1b13c8b07383c470343127bda
+    created: "2022-03-21T23:22:20.838782938Z"
+    description: The companion plugin can be used to upload files to Transloadit for all kinds of processing, such as transcoding video, resizing images, zipping/unzipping, and much more.
+    digest: 73667e8885e1abdc9fe31422574c63a804bb8cd90a2325a65d2bf415d3c1fe17
+    keywords:
+    - companion
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: companion
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/companion-0.1.5/companion-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 2600b3ed953f15b1b13c8b07383c470343127bda
     created: "2021-01-16T19:08:43.984832058Z"
     description: The companion plugin can be used to upload files to Transloadit for all kinds of processing, such as transcoding video, resizing images, zipping/unzipping, and much more.
     digest: f03a05f3a296ad3a7f662030822b02e40433ae0f616a6c45163de4caaec119fe
