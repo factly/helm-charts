@@ -865,32 +865,6 @@ entries:
   kavach:
   - apiVersion: v2
     appVersion: 0.20.0
-    created: "2022-03-21T23:24:57.899131139Z"
-    dependencies:
-    - alias: imgproxy
-      condition: imgproxy.enabled
-      name: imgproxy
-      repository: https://factly.github.io/helm-charts
-      version: 0.1.*
-    - alias: minio
-      condition: minio.enabled
-      name: minio
-      repository: https://helm.min.io/
-      version: 8.0.*
-    - alias: postgresql
-      condition: postgresql.enabled
-      name: postgresql
-      repository: https://charts.bitnami.com/bitnami
-      version: 11.1.*
-    description: A Helm chart for Kavach
-    digest: dc58a8e99db1adced89ef830c744f66dc079bb505055a77c7b98e21ecd2b4b30
-    name: kavach
-    type: application
-    urls:
-    - https://github.com/factly/helm-charts/releases/download/kavach-0.7.9/kavach-0.7.9.tgz
-    version: 0.7.9
-  - apiVersion: v2
-    appVersion: 0.20.0
     created: "2022-03-21T06:30:07.095407706Z"
     dependencies:
     - alias: imgproxy
@@ -1648,6 +1622,19 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/kavach-0.1.0/kavach-0.1.0.tgz
     version: 0.1.0
   mande:
+  - apiVersion: v2
+    appVersion: 0.6.4
+    created: "2022-03-21T23:25:01.899307814Z"
+    description: Open-source application to develop data portals to publish datasets in various formats. Developed in Go and React.
+    digest: e0b464bd63c4e7e246ae570f79c9e7d15e54a3a46be91d1113373743198881ac
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: mande
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/mande-0.3.1/mande-0.3.1.tgz
+    version: 0.3.1
   - apiVersion: v2
     appVersion: 0.1.1
     created: "2021-06-11T21:53:24.940697228Z"
