@@ -885,7 +885,7 @@ entries:
   kavach:
   - apiVersion: v2
     appVersion: 0.20.0
-    created: "2022-03-22T00:36:55.434723154Z"
+    created: "2022-03-22T00:37:42.986965913Z"
     dependencies:
     - alias: imgproxy
       condition: imgproxy.enabled
@@ -903,12 +903,12 @@ entries:
       repository: https://charts.bitnami.com/bitnami
       version: 11.1.*
     description: A Helm chart for Kavach
-    digest: 68a8d0012da9c1e03f1933feca1409a6d11a2312161cbd65debfd4259fb9b8d7
+    digest: 754dbf36bb5929a0fdfd6a1e55cf792f0778f5a9f9e2052718d1d3c6d254b631
     name: kavach
     type: application
     urls:
-    - https://github.com/factly/helm-charts/releases/download/kavach-0.7.10/kavach-0.7.10.tgz
-    version: 0.7.10
+    - https://github.com/factly/helm-charts/releases/download/kavach-0.7.11/kavach-0.7.11.tgz
+    version: 0.7.11
   - apiVersion: v2
     appVersion: 0.20.0
     created: "2022-03-21T06:30:07.095407706Z"
