@@ -181,19 +181,17 @@ web:
     targetMemoryUtilizationPercentage: 80
 
   ## Environment variables to pass to kavach web
-  env: {}
-    # - name: PUBLIC_URL
-    #   value: "https://kavach.factly.org"
-    # - name: REACT_APP_KAVACH_TITLE
-    #   value: "NEDC"
-    # - name: REACT_APP_COMPANION_URL
-    #   value: "https://companion.factly.org"
-    # - name: REACT_APP_API_URL
-    #   value: "https://kavach-server.factly.org"      
-    # - name: REACT_APP_KRATOS_PUBLIC_URL
-    #   value: "https://kratos.factly.org"
-    # - name: REACT_APP_LOGO_URL
-    #   value: "https://storage.googleapis.com/kavach/nedc-logo.png"
+  env:
+    - name: REACT_APP_KAVACH_TITLE
+      value: "NEDC"
+    - name: REACT_APP_COMPANION_URL
+      value: "https://companion.example.com"
+    - name: REACT_APP_API_URL
+      value: "https://kavach-server.factly.org"      
+    - name: REACT_APP_KRATOS_PUBLIC_URL
+      value: "https://kratos.factly.org"
+    - name: REACT_APP_LOGO_URL
+      value: "https://link-to-your-logo.png"
 
   serviceAccount:
     # Specifies whether a service account should be created
