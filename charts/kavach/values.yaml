@@ -41,7 +41,7 @@ server:
   autoMigrate: false
 
   ## Environment variables to pass to kavach Server
-  env: {}
+  env: []
     # Setup IMGPROXY usage within the cluster
     # - name: KAVACH_IMAGEPROXY_URL
     #   value: "https://images.factly.org"
@@ -181,7 +181,7 @@ web:
     targetMemoryUtilizationPercentage: 80
 
   ## Environment variables to pass to kavach web
-  env: {}
+  env: []
     # - name: REACT_APP_KAVACH_TITLE
     #   value: "Kavach"
     # - name: REACT_APP_COMPANION_URL
