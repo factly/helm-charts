@@ -89,24 +89,24 @@ spec:
               containerPort: {{ .Values.server.metrics.service.port }}
               protocol: TCP   
             {{- end }}
-          livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.server.service.port }}
-            initialDelaySeconds: {{ .Values.server.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.server.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.server.livenessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.server.livenessProbe.successThreshold }}
-            failureThreshold: {{ .Values.server.livenessProbe.failureThreshold }}             
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.server.service.port }}
-            initialDelaySeconds: {{ .Values.server.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.server.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.server.readinessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.server.readinessProbe.successThreshold }}
-            failureThreshold: {{ .Values.server.readinessProbe.failureThreshold }}             
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: {{ .Values.server.service.port }}
+          #   initialDelaySeconds: {{ .Values.server.livenessProbe.initialDelaySeconds }}
+          #   periodSeconds: {{ .Values.server.livenessProbe.periodSeconds }}
+          #   timeoutSeconds: {{ .Values.server.livenessProbe.timeoutSeconds }}
+          #   successThreshold: {{ .Values.server.livenessProbe.successThreshold }}
+          #   failureThreshold: {{ .Values.server.livenessProbe.failureThreshold }}             
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: {{ .Values.server.service.port }}
+          #   initialDelaySeconds: {{ .Values.server.readinessProbe.initialDelaySeconds }}
+          #   periodSeconds: {{ .Values.server.readinessProbe.periodSeconds }}
+          #   timeoutSeconds: {{ .Values.server.readinessProbe.timeoutSeconds }}
+          #   successThreshold: {{ .Values.server.readinessProbe.successThreshold }}
+          #   failureThreshold: {{ .Values.server.readinessProbe.failureThreshold }}             
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
