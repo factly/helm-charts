@@ -365,7 +365,7 @@ studio:
     targetMemoryUtilizationPercentage: 80
 
   ## Environment variables to pass to Dega studio
-  env: {}
+  env: []
 
   serviceAccount:
     # Specifies whether a service account should be created

@@ -13,8 +13,6 @@ metadata:
   {{- end }}
 data:
   config.js: |-
-    window.REACT_APP_KRATOS_PUBLIC_URL = "https://kratos.factly.org";
-    window.REACT_APP_API_URL = "https://dega-server.factly.org";
-    window.REACT_APP_COMPANION_URL = "https://companion.factly.org";
-    window.PUBLIC_URL = "https://dega.factly.org";
-    window.REACT_APP_KAVACH_PUBLIC_URL = 'https://kavach.factly.org';
+    {{- range $key, $value := .Values.studio.env }}
+    window.{{ $value.name }} = {{ $value.value | quote}}
+    {{- end }}
