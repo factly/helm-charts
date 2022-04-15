@@ -1993,6 +1993,25 @@ entries:
     version: 0.1.0
   meilisearch:
   - apiVersion: v2
+    appVersion: v0.27.0rc1
+    created: "2022-04-15T10:24:23.002097084Z"
+    description: Meilisearch is an open source, blazingly fast and hyper relevant search-engine that will improve your search experience.
+    digest: c18b98492df603b32c90e8bc8d46835bd42c75f17bbec14229610b14bd24c501
+    home: https://github.com/meilisearch/meilisearch
+    keywords:
+    - meilisearch
+    - search
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: meilisearch
+    sources:
+    - https://github.com/meilisearch/meilisearch
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/meilisearch-0.3.3/meilisearch-0.3.3.tgz
+    version: 0.3.3
+  - apiVersion: v2
     appVersion: v0.21.0rc4
     created: "2021-08-11T20:00:50.403614108Z"
     description: Meilisearch is an open source, blazingly fast and hyper relevant search-engine that will improve your search experience.
