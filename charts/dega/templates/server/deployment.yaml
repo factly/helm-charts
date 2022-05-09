@@ -50,7 +50,7 @@ spec:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
             - name: dega-server-data
-              mountPath: ./data   
+              mountPath: ./app/data   
         {{- end }}
         {{- if .Values.server.createSuperOrg}}
         - name: {{ .Values.server.name }}-create-super-org
@@ -67,7 +67,7 @@ spec:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
             - name: dega-server-data
-              mountPath: ./data
+              mountPath: ./app/data
         {{- end }}        
       {{- end }}
       containers:
@@ -111,9 +111,9 @@ spec:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
             - name: dega-server-data
-              mountPath: ./data
+              mountPath: ./app/data
             - name: dega-server-web
-              mountPath: ./web/templates          
+              mountPath: ./app/web/templates          
       volumes:
         - name: dega-server-data
           configMap:
