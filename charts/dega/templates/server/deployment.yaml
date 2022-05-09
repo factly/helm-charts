@@ -113,7 +113,7 @@ spec:
             - name: dega-server-data
               mountPath: ./app/data
             - name: dega-server-web
-              mountPath: ./app/web/templates          
+              mountPath: ./web/templates          
       volumes:
         - name: dega-server-data
           configMap:
