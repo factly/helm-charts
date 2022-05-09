@@ -41,7 +41,7 @@ api:
     targetMemoryUtilizationPercentage: 80
 
   ## Environment variables to pass to Dega API
-  env: {}
+  env: []
     # - name: DEGA_API_KAVACH_URL
     #   value: "http://kavach-server.dega.svc.cluster.local:8000"
     # - name: DEGA_API_DATABASE_HOST
@@ -199,7 +199,7 @@ server:
   createSuperOrg: false    
 
   ## Environment variables to pass to Dega Server
-  env: {}
+  env: []
     # - name: DEGA_MODE
     #   value: "development"
     # - name: DEGA_KAVACH_URL
