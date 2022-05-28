@@ -225,7 +225,15 @@ studio:
     targetMemoryUtilizationPercentage: 80
 
   ## Environment variables to pass to mande studio
-  env: {}
+  env:
+    - name: REACT_APP_KRATOS_PUBLIC_URL
+      value: "https://kratos.factly.in"
+    - name: REACT_APP_API_URL
+      value: "https://mande-server.factly.in/admin"
+    - name: PUBLIC_URL
+      value: "https://mande.factly.in"
+    - name: REACT_APP_COMPANION_URL
+      value: "https://companion.factly.in"
 
   serviceAccount:
     # Specifies whether a service account should be created
