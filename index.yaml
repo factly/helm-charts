@@ -1001,6 +1001,17 @@ entries:
     urls:
     - https://github.com/factly/helm-charts/releases/download/hukz-0.1.0/hukz-0.1.0.tgz
     version: 0.1.0
+  hunting:
+  - apiVersion: v2
+    appVersion: 0.0.2
+    created: "2022-05-30T04:31:08.86862065Z"
+    description: A Helm chart to install Hunting Server
+    digest: b8a6de9d30326e5e6778e1df002d1aa12c2da536448239b6308de3e7811caa6d
+    name: hunting
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/hunting-0.1.1/hunting-0.1.1.tgz
+    version: 0.1.1
   imgproxy:
   - apiVersion: v2
     appVersion: v3.3.2
