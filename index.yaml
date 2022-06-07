@@ -1004,6 +1004,16 @@ entries:
   hunting:
   - apiVersion: v2
     appVersion: 0.1.3
+    created: "2022-06-07T03:07:28.313395592Z"
+    description: A Helm chart to install Hunting Server
+    digest: 377ba137cc9ea64e38b55ac86a1e430b0945e9caf750537cfb6b3560f82ee95c
+    name: hunting
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/hunting-0.3.5/hunting-0.3.5.tgz
+    version: 0.3.5
+  - apiVersion: v2
+    appVersion: 0.1.3
     created: "2022-06-07T03:05:20.178569851Z"
     description: A Helm chart to install Hunting Server
     digest: 71a5bd86c17e94470945c19f87f73604f6ed281fa612e2a1c873e54bc587465a
