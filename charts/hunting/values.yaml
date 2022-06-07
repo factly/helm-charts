@@ -84,21 +84,22 @@ service:
   port: 8000
 
 ingress:
-  enabled: false
+  enabled: true
   className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-cloudflare"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
   hosts:
-    - host: chart-example.local
+    - host: hunting-server.factly.in
       paths:
         - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
+          pathType: ImplementationSpecific       
+  tls:
+    - secretName: hunting-server-factly-in-tls
+      hosts:
+        - hunting-server.factly.in
 resources: 
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
