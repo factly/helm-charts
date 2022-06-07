@@ -32,8 +32,8 @@ spec:
           args:
             - uvicorn
             - app.main:app
-            # - --host
-            # - 0.0.0.0      
+            - --host
+            - 0.0.0.0      
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
