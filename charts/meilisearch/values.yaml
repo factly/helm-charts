@@ -75,7 +75,7 @@ service:
   labels: {}
 
 ingress:
-  enabled: false
+  enabled: true
   labels: {}
   annotations: {}
     # kubernetes.io/ingress.class: nginx
@@ -86,8 +86,10 @@ ingress:
   ## Secrets must be manually created in the namespace
   ##
   hosts:
-    - change-to-your-domain.com
-    - www.change-to-your-domain.com
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
   paths:
     - /
   extraPaths: []
@@ -98,8 +100,9 @@ ingress:
         - www.change-to-your-domain.com
 
 persistence:
-  enabled: false
-  accessMode: ReadWriteOnce
+  enabled: true
+  accessModes: 
+    - ReadWriteOnce
   ## Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
