@@ -69,7 +69,8 @@ spec:
           {{- if .Values.persistence.enabled }}
           volumeMounts:
             - name: data
-              mountPath: /meili_data/data.ms
+              # mountPath: /meili_data/data.ms
+              mountPath: {{- if .Values.persistence.mountPath }}
           {{- end }}            
       {{- with .Values.nodeSelector }}
       nodeSelector:

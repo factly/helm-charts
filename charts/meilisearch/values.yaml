@@ -111,6 +111,9 @@ persistence:
   ##   GKE, AWS & OpenStack)
   ##
   # storageClass: "-"
+  ## The path the volume will be mounted at
+  ## Note: useful when working around the following error: https://github.com/meilisearch/meilisearch/issues/2503
+  mountPath: /meili_data/data.ms
   size: 20Gi
   annotations: {}
   labels: {}   
