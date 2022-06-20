@@ -70,7 +70,7 @@ spec:
           volumeMounts:
             - name: data
               # mountPath: /meili_data/data.ms
-              mountPath: {{- if .Values.persistence.mountPath }}
+              mountPath: {{.Values.persistence.mountPath }}
           {{- end }}            
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -110,4 +110,4 @@ spec:
         {{- if .Values.persistence.storageClass }}
         storageClassName: {{ .Values.persistence.storageClass | quote }}
         {{- end}}
-  {{- end}}        
+  {{- end}}
