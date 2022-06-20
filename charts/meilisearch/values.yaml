@@ -75,7 +75,7 @@ service:
   labels: {}
 
 ingress:
-  enabled: true
+  enabled: false
   labels: {}
   annotations: {}
     # kubernetes.io/ingress.class: nginx
