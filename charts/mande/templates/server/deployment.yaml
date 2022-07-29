@@ -50,7 +50,7 @@ spec:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
             - name: mande-invoice-template
-              mountPath: ./templates   
+              mountPath: ./app/templates   
         {{- end }}
         {{- if .Values.server.createSuperOrg}}
         - name: {{ .Values.server.name }}-create-super-org
@@ -67,7 +67,7 @@ spec:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
             - name: mande-invoice-template
-              mountPath: ./templates
+              mountPath: ./app/templates
         {{- end }}        
       {{- end }}
       containers:
@@ -114,7 +114,7 @@ spec:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
             - name: mande-invoice-template
-              mountPath: ./templates          
+              mountPath: ./app/templates          
       volumes:
         - name: mande-invoice-template
           configMap:
