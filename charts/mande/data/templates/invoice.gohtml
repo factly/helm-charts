@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link
+			href="https://fonts.googleapis.com/css?family=Inter:300,400,500,700"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<style type="text/css">
+			@import url(https://fonts.googleapis.com/css?family=Inter:300,400,500,700);
+		</style>
+		<style type="text/css">
+			th {
+				text-align: left;
+			}
+
+			@media only screen and (min-width: 480px) {
+				.mj-column-per-100 {
+					width: 100% !important;
+					max-width: 100%;
+				}
+
+				.mj-column-per-33-333333333333336 {
+					width: 33.333333333333336% !important;
+					max-width: 33.333333333333336%;
+				}
+
+				.mj-column-per-50 {
+					width: 50% !important;
+					max-width: 50%;
+				}
+
+				.mj-column-per-65 {
+					width: 65% !important;
+					max-width: 65%;
+				}
+
+				.mj-column-per-35 {
+					width: 35% !important;
+					max-width: 35%;
+				}
+			}
+		</style>
+		<style media="screen and (min-width:480px)">
+			.moz-text-html .mj-column-per-100 {
+				width: 100% !important;
+				max-width: 100%;
+			}
+
+			.moz-text-html .mj-column-per-33-333333333333336 {
+				width: 33.333333333333336% !important;
+				max-width: 33.333333333333336%;
+			}
+
+			.moz-text-html .mj-column-per-50 {
+				width: 50% !important;
+				max-width: 50%;
+			}
+		</style>
+		<style type="text/css">
+			@media only screen and (max-width: 480px) {
+				table.mj-full-width-mobile {
+					width: 100% !important;
+				}
+
+				td.mj-full-width-mobile {
+					width: auto !important;
+				}
+			}
+		</style>
+		<style type="text/css">
+			*,
+			*:before,
+			*:after {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				word-spacing: normal;
+				font-size: 14px;
+				font-family: Inter, sans-serif;
+				-webkit-text-size-adjust: 100%;
+				-ms-text-size-adjust: 100%;
+			}
+
+			table,
+			td {
+				border-collapse: collapse;
+				mso-table-lspace: 0pt;
+				mso-table-rspace: 0pt;
+			}
+
+			img {
+				border: 0;
+				height: auto;
+				line-height: 100%;
+				outline: none;
+				text-decoration: none;
+				-ms-interpolation-mode: bicubic;
+			}
+
+			p {
+				display: block;
+				margin: 13px 0;
+			}
+
+			.header {
+				background-color: #9b0046;
+				padding: 1rem;
+				margin-bottom: 1rem;
+			}
+
+			.info p {
+				margin: 0.25rem 0;
+			}
+
+			.content thead {
+				border-bottom: 2px solid #000;
+			}
+
+			.content thead th {
+				padding: 16px;
+			}
+
+			.content tbody tr {
+				border-bottom: 1px solid #000;
+			}
+
+			.content td {
+				padding: 16px;
+			}
+
+			.content .summary-table tbody {
+				border-bottom: 1px solid #000;
+			}
+
+			.no-border {
+				border-bottom: none !important;
+			}
+
+			.footer {
+				text-align: center;
+				border-bottom: 2px solid red;
+				margin-bottom: 2rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div>
+			<div
+				class="header"
+				style="padding: 16px; margin: auto; text-align: center"
+			>
+				<a href="/" style="color: white; text-decoration: none; display: block">
+					<img
+						src="https://storage.googleapis.com/mande.factly.in/logo/datafulLogo.png"
+						alt=""
+						style="height: 60px; display: inline-block"
+					/>
+				</a>
+				<a
+					href="www.dataful.in"
+					style="color: white; text-decoration: none; display: block"
+					>www.dataful.in</a
+				>
+			</div>
+			<div class="info">
+				<div style="max-width: 600px; margin: 0 auto; padding: 1rem">
+					<table>
+						<tbody>
+							<tr>
+								<td class="mj-column-per-65">
+									<h2>Invoice</h2>
+								</td>
+								<td class="mj-column-per-35">
+									<img style="height: 24px" src="https://storage.googleapis.com/mande.factly.in/logo/logo.png" alt="" />
+								</td>
+							</tr>
+							<tr>
+								<td class="mj-column-per-65">
+									<p><b>INVOICE DATE: </b>{{formatDate .InvoiceDate}}</p>
+									<p><b>INVOICE NUMBER: </b>{{.InvoiceNumber}}</p>
+									<p><b>PAYMENT MODE: </b>{{.PaymentMode}}</p>
+									<p><b>CURRENCY: </b>Indian Rupee</p>
+									<p><b>HSN: </b>998399</p>
+                                    {{if .GSTIN}}
+                                        <p><b>GSTIN: </b>{{.GSTIN}}</p>
+                                    {{end}}
+									
+									<p></p>
+								</td>
+
+								<td class="mj-column-per-35">
+									<p>
+										<b>Address:</b> <br />
+										<b>FACTLY MEDIA & RESEARCH</b> <br />
+
+										103, Divya Apartments,<br />8-3-973/2, Srinagar <br />
+										Colony, Hyderabad <br />
+										Telangana -500073 India <br />
+										<b>PAN: </b> AAEFF5447J <br />
+										<b>GST ID: </b> 36AAEFF5447J1Z8 <br />
+										www.factly.in
+									</p>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="content" style="background-color: #f2f2f2">
+				<div style="max-width: 600px; margin: 0 auto; padding: 1rem">
+					<p><b> ACCOUNT NAME:</b>{{.UserName}}</p>
+					<p><b> BILLING ADDRESS:</b></p>
+					<p>{{.Address}}</p>
+					<table style="width: 100%">
+						<thead>
+							<tr>
+								<th>Purchases</th>
+								<th>Validity</th>
+								<th>Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="color: #9b0046"><b>{{.PlanName}}</b></td>
+								<td>{{formatDate .StartDate}} – {{formatDate .EndDate}}</td>
+								<td>₹ {{.BaseAmount}}</td>
+							</tr>
+                            {{if checkExtraLicenses .ExtraLicenses}}
+							<tr>
+								<td>
+									Extra Licenses <br />
+									(Quantity - {{.ExtraLicenses}}) <br />
+									(Cost – {{.ExtraLicenses}} x {{.ExtraLicensePrice}})
+								</td>
+								<td>{{formatDate .StartDate}} – {{formatDate .EndDate}}</td>
+								<td>₹ {{.ExtraLicenseAmount}}</td>
+							</tr>
+                            {{end}}
+							<tr class="no-border">
+								<td colspan="3" style="padding: 16px 0">
+									<div style="margin-left: auto" class="mj-column-per-50">
+										<table class="summary-table" style="width: 100%">
+											<tbody>
+												<tr class="no-border">
+													<td><b>Subtotal:</b></td>
+													<td>₹ {{.SubTotal}}</td>
+												</tr>
+												<tr class="no-border">
+													<td><b>GST: ({{ if .IsIGST}}{{"IGST"}} {{else}} {{"CGST + SGST"}} {{end}})</b></td>
+													<td>₹ {{.TaxAmount}}</td>
+												</tr>
+											</tbody>
+											<tbody>
+												<tr class="no-border">
+													<td><b>Total:</b></td>
+													<td>₹ {{.Total}}</td>
+												</tr>
+											</tbody>
+											<tbody class="no-border">
+												<tr class="no-border">
+													<td style="color: #9b0046"><b>AMOUNT PAID:</b></td>
+													<td>₹ {{.Total}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="footer">
+				<p>
+					<b>For support:</b> Please contact us at
+					<a href="mailto:dataful@factly.in">dataful@factly.in</a>
+				</p>
+				<p>
+					<b>Terms and Conditions</b> can be read at
+					<a href="www.dataful.in/terms-and-conditions"
+						>www.dataful.in/terms-and-conditions</a
+					>
+				</p>
+			</div>
+		</div>
+	</body>
+</html>

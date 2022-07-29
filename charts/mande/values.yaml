@@ -26,7 +26,7 @@ server:
   image:
     repository: factly/mande-server
     pullPolicy: IfNotPresent
-    tag: "0.1.0"
+    tag: ""
 
   # imagePullSecrets: []
 

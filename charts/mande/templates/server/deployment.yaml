@@ -48,9 +48,9 @@ spec:
           {{- end }}      
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
-          # volumeMounts:
-          #   - name: dega-server-data
-          #     mountPath: ./data   
+          volumeMounts:
+            - name: mande-invoice-template
+              mountPath: ./templates   
         {{- end }}
         {{- if .Values.server.createSuperOrg}}
         - name: {{ .Values.server.name }}-create-super-org
@@ -65,9 +65,9 @@ spec:
           {{- end }}      
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
-          # volumeMounts:
-          #   - name: dega-server-data
-          #     mountPath: ./data
+          volumeMounts:
+            - name: mande-invoice-template
+              mountPath: ./templates
         {{- end }}        
       {{- end }}
       containers:
@@ -112,6 +112,13 @@ spec:
             failureThreshold: {{ .Values.server.readinessProbe.failureThreshold }}             
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
+          volumeMounts:
+            - name: mande-invoice-template
+              mountPath: ./templates          
+      volumes:
+        - name: mande-invoice-template
+          configMap:
+            name: mande-invoice-template
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
