@@ -2178,6 +2178,19 @@ entries:
     version: 0.1.0
   mande:
   - apiVersion: v2
+    appVersion: 0.14.2
+    created: "2022-07-29T11:09:06.638042924Z"
+    description: Open-source application to develop data portals to publish datasets in various formats. Developed in Go and React.
+    digest: 0bcb3bb186a11271076bbad5d4578841152c0976207cc52c643d17e049d50718
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: mande
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/mande-0.4.0/mande-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
     appVersion: 0.6.4
     created: "2022-05-28T04:19:19.456121086Z"
     description: Open-source application to develop data portals to publish datasets in various formats. Developed in Go and React.
