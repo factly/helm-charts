@@ -44,7 +44,18 @@ spec:
           {{- if .Values.server.env }}
           env:
           {{- toYaml .Values.server.env | nindent 12 }}
-          {{- end }}          
+          {{- end }}     
+        {{- if .Values.server.createSuperOrg}}
+        - name: {{ .Values.server.name }}-create-super-org
+          securityContext:
+            {{- toYaml .Values.server.securityContext | nindent 12 }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          args: ["create-super-org"]
+          {{- if .Values.server.env }}
+          env:
+          {{- toYaml .Values.server.env | nindent 12 }}
+          {{- end }}                 
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
       {{- end }}

@@ -39,6 +39,7 @@ server:
     targetMemoryUtilizationPercentage: 80
 
   autoMigrate: false
+  createSuperOrg: false
 
   ## Environment variables to pass to kavach Server
   env: []
