@@ -1290,6 +1290,32 @@ entries:
   kavach:
   - apiVersion: v2
     appVersion: 0.22.3
+    created: "2022-08-16T15:44:56.671719236Z"
+    dependencies:
+    - alias: imgproxy
+      condition: imgproxy.enabled
+      name: imgproxy
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://helm.min.io/
+      version: 8.0.*
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.*
+    description: A Helm chart for Kavach
+    digest: 14e2bba27b160798049fa62e0478bb9b308ee192651b16b6f17cbf6d0e68bccb
+    name: kavach
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/kavach-0.7.16/kavach-0.7.16.tgz
+    version: 0.7.16
+  - apiVersion: v2
+    appVersion: 0.22.3
     created: "2022-05-28T04:19:19.305896888Z"
     dependencies:
     - alias: imgproxy
