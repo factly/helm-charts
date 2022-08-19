@@ -47,7 +47,10 @@ spec:
           {{- toYaml .Values.server.env | nindent 12 }}
           {{- end }}     
           resources:
-            {{- toYaml .Values.server.resources | nindent 12 }}   
+            {{- toYaml .Values.server.resources | nindent 12 }}  
+          volumeMounts:
+            - name: kavach-server-data
+              mountPath: ./app/data                   
         {{- end }}                   
         {{- if .Values.server.createSuperOrg}}
         - name: {{ .Values.server.name }}-create-super-org
@@ -62,6 +65,9 @@ spec:
           {{- end }}                 
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
+          volumeMounts:
+            - name: kavach-server-data
+              mountPath: ./app/data                  
         {{- end }}
       {{- end }}
       containers:
@@ -103,6 +109,13 @@ spec:
             failureThreshold: {{ .Values.server.readinessProbe.failureThreshold }}             
           resources:
             {{- toYaml .Values.server.resources | nindent 12 }}
+          volumeMounts:
+            - name: kavach-server-data
+              mountPath: ./app/data            
+      volumes:
+        - name: kavach-server-data
+          configMap:
+            name: kavach-server-data             
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kavach-server-data
+  namespace: {{ template "kavach.namespace" . }}
+  labels:
+    {{- include "server.labels" . | nindent 4 }}
+  {{- if .Values.server.configAnnotations }}
+  annotations:
+  {{- range $key, $value := .Values.server.configAnnotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+data:
+  applications.json:
+  {{ .Values.server.defaultApplications | indent 2 }}
