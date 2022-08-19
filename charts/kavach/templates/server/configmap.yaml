@@ -13,4 +13,4 @@ metadata:
   {{- end }}
 data:
   applications.json:
-  {{ .Values.server.defaultApplications | indent 2 }}
+  {{ .Values.server.defaultApplications | indent 4 }}
