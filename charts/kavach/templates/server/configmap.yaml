@@ -12,5 +12,4 @@ metadata:
   {{- end }}
   {{- end }}
 data:
-  applications.json:
-  {{ .Values.server.defaultApplications | indent 4 }}
+  {{- (.Files.Glob "data/server/**.json").AsConfig | nindent 2 }}
