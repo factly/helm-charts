@@ -73,6 +73,8 @@ server:
     # - name: KAVACH_DOMAIN_NAME
     #   value: "https://kavach.factly.org"     
 
+  ## TODO: THIS IS NOT IMPLEMENTED YET 
+  ## CURRENTLY THIS IS SUPPORTED BY THE FILES IN data/server/applications.json
   defaultApplications: ""
   ## ConfigMap containing the default applications
   ## For Example:
