@@ -1,12 +1,24 @@
 dependencies:
 - name: imgproxy
   repository: https://factly.github.io/helm-charts
-  version: 0.1.4
+  version: 0.2.6
 - name: minio
   repository: https://helm.min.io/
   version: 8.0.10
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.1.9
-digest: sha256:4e593be36e99090694f463de6bf4ed0e8dc580dbeccbb3433e33ee9ca4cc2ffe
-generated: "2022-03-19T13:53:56.958641-05:00"
+  version: 11.1.29
+- name: kratos
+  repository: https://k8s.ory.sh/helm/charts
+  version: 0.25.3
+- name: oathkeeper
+  repository: https://k8s.ory.sh/helm/charts
+  version: 0.22.2
+- name: keto
+  repository: https://k8s.ory.sh/helm/charts
+  version: 0.25.3
+- name: companion
+  repository: file://../companion
+  version: 0.1.7
+digest: sha256:1d6d4a9835cf5d837ff6189a5e0aee34747d4e597a332e3adf1ef96b8da6354e
+generated: "2022-09-15T02:15:22.434027-05:00"

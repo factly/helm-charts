@@ -83,25 +83,13 @@ server:
   #     {
   #         "name": "Dega",
   #         "slug": "dega",
-  #         "url": "https://dega.factly.in/",
+  #         "url": "https://dega.example.com/",
   #         "is_default": true
   #     },
   #     {
   #         "name": "Dataful",
   #         "slug": "dataful",
-  #         "url": "https://dataful.factly.in/",
-  #         "is_default": true
-  #     },
-  #     {
-  #         "name": "Resource Pool",
-  #         "slug": "resource-pool",
-  #         "url": "https://resource-pool.factly.in/",
-  #         "is_default": true
-  #     },
-  #     {
-  #         "name": "Sach",
-  #         "slug": "sach",
-  #         "url": "https://sach.factly.in/",
+  #         "url": "https://dataful.example.com/",
   #         "is_default": true
   #     }
   #   ]  
@@ -292,9 +280,93 @@ web:
 
   affinity: {}
 
+# Setup the default authentication parameters (postgesPassword which is set to `postgres`)
+# Change the `PGPASSWORD` accordingly in the `primary.initdb.scripts.my_init_script.sh`
 postgresql:
   enabled: false
 
+  image:
+    registry: docker.io
+    repository: bitnami/postgresql
+    tag: 14.2.0-debian-10-r33
+
+  ## Authentication parameters
+  ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#setting-the-root-password-on-first-run
+  ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#creating-a-database-on-first-run
+  ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#creating-a-database-user-on-first-run
+  ##
+  auth:
+    ## @param auth.enablePostgresUser Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user
+    ##
+    enablePostgresUser: true
+
+    ## @param auth.existingSecret Name of existing secret to use for PostgreSQL credentials
+    ## `auth.postgresPassword`, `auth.password`, and `auth.replicationPassword` will be ignored and picked up from this secret
+    ## The secret must contain the keys `postgres-password` (which is the password for "postgres" admin user),
+    ## `password` (which is the password for the custom user to create when `auth.username` is set),
+    ## and `replication-password` (which is the password for replication user).
+    ## The secret might also contains the key `ldap-password` if LDAP is enabled. `ldap.bind_password` will be ignored and
+    ## picked from this secret in this case.
+    ## The value is evaluated as a template.
+    ##
+    postgresPassword: "postgres"
+    username: ""
+    password: ""
+    database: ""
+    existingSecret: ""    
+
+  ## @param architecture PostgreSQL architecture (`standalone` or `replication`)
+  ##
+  architecture: standalone
+
+  ## @section PostgreSQL Primary parameters
+  ##
+  primary:
+
+    ## Initdb configuration
+    ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#specifying-initdb-arguments
+    ##
+    initdb:
+      scripts:
+        my_init_script.sh: |
+          #!/bin/bash
+
+          set -e
+          set -u
+
+          POSTGRES_MULTIPLE_DATABASES="kratos,keto,kavach,dega"
+          POSTGRES_USER="postgres"
+          PGPASSWORD="postgres"
+
+          function create_user_and_database() {
+            local database=$1
+            echo "Creating user and database '$database'"
+            psql -v ON_ERROR_STOP=1 <<-EOSQL
+                CREATE USER $database;
+                CREATE DATABASE $database;
+                GRANT ALL PRIVILEGES ON DATABASE $database TO $database;
+          EOSQL
+          }
+
+          if [ -n "$POSTGRES_MULTIPLE_DATABASES" ]; then
+            echo "Multiple database creation requested: $POSTGRES_MULTIPLE_DATABASES"
+            for db in $(echo $POSTGRES_MULTIPLE_DATABASES | tr ',' ' '); do
+              create_user_and_database $db
+            done
+            echo "Multiple databases created"
+          fi    
+
+    ## PostgreSQL Primary resource requests and limits
+    ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
+    ## @param primary.resources.limits The resources limits for the PostgreSQL Primary containers
+    ## @param primary.resources.requests.memory The requested memory for the PostgreSQL Primary containers
+    ## @param primary.resources.requests.cpu The requested cpu for the PostgreSQL Primary containers
+    ##
+    resources:
+      limits: {}
+      requests:
+        memory: 256Mi
+        cpu: 250m
 
 minio:
   enabled: false
@@ -443,75 +515,451 @@ minio:
 imgproxy:
   enabled: false
 
+# If enabled, `kratos.kratos.config.dsn` needs to be configured appropriately
+# `kratos.kratos.config.dsn` needs to be set to the database url appropriately
 kratos:
-  enabled: false
-
-oathkeeper:
-  enabled: false
-
-keto:
   enabled: false
 
   replicaCount: 1
 
   image:
+    repository: oryd/kratos
+    tag: v0.10.1
+
+  nameOverride: "kratos"
+  fullnameOverride: "kratos"
+
+  secret:
+    # -- switch to false to prevent creating the secret
+    enabled: true
+    # -- Provide custom name of existing secret, or custom name of secret to be created
+    nameOverride: "kratos"
+    # nameOverride: "myCustomSecret"
+    # -- Annotations to be added to secret. Annotations are added only when secret is being created. Existing secret will not be modified.
+    secretAnnotations:
+      # Create the secret before installation, and only then. This saves the secret from regenerating during an upgrade
+      # pre-upgrade is needed to upgrade from 0.7.0 to newer. Can be deleted afterwards.
+      helm.sh/hook-weight: "0"
+      helm.sh/hook: "pre-install, pre-upgrade"
+      helm.sh/hook-delete-policy: "before-hook-creation"
+      helm.sh/resource-policy: "keep"
+
+  kratos:
+    development: false
+    # -- Enable the initialization job. Required to work with a DB
+
+    # -- Enables database migration
+    automigration:
+      enabled: true
+      # -- Configure the way to execute database migration. Possible values: job, initContainer
+      # When set to job, the migration will be executed as a job on release or upgrade.
+      # When set to initContainer, the migration will be executed when kratos pod is created
+      # Defaults to job
+      type: job
+      # -- Ability to override the entrypoint of the automigration container
+      # (e.g. to source dynamic secrets or export environment dynamic variables)
+      customCommand: []
+      # -- Ability to override arguments of the entrypoint. Can be used in-depended of customCommand 
+      # eg:
+      # - sleep 5;
+      #   - kratos
+      customArgs: []
+
+    config:
+      dsn: postgres://postgres:postgres@kavach-postgresql-0.default.svc.cluster.local:5432/kratos
+
+      serve:
+        public:
+          base_url: https://kratos.example.com
+          cors:
+            enabled: true
+            allowed_origins:
+              - "https://example.com"
+              - "https://*.example.com"
+              - "https://www.*.example.com"
+            allowed_methods:
+              - POST
+              - GET
+              - PUT
+              - PATCH
+              - DELETE
+            allowed_headers:
+              - Authorization
+              - Content-Type
+              - X-Session-Token
+              - Cookie
+            exposed_headers:
+              - Content-Type
+              - Set-Cookie
+            allow_credentials: true
+            debug: true
+        admin:
+          base_url: http://kratos-admin.dega.svc.cluster.local:80/
+
+      selfservice:
+        default_browser_return_url: https://login.example.com/organisation
+        allowed_return_urls:
+          - https://example.com
+          - http://example.com        
+          - https://dega-server.example.com
+          - https://dega.example.com
+          - http://dega.example.com
+          - https://login.example.com
+          - http://login.example.com
+          - https://kavach-server.example.com
+        methods:
+          password:
+            enabled: true
+          oidc:
+            enabled: true
+            config:
+              providers: []
+
+          link:
+            enabled: true
+            config:
+              lifespan: 15m
+          totp:
+            enabled: true
+            config:
+              issuer: example.com
+
+        flows:
+          error:
+            ui_url: https://login.example.com/error
+          settings:
+            ui_url: https://login.example.com/password
+            privileged_session_max_age: 15m
+            required_aal: highest_available
+          logout:
+            after:
+              default_browser_return_url: https://login.example.com/auth/login
+          login:
+            ui_url: https://login.example.com/auth/login
+            lifespan: 10m
+            # after:
+            #   password:
+            #     hooks:
+            #       - hook: require_verified_address
+          # verification:
+          #   enabled: true
+          #   ui_url: https://login.example.com/auth/verification
+          registration:
+            after:
+              default_browser_return_url: https://login.example.com/auth/login
+            lifespan: 10m
+            ui_url: https://login.example.com/auth/registration
+          recovery:
+            enabled: true
+            ui_url: https://login.example.com/auth/recovery
+
+      log:
+        level: debug
+
+      session:
+        cookie:
+          domain: example.com
+          # same_site: Lax
+          # path: /
+
+      secrets:
+        default:
+          - ipsumipsumipsumi
+        cookie:
+          - ipsumipsumipsumi
+        cipher:
+          - ipsumipsumipsumipsumipsumipsumip          
+
+      hashers:
+        # argon2:
+        #   parallelism: 1
+        #   memory: 131072
+        #   iterations: 2
+        #   salt_length: 16
+        #   key_length: 16
+        bcrypt:
+          cost: 12
+
+      identity:
+        default_schema_id: default
+        schemas:
+          - id: default
+            url: https://storage.googleapis.com/login-example-com/kratos/identity.traits.schema.json
+
+      courier:
+        smtp: 
+          connection_uri: smtps://foo:bar@my-mailserver:1234/?skip_ssl_verify=false
+          from_name: "Kavach"
+          from_address: kavach@example.com
+
+  ## -- Configuration options for the k8s deployment
+  deployment:
+    # -- Array of extra envs to be passed to the deployment. Kubernetes format is expected
+    # - name: FOO
+    #   value: BAR
+    # extraEnv:
+    #   - name: SELFSERVICE_METHODS_OIDC_CONFIG_PROVIDERS
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: kratos-oidc-providers
+    #         key: oidc-config.json
+
+    resources: {}
+      #  We usually recommend not to specify default resources and to leave this as a conscious
+      #  choice for the user. This also increases chances charts run on environments with little
+      #  resources, such as Minikube. If you do want to specify resources, uncomment the following
+      #  lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    #  limits:
+    #    cpu: 100m
+    #    memory: 128Mi
+    #  requests:
+    #    cpu: 100m
+    #  memory: 128Mi      
+
+# If enabled, `oathkeeper.oathkeeper.config` needs to be configured appropriately
+oathkeeper:
+  enabled: false
+
+  # Number of ORY Oathkeeper members
+  replicaCount: 1
+
+  image:
+    # ORY Oathkeeper version
+    tag: v0.38.4-beta.1
+
+  oathkeeper:
+    config:
+      log:
+        level: debug
+        format: json
+
+      serve:
+        proxy:
+          port: 4455
+          cors:
+            enabled: true
+            allowed_origins:
+              - "https://*.example.com"
+            allowed_methods:
+              - POST
+              - GET
+              - PUT
+              - PATCH
+              - DELETE
+            allowed_headers:
+              - Authorization
+              - Content-Type
+              - Cookie
+              - X-Session-Token
+              - X-User
+              - X-Space
+              - X-Organisation
+            exposed_headers:
+              - Content-Type
+              - Set-Cookie
+            allow_credentials: true
+            debug: true
+        api:
+          port: 4456
+
+      access_rules:
+        repositories:
+          - https://storage.googleapis.com/login-example-com/oathkeeper/access-rules/kavach-server.json
+          - https://storage.googleapis.com/login-example-com/oathkeeper/access-rules/kavach-web.json
+          - https://storage.googleapis.com/login-example-com/oathkeeper/access-rules/kratos.json
+          - https://storage.googleapis.com/login-example-com/oathkeeper/access-rules/dega-server.json
+          - https://storage.googleapis.com/login-example-com/oathkeeper/access-rules/dega-studio.json
+
+      errors:
+        fallback:
+          - json
+
+        handlers:
+          redirect:
+            enabled: true
+            config:
+              to: "https://login.example.com/auth/login"
+              when:
+                -
+                  error:
+                    - unauthorized
+                    - forbidden
+                  request:
+                    header:
+                      accept:
+                        - text/html
+          json:
+            enabled: true
+            config:
+              verbose: true
+
+
+      authenticators:
+
+        anonymous:
+          enabled: true
+          config:
+            subject: guest
+            
+        cookie_session:
+          enabled: true
+          config:
+            check_session_url: http://kratos-public.dega.svc.cluster.local:80/sessions/whoami
+            preserve_path: true
+            extra_from: "@this"
+            subject_from: "identity.id"
+            only:
+              - ory_kratos_session
+
+        noop:
+          enabled: true
+
+      authorizers:
+        allow:
+          enabled: true
+        keto_engine_acp_ory:
+          enabled: true
+
+          config:
+            base_url: http://keto.dega.svc.cluster.local:4466/
+            required_action: ...
+            required_resource: ...
+            subject: ...
+            flavor: ...
+
+      mutators:
+        noop:
+          enabled: true
+
+        id_token:
+          enabled: true
+          config:
+            issuer_url: https://example.com/
+            jwks_url: https://storage.googleapis.com/login-example-com/oathkeeper/id_token.jwks.json
+            claims: |
+              {
+                "session": {{ .Extra | toJson }}
+              }
+              
+        header:
+          enabled: true
+          config:
+            headers:
+              X-Kratos: '{{ print .Subject }}'
+              
+        hydrator:
+          enabled: true
+          config:
+            api:
+              url: http://kavach-server.dega.svc.cluster.local:8000/users/checker
+              retry:
+                give_up_after: 2s
+                max_delay: 100ms
+            cache:
+              ttl: 60s
+
+  deployment:
+    resources: {}
+    #  We usually recommend not to specify default resources and to leave this as a conscious
+    #  choice for the user. This also increases chances charts run on environments with little
+    #  resources, such as Minikube. If you do want to specify resources, uncomment the following
+    #  lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+      # limits:
+      #   cpu: 1
+      #   memory: 4Gi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi              
+
+    # -- PodDistributionBudget configuration
+    pdb:
+      enabled: true
+      spec:
+        minAvailable: 1                
+
+# If enabled, `keto.keto.config` needs to be configured appropriately
+# If enabled, `keto.keto.config.dsn` needs to be set to the database url appropriately
+keto:
+  enabled: false
+
+  # Default values for keto.
+  # This is a YAML-formatted file.
+  # Declare variables to be passed into your templates.
+  # -- Number of replicas in deployment
+  replicaCount: 1
+
+  image:
+    # -- Ory KETO image
     repository: oryd/keto
+    # -- Default image pull policy
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    # -- Ory KETO version
+    tag: "v0.9.0"
 
-  imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
+  nameOverride: "keto"
+  fullnameOverride: "keto"
 
-  serviceAccount:
-    # Specifies whether a service account should be created
-    create: false
-    # Annotations to add to the service account
-    annotations: {}
-    # The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name: ""
+  # -- Secret management
+  secret:
+    # -- Switch to false to prevent creating the secret
+    enabled: true
+    # -- Provide custom name of existing secret, or custom name of secret to be created
+    nameOverride: "keto"
+    # nameOverride: "myCustomSecret"
+    # -- Annotations to be added to secret. Annotations are added only when secret is being created. Existing secret will not be modified.
+    secretAnnotations:
+      # Create the secret before installation, and only then. This saves the secret from regenerating during an upgrade
+      # pre-upgrade is needed to upgrade from 0.7.0 to newer. Can be deleted afterwards.
+      helm.sh/hook-weight: "0"
+      helm.sh/hook: "pre-install, pre-upgrade"
+      helm.sh/hook-delete-policy: "before-hook-creation"
+      helm.sh/resource-policy: "keep"
+    # -- switch to false to prevent checksum annotations being maintained and propogated to the pods
+    hashSumEnabled: true
 
-  podAnnotations: {}
-
-  podSecurityContext: {}
-    # fsGroup: 2000
-
-  securityContext: {}
-    # capabilities:
-    #   drop:
-    #   - ALL
-    # readOnlyRootFilesystem: true
-    # runAsNonRoot: true
-    # runAsUser: 1000
-
-  service:
-    type: ClusterIP
-    port: 4456
-
+  # -- Main application config.
   keto:
-    # https://www.ory.sh/keto/docs/reference/configuration
+    # -- Enables database migration
+    automigration:
+      enabled: true
+      # -- Configure the way to execute database migration. Possible values: job, initContainer
+      # When set to job, the migration will be executed as a job on release or upgrade.
+      # When set to initContainer, the migration will be executed when kratos pod is created
+      # Defaults to job  
+      type: job
+      # -- Ability to override the entrypoint of the automigration container
+      # (e.g. to source dynamic secrets or export environment dynamic variables)
+      customCommand: []
+      # -- Ability to override arguments of the entrypoint. Can be used in-depended of customCommand 
+      # eg:
+      # - sleep 5;
+      #   - keto
+      customArgs: []
+    # -- Direct keto config. Full documentation can be found in https://www.ory.sh/keto/docs/reference/configuration
     config:
       serve:
-        port: 4456
+        read:
+          port: 4466
+        write:
+          port: 4467
+        metrics:
+          port: 4468
+      namespaces:
+        - id: 0
+          name: organisations
+        - id: 1
+          name: applications
+        - id: 2
+          name: spaces
+        - id: 3
+          name: superorganisation          
+      dsn: postgres://postgres:postgres@kavach-postgresql-0.default.svc.cluster.local:5432/keto
 
-    autoMigrate: false
+  # -- Configure the probes for when the deployment is considered ready and ongoing health check
+  deployment:
 
-  ingress:
-    enabled: false
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: chart-example.local
-        paths: []
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
-
-  resources: {}
+    resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
     # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -523,46 +971,19 @@ keto:
     #   cpu: 100m
     #   memory: 128Mi
 
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 10
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
-
-  nodeSelector: {}
-
-  extraenv: {}
-
-  # Configuration for tracing providers. Only datadog is currently supported through this block.
-  # If you need to use a different tracing provider, please manually set the configuration values
-  # via "keto.config" or via "extraEnv".
-  tracing:
-    datadog:
+    # -- Autoscaling for keto deployment
+    autoscaling:
       enabled: false
+      minReplicas: 1
+      maxReplicas: 100
+      targetCPUUtilizationPercentage: 80
+      # targetMemoryUtilizationPercentage: 80
 
-      # Sets the datadog DD_ENV environment variable. This value indicates the environment where keto is running.
-      # Default value: "none".
-      # env: production
-
-      # Sets the datadog DD_VERSION environment variable. This value indicates the version that keto is running.
-      # Default value: .Chart.AppVersion (i.e. the tag used for the docker image).
-      # version: X.Y.Z
-
-      # Sets the datadog DD_SERVICE environment variable. This value indicates the name of the service running.
-      # Default value: "ory/keto".
-      # service: ory/keto
-
-      # Sets the datadog DD_AGENT_HOST environment variable. This value indicates the host address of the datadog agent.
-      # If set to true, this configuration will automatically set DD_AGENT_HOST to the field "status.hostIP" of the pod.
-      # Default value: false.
-      # useHostIP: true
-
-  tolerations: []
-
-  secret: {}
-
-  affinity: {}  
+  # -- PodDistributionBudget configuration
+  pdb:
+    enabled: false
+    spec:
+      minAvailable: 1
 
 companion:
   enabled: false
