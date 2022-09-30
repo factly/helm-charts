@@ -44,7 +44,7 @@ server:
   createSuperOrg: false  
 
   ## Environment variables to pass to mande Server
-  env: {}
+  env: []
     # - name: MANDE_MODE
     #   value: "development"
     # - name: MANDE_DATABASE_HOST
@@ -320,7 +320,7 @@ web:
     targetMemoryUtilizationPercentage: 80
 
   ## Environment variables to pass to mande web
-  env: {}
+  env: []
 
   serviceAccount:
     # Specifies whether a service account should be created
