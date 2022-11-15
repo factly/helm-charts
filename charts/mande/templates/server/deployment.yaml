@@ -117,8 +117,8 @@ spec:
           volumeMounts:
             - name: mande-invoice-template
               mountPath: ./app/templates
-            # - name: mande-gcs-credentials
-            #   mountPath: ./app/
+            - name: mande-gcs-credentials
+              mountPath: ./app/
       volumes:
         - name: mande-invoice-template
           configMap:
