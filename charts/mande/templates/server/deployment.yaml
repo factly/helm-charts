@@ -116,9 +116,9 @@ spec:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
             - name: mande-invoice-template
-              mountPath: ./app/templates 
-            - name: mande-gcs-credentials
-              mountPath: ./app/
+              mountPath: ./app/templates
+            # - name: mande-gcs-credentials
+            #   mountPath: ./app/
       volumes:
         - name: mande-invoice-template
           configMap:
