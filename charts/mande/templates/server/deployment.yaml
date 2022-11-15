@@ -68,6 +68,8 @@ spec:
           volumeMounts:
             - name: mande-invoice-template
               mountPath: ./app/templates
+            - name: mande-gcs-credentials
+              mountPath: ./app/              
         {{- end }}        
       {{- end }}
       containers:
@@ -114,11 +116,16 @@ spec:
             {{- toYaml .Values.server.resources | nindent 12 }}
           volumeMounts:
             - name: mande-invoice-template
-              mountPath: ./app/templates          
+              mountPath: ./app/templates 
+            - name: mande-gcs-credentials
+              mountPath: ./app/
       volumes:
         - name: mande-invoice-template
           configMap:
             name: mande-invoice-template
+        - name: mande-gcs-credentials
+          secret:
+            secretName: mande-gcs-credentials
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
