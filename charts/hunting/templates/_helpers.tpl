@@ -51,6 +51,24 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Selector labels (Worker)
+*/}}
+{{- define "hunting-worker.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "hunting.name" . }}-worker
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+
+{{/*
+Selector labels (Flower)
+*/}}
+{{- define "hunting-flower.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "hunting.name" . }}-flower
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "hunting.serviceAccountName" -}}
