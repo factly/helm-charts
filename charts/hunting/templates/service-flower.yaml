@@ -1,0 +1,17 @@
+{{- if .Values.flower.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "hunting.fullname" . }}-flower
+  labels:
+    {{- include "hunting.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.flower.service.type }}
+  ports:
+    - port: {{ .Values.flower.service.port }}
+      targetPort: 5555
+      protocol: TCP
+      name: http 
+  selector:
+    {{- include "hunting.selectorLabels" . | nindent 4 }}      
+{{- end }}

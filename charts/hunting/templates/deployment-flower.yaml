@@ -1,7 +1,8 @@
+{{- if .Values.flower.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "hunting.fullname" . }}
+  name: {{ include "hunting.fullname" . }}-flower
   labels:
     {{- include "hunting.labels" . | nindent 4 }}
 spec:
@@ -32,10 +33,11 @@ spec:
           args:
             - poetry
             - run
-            - uvicorn
-            - app.main:app
-            - --host
-            - 0.0.0.0      
+            - celery
+            - -A
+            - app.worker
+            - flower
+            - --port=5555
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -43,11 +45,11 @@ spec:
           {{- if .Values.env }}
           env:
           {{- toYaml .Values.env | nindent 12 }}
-          {{- end }}           
+          {{- end }}
           ports:
             - name: http
-              containerPort: 8000
-              protocol: TCP
+              containerPort: {{ .Values.flower.service.port }}
+              protocol: TCP              
           # livenessProbe:
           #   httpGet:
           #     path: /
@@ -70,3 +72,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}      

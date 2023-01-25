@@ -1,7 +1,8 @@
+{{- if .Values.worker.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "hunting.fullname" . }}
+  name: {{ include "hunting.fullname" . }}-worker
   labels:
     {{- include "hunting.labels" . | nindent 4 }}
 spec:
@@ -32,10 +33,12 @@ spec:
           args:
             - poetry
             - run
-            - uvicorn
-            - app.main:app
-            - --host
-            - 0.0.0.0      
+            - celery
+            - -A
+            - app.worker
+            - worker
+            - -l
+            - info      
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -70,3 +73,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+{{- end }}      
