@@ -1033,6 +1033,31 @@ entries:
   hunting:
   - apiVersion: v2
     appVersion: 0.2.0-stagv1.2
+    created: "2023-01-25T21:17:46.3088892Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.5.*
+    - alias: redis
+      condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.3.*
+    description: A Helm chart to install Hunting Server
+    digest: 7929d7582c141448272f0a7377d6f93d6a1514d0239b6049d889640d699a12cf
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    - name: vsumit89
+    name: hunting
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/hunting-0.4.4/hunting-0.4.4.tgz
+    version: 0.4.4
+  - apiVersion: v2
+    appVersion: 0.2.0-stagv1.2
     created: "2023-01-25T19:15:06.007754497Z"
     dependencies:
     - alias: mongodb
