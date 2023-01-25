@@ -13,5 +13,6 @@ spec:
       protocol: TCP
       name: http 
   selector:
-    {{- include "hunting.selectorLabels" . | nindent 4 }}      
+    app.kubernetes.io/instance: hunting
+    app.kubernetes.io/name: hunting-server-flower    
 {{- end }}
