@@ -6,6 +6,7 @@ metadata:
     {{- include "hunting.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
+  sessionAffinity: None
   ports:
     - port: {{ .Values.service.port }}
       targetPort: 8000

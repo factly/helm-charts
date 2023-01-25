@@ -31,8 +31,6 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           args:
-            - poetry
-            - run
             - celery
             - -A
             - app.worker
@@ -48,16 +46,16 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.flower.service.port }}
+              containerPort: 5555
               protocol: TCP              
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
