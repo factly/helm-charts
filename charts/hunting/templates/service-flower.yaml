@@ -14,5 +14,5 @@ spec:
       name: http 
   selector:
     app.kubernetes.io/instance: hunting
-    app.kubernetes.io/name: hunting-server-flower    
+    app.kubernetes.io/name: {{ template "hunting.fullname" . }}-flower
 {{- end }}

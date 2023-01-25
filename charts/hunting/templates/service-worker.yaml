@@ -14,6 +14,6 @@ spec:
       name: http
   selector:
     app.kubernetes.io/instance: hunting
-    app.kubernetes.io/name: hunting-server-worker    
+    app.kubernetes.io/name: {{ include "hunting.fullname" . }}-worker
 
 {{- end }}
