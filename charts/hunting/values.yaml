@@ -152,6 +152,13 @@ worker:
 
 flower:
   enabled: false
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
 
   env:
     # - name: CELERY_BROKER_URL
