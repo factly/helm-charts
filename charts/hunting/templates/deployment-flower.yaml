@@ -6,8 +6,8 @@ metadata:
   labels:
     {{- include "hunting.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  {{- if not .Values.flower.autoscaling.enabled }}
+  replicas: {{ .Values.flower.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
