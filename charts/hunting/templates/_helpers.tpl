@@ -54,7 +54,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Selector labels (Worker)
 */}}
 {{- define "hunting-worker.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "hunting.name" . }}-worker
+app.kubernetes.io/name: {{ include "hunting.fullname" . }}-worker
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
@@ -63,7 +63,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Selector labels (Flower)
 */}}
 {{- define "hunting-flower.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "hunting.name" . }}-flower
+app.kubernetes.io/name: {{ include "hunting.fullname" . }}-flower
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
