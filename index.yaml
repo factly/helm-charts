@@ -1324,6 +1324,26 @@ entries:
   imgproxy:
   - apiVersion: v2
     appVersion: v3.3.2
+    created: "2023-04-27T15:51:47.349379233Z"
+    description: A fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
+    digest: 57e1c0714923a6bc61dd82f316b57edf12f46f21f14e98abe4b2d3e3f8d7d3ed
+    home: https://github.com/imgproxy/imgproxy
+    keywords:
+    - imgproxy
+    - image
+    - processing
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: imgproxy
+    sources:
+    - https://github.com/imgproxy/imgproxy
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/imgproxy-0.3.2/imgproxy-0.3.2.tgz
+    version: 0.3.2
+  - apiVersion: v2
+    appVersion: v3.3.2
     created: "2023-04-27T15:44:21.974545739Z"
     description: A fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
     digest: b96a8d0c4d0c34590097991605d646ee3650ace78226238774151501508d80df
