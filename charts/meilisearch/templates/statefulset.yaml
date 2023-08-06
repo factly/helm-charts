@@ -66,8 +66,10 @@ spec:
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}  
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.persistence.enabled }}
           volumeMounts:
+            - name: tmp
+              mountPath: /tmp            
+          {{- if .Values.persistence.enabled }}
             - name: data
               # mountPath: /meili_data/data.ms
               mountPath: {{.Values.persistence.mountPath }}
@@ -85,6 +87,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}      
       volumes:
+        - name: tmp
+          emptyDir: {}      
   {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
         - name: data
           persistentVolumeClaim:

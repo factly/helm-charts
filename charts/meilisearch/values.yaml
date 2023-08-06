@@ -150,6 +150,29 @@ livenessProbe:
   failureThreshold: 5
   periodSeconds: 10
 
+metrics:
+  enabled: false
+
+  service:
+    type: ClusterIP
+    port: 8081
+    portName: metrics
+    annotations: {}
+    labels: {}
+
+  serviceMonitor:
+    enabled: false
+    selector:
+      # prometheus: kube-prometheus
+      release: monitoring
+    labels: {}
+    annotations: {}
+    interval: 30s
+
+    scheme: http
+    tlsConfig: {}
+    scrapeTimeout: 30s  
+
 nodeSelector: {}
 
 tolerations: []
