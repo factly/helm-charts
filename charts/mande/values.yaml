@@ -137,6 +137,10 @@ server:
       port: 8000
       portName: http-admin
 
+    ip:
+      port: 8004
+      portName: http-ip
+
   metrics:
     enabled: false
 

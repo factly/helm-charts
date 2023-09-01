@@ -31,3 +31,9 @@ spec:
       {{- if .Values.server.service.admin.portName }}
       name: {{ .Values.server.service.admin.portName }}
       {{- end }}      
+    - port: {{ .Values.server.service.ip.port }}
+      targetPort: 8004
+      protocol: TCP
+      {{- if .Values.server.service.ip.portName }}
+      name: {{ .Values.server.service.ip.portName }}
+      {{- end }}        
