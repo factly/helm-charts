@@ -38,7 +38,9 @@ spec:
             - app.worker
             - worker
             - -l
-            - info      
+            - info  
+            - --max-memory-per-child=3000000 
+            - --max-tasks-per-child=2    
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
