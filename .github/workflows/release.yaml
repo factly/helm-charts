@@ -28,7 +28,6 @@ jobs:
         run: |
           helm repo add stable https://factly.github.io/helm-charts
           helm repo add bitnami https://charts.bitnami.com/bitnami
-          helm repo add minio https://helm.min.io/
           helm repo add ory https://k8s.ory.sh/helm/charts
 
       - name: Run chart-releaser
