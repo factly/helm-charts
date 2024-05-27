@@ -1,18 +1,18 @@
-# Default values for rill.
+# Default values for ruspie.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: "factly/rill"
+  repository: "factly/ruspie"
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
-fullnameOverride: "rill"
+fullnameOverride: "ruspie"
 extraLabels: {}
 extraPodLabels: {}
 annotations: {}
@@ -79,54 +79,21 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
-persistence:
-  type: pvc
-  enabled: true
-  # storageClassName: default
-  accessModes:
-    - ReadWriteOnce
-  size: 1Gi
-  # annotations: {}
-  finalizers:
-    - kubernetes.io/pvc-protection
-  # selectorLabels: {}
-  ## Sub-directory of the PV to mount. Can be templated.
-  # subPath: ""
-  ## Name of an existing PVC. Can be templated.
-  # existingClaim:
-  ## Extra labels to apply to a PVC.
-  extraPvcLabels: {}
-
-  ## If persistence is not enabled, this allows to mount the
-  ## local storage in-memory to improve performance
-  ##
-  inMemory:
-    enabled: false
-    ## The maximum usage on memory medium EmptyDir would be
-    ## the minimum value between the SizeLimit specified
-    ## here and the sum of memory limits of all containers in a pod
-    ##
-    # sizeLimit: 300Mi
-
-
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
 
-extraVolumeMounts: []
-  # - name: extra-volume-0
-  #   mountPath: /mnt/volume0
-  #   readOnly: true
-  # - name: extra-volume-1
-  #   mountPath: /mnt/volume1
-  #   readOnly: true
+# Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
 
-extraVolumes: []
-  # - name: extra-volume-0
-  #   existingClaim: volume-claim
-  # - name: extra-volume-1
-  #   hostPath:
-  #     path: /usr/shared/
-  #     type: ""
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
