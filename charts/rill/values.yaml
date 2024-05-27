@@ -48,7 +48,7 @@ securityContext: {}
 service:
   portName: http
   type: ClusterIP
-  portNumber: 80
+  portNumber: 9009
 
 
 resources: {}
