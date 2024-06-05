@@ -142,7 +142,7 @@ server:
       portName: http-ip
 
   metrics:
-    enabled: false
+    enabled: true
 
     service:
       type: ClusterIP
