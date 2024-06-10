@@ -5,8 +5,5 @@ dependencies:
 - name: meilisearch
   repository: https://factly.github.io/helm-charts
   version: 0.1.5
-- name: minio
-  repository: https://charts.min.io/
-  version: 5.2.0
-digest: sha256:12c92f08a9af21973a72c4a29b04ffe6c7423733d8340177557759ed1b9b1e0c
-generated: "2024-06-10T19:48:17.526963+05:30"
+digest: sha256:8d6ea566e3da8a905aaaca636f8c48eed268799680be9b49c07bc36cc0965106
+generated: "2024-06-10T19:55:03.456178+05:30"
