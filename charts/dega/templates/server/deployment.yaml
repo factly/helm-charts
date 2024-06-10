@@ -115,7 +115,7 @@ spec:
             - name: dega-server-web
               mountPath: ./web/templates
             - name: dega-server-zt
-              mountPath: ./app/zitadel_key.json
+              mountPath: ./app
               # subPath: zitadel_key.json
       volumes:
         - name: dega-server-data
