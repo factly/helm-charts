@@ -38,7 +38,7 @@ dependencies:
     condition: meilisearch.enabled
     alias: meilisearch    
   - name: minio
-    version: "8.0.*"
+    version: "5.2.*"
     repository: https://charts.min.io/
     condition: minio.enabled
     alias: minio    
