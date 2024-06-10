@@ -113,14 +113,20 @@ spec:
             - name: dega-server-data
               mountPath: ./app/data
             - name: dega-server-web
-              mountPath: ./web/templates          
+              mountPath: ./web/templates
+            - name: dega-server-zt
+              mountPath: ./app
+              subPath: zitadel_key.json
       volumes:
         - name: dega-server-data
           configMap:
             name: dega-server-data
         - name: dega-server-web
           configMap:
-            name: dega-server-web         
+            name: dega-server-web
+        - name: dega-server-zt
+          secret:
+            secretName: zitadel-secret
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
