@@ -190,12 +190,14 @@ server:
   ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/
   ##
   readinessProbe:
+    path: /health/alive
     initialDelaySeconds: 10
     timeoutSeconds: 5
     successThreshold: 1
     failureThreshold: 5
     periodSeconds: 10
   livenessProbe:
+    path: /health/alive
     initialDelaySeconds: 50
     timeoutSeconds: 5
     successThreshold: 1
