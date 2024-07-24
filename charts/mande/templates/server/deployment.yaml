@@ -96,7 +96,7 @@ spec:
             {{- end }}
           livenessProbe:
             httpGet:
-              path: /health/alive
+              path: {{ .Values.server.livenessProbe.path }}
               port: {{ .Values.server.service.admin.port }}
             initialDelaySeconds: {{ .Values.server.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.server.livenessProbe.periodSeconds }}
@@ -105,7 +105,7 @@ spec:
             failureThreshold: {{ .Values.server.livenessProbe.failureThreshold }}             
           readinessProbe:
             httpGet:
-              path: /health/ready
+              path: {{ .Values.server.readinessProbe.path }}
               port: {{ .Values.server.service.admin.port }}
             initialDelaySeconds: {{ .Values.server.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.server.readinessProbe.periodSeconds }}
