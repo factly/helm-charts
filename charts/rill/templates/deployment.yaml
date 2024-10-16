@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "rill.fullname" . }}
+  namespace: {{ include "rill.namespace" . }}
+  labels:
+    {{ include "rill.labels" . | nindent 4 }}
+  annotations:
+    {{ include "rill.annotations" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{ include "rill.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{ include "rill.PodLabels" . | nindent 8 }}
+      annotations:
+        {{ include "rill.PodAnnotations" . | nindent 8 }}
+    spec:
+      {{- include "rill.pod" . | nindent 6 }}
