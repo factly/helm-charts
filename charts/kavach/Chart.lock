@@ -3,8 +3,8 @@ dependencies:
   repository: https://factly.github.io/helm-charts
   version: 0.2.6
 - name: minio
-  repository: https://charts.min.io/
-  version: 5.3.0
+  repository: https://charts.bitnami.com/bitnami
+  version: 14.7.16
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
   version: 16.0.1
@@ -20,5 +20,5 @@ dependencies:
 - name: companion
   repository: file://../companion
   version: 0.1.10
-digest: sha256:a40c4fe261cc29c6a2a820ec7419788bc097fb123d16ba91e312edec6c268225
-generated: "2024-10-16T17:09:07.030372+05:30"
+digest: sha256:25a533ecaba28f8766d7deee9ed0a3216969236662a3f7509d74794e9db1c728
+generated: "2024-10-16T17:16:51.265928+05:30"
