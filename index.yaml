@@ -1061,6 +1061,38 @@ entries:
   hukz:
   - apiVersion: v2
     appVersion: 0.3.1
+    created: "2024-10-16T11:48:41.817809773Z"
+    dependencies:
+    - alias: nats
+      condition: nats.enabled
+      name: nats
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.4.*
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.*
+    description: A simple, lightweight service written in Go to manage outgoing webhooks from any application.
+    digest: f632f6efb3ef4e8907b990272fcefd51b79774f99415b443b2b05a80e928ffef
+    home: https://github.com/factly/hukz
+    keywords:
+    - hukz
+    - webhooks
+    - hooks
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    - name: hetjagani
+    name: hukz
+    sources:
+    - https://github.com/factly/hukz
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/hukz-0.3.5/hukz-0.3.5.tgz
+    version: 0.3.5
+  - apiVersion: v2
+    appVersion: 0.3.1
     created: "2022-05-28T04:19:18.947093081Z"
     dependencies:
     - alias: nats
@@ -1220,6 +1252,31 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/hukz-0.1.0/hukz-0.1.0.tgz
     version: 0.1.0
   hunting:
+  - apiVersion: v2
+    appVersion: 0.2.0-stagv1.2
+    created: "2024-10-16T11:48:41.984397865Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.5.*
+    - alias: redis
+      condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.3.*
+    description: A Helm chart to install Hunting Server
+    digest: f3d44016e7956a7c842518feb66b24b214e87f5c06d9dab6602c656a5594af90
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    - name: vsumit89
+    name: hunting
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/hunting-0.4.12/hunting-0.4.12.tgz
+    version: 0.4.12
   - apiVersion: v2
     appVersion: 0.2.0-stagv1.2
     created: "2024-04-02T12:25:29.674993883Z"
@@ -1886,6 +1943,52 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/imgproxy-0.1.0/imgproxy-0.1.0.tgz
     version: 0.1.0
   kavach:
+  - apiVersion: v2
+    appVersion: 0.22.3
+    created: "2024-10-16T11:48:42.140044Z"
+    dependencies:
+    - alias: imgproxy
+      condition: imgproxy.enabled
+      name: imgproxy
+      repository: https://factly.github.io/helm-charts
+      version: 0.2.*
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.7.*
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.*
+    - alias: kratos
+      condition: kratos.enabled
+      name: kratos
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.25.*
+    - alias: oathkeeper
+      condition: oathkeeper.enabled
+      name: oathkeeper
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.22.*
+    - alias: keto
+      condition: keto.enabled
+      name: keto
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.25.*
+    - alias: companion
+      condition: companion.enabled
+      name: companion
+      repository: file://../companion
+      version: 0.1.*
+    description: A Helm chart for Kavach
+    digest: 61f413fe96a7718255226b0d9a96d9cfca6db5c169a0522a6a47ab5af57b78a5
+    name: kavach
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/kavach-0.9.4/kavach-0.9.4.tgz
+    version: 0.9.4
   - apiVersion: v2
     appVersion: 0.22.3
     created: "2022-09-15T08:27:48.027772571Z"
