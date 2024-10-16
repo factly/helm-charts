@@ -1,9 +1,9 @@
 dependencies:
 - name: nats
   repository: https://charts.bitnami.com/bitnami
-  version: 6.2.1
+  version: 8.4.4
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 10.3.11
-digest: sha256:afa94bdc6e755e83a29df600e24ebdbae198622343ead22eeba5f133a7a2d78d
-generated: "2021-03-08T16:32:20.172617-06:00"
+  version: 16.0.1
+digest: sha256:37049a4d01294736066d8e802d6343fe803af0a10dde676bbc34eb1b49bcbb3b
+generated: "2024-10-16T16:59:20.489351+05:30"
