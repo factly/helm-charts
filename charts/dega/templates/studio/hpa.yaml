@@ -1,5 +1,5 @@
 {{- if .Values.studio.autoscaling.enabled }}
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ template "studio.fullname" . }}
@@ -18,13 +18,17 @@ spec:
     - type: Resource
       resource:
         name: memory
-        targetAverageUtilization: {{ .Values.studio.autoscaling.targetMemoryUtilizationPercentage }}
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.studio.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}  
     {{- if .Values.studio.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
-        targetAverageUtilization: {{ .Values.studio.autoscaling.targetCPUUtilizationPercentage }}
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.studio.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
 {{- end }}
 
