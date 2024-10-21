@@ -49,6 +49,14 @@ spec:
               protocol: TCP
           resources:
             {{- toYaml .Values.web.resources | nindent 12 }}
+          {{- with .Values.web.volumeMounts }}
+          volumeMounts:
+            {{- toYaml . | nindent 6 }}
+          {{- end }}
+      {{- with .Values.web.volumes }}
+      volumes:
+        {{- toYaml . | nindent 2 }}
+      {{- end }}
       {{- with .Values.web.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
