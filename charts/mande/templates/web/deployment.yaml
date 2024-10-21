@@ -51,11 +51,11 @@ spec:
             {{- toYaml .Values.web.resources | nindent 12 }}
           {{- with .Values.web.volumeMounts }}
           volumeMounts:
-            {{- toYaml . | nindent 6 }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
       {{- with .Values.web.volumes }}
       volumes:
-        {{- toYaml . | nindent 2 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.web.nodeSelector }}
       nodeSelector:
