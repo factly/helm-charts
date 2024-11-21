@@ -93,6 +93,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 8000
+  additionalLabels: {}
 
 ingress:
   enabled: false
