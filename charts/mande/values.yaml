@@ -140,7 +140,10 @@ server:
     ip:
       port: 8004
       portName: http-ip
-
+    
+    wf:
+      port: 8005
+      portName: http-wf
   metrics:
     enabled: true
 
