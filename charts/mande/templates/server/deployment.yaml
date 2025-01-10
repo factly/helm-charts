@@ -132,11 +132,6 @@ spec:
         - name: config-dataset
           configMap:
             name: mande-server-configmap
-            items:
-              - key: "30000"
-                path: "datasetapi.json"
-              - key: "31000"
-                path: "datasetapi.json"
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
