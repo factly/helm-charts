@@ -119,6 +119,9 @@ spec:
               mountPath: ./app/templates
             - name: mande-gcs-credentials
               mountPath: ./app/secrets
+            - name: config-dataset
+              mountPath: /data/datasetapi.json
+              subPath: datasetapi.json
       volumes:
         - name: mande-invoice-template
           configMap:
@@ -126,6 +129,14 @@ spec:
         - name: mande-gcs-credentials
           secret:
             secretName: mande-gcs-credentials
+        - name: config-dataset
+          configMap:
+            name: mande-server-configmap
+            items:
+              - key: "30000"
+                path: "datasetapi.json"
+              - key: "31000"
+                path: "datasetapi.json"
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
