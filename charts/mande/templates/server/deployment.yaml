@@ -120,7 +120,7 @@ spec:
             - name: mande-gcs-credentials
               mountPath: ./app/secrets
             - name: config-dataset
-              mountPath: /data/datasetapi.json
+              mountPath: ./app/data/datasetapi.json
               subPath: datasetapi.json
       volumes:
         - name: mande-invoice-template
