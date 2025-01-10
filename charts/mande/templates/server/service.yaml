@@ -37,6 +37,12 @@ spec:
       {{- if .Values.server.service.ip.portName }}
       name: {{ .Values.server.service.ip.portName }}
       {{- end }}
+    - port: {{ .Values.server.service.api.port }}
+      targetPort: 8006
+      protocol: TCP
+      {{- if .Values.server.service.api.portName }}
+      name: {{ .Values.server.service.api.portName }}
+      {{- end }}
     - port: {{ .Values.server.service.wf.port }}
       targetPort: 8005
       protocol: TCP

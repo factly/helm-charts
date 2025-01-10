@@ -144,6 +144,11 @@ server:
     wf:
       port: 8005
       portName: http-wf
+    
+    api:
+      port: 8006
+      portName: api
+
   metrics:
     enabled: true
 
