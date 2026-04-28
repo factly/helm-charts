@@ -3,6 +3,21 @@ entries:
   companion:
   - apiVersion: v2
     appVersion: sha-e80a7f7
+    created: "2026-04-28T11:16:13.202298263Z"
+    description: The companion plugin can be used to upload files to Transloadit for all kinds of processing, such as transcoding video, resizing images, zipping/unzipping, and much more.
+    digest: 3b755ad59cb123164cb52b838e33fa8fe9155734cb10555c0fb2a08cbf85aaca
+    keywords:
+    - companion
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: companion
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/companion-0.1.11/companion-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: sha-e80a7f7
     created: "2024-10-16T06:56:31.583291519Z"
     description: The companion plugin can be used to upload files to Transloadit for all kinds of processing, such as transcoding video, resizing images, zipping/unzipping, and much more.
     digest: 8409d0555e04d27be9270ef561c48b13aea682f82d9161a48689b723769de352
@@ -92,6 +107,30 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/companion-0.1.3/companion-0.1.3.tgz
     version: 0.1.3
   dega:
+  - apiVersion: v2
+    appVersion: 0.15.1
+    created: "2026-04-28T11:16:13.435930454Z"
+    dependencies:
+    - alias: imgproxy
+      condition: imgproxy.enabled
+      name: imgproxy
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    - alias: meilisearch
+      condition: meilisearch.enabled
+      name: meilisearch
+      repository: https://factly.github.io/helm-charts
+      version: 0.1.*
+    description: A Helm chart for Dega. A lightweight, scalable & high performant CMS written in Go. Developed for modern web features with all the best practices built-in.
+    digest: 5048ec07237a517dd3da41a04ca61845c21df6bd24a17dd879e6fbe94b35966a
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: dega
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/dega-0.11.13/dega-0.11.13.tgz
+    version: 0.11.13
   - apiVersion: v2
     appVersion: 0.15.1
     created: "2024-10-16T07:29:08.770527252Z"
@@ -1061,6 +1100,38 @@ entries:
   hukz:
   - apiVersion: v2
     appVersion: 0.3.1
+    created: "2026-04-28T11:16:13.683933647Z"
+    dependencies:
+    - alias: nats
+      condition: nats.enabled
+      name: nats
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.4.*
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.*
+    description: A simple, lightweight service written in Go to manage outgoing webhooks from any application.
+    digest: 39f4d4c5c74378c0a8441cc24f52359e9e3a0755d0b60922a15b7577c158d33e
+    home: https://github.com/factly/hukz
+    keywords:
+    - hukz
+    - webhooks
+    - hooks
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    - name: hetjagani
+    name: hukz
+    sources:
+    - https://github.com/factly/hukz
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/hukz-0.3.6/hukz-0.3.6.tgz
+    version: 0.3.6
+  - apiVersion: v2
+    appVersion: 0.3.1
     created: "2024-10-16T11:48:41.817809773Z"
     dependencies:
     - alias: nats
@@ -1252,6 +1323,31 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/hukz-0.1.0/hukz-0.1.0.tgz
     version: 0.1.0
   hunting:
+  - apiVersion: v2
+    appVersion: 0.2.0-stagv1.2
+    created: "2026-04-28T11:16:13.940114258Z"
+    dependencies:
+    - alias: mongodb
+      condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.5.*
+    - alias: redis
+      condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 17.3.*
+    description: A Helm chart to install Hunting Server
+    digest: aa97cf846c3810e993c7ecf3e2f83766ada7a67554f597bc2d4eab5242604ba1
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    - name: vsumit89
+    name: hunting
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/hunting-0.4.14/hunting-0.4.14.tgz
+    version: 0.4.14
   - apiVersion: v2
     appVersion: 0.2.0-stagv1.2
     created: "2024-11-21T11:13:42.443783094Z"
@@ -1695,6 +1791,26 @@ entries:
   imgproxy:
   - apiVersion: v2
     appVersion: v3.3.2
+    created: "2026-04-28T11:16:14.137482034Z"
+    description: A fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
+    digest: b3f242d01833c5f18a42500ca185b58985c8938ba42d0651544e76e930163315
+    home: https://github.com/imgproxy/imgproxy
+    keywords:
+    - imgproxy
+    - image
+    - processing
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: imgproxy
+    sources:
+    - https://github.com/imgproxy/imgproxy
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/imgproxy-0.3.4/imgproxy-0.3.4.tgz
+    version: 0.3.4
+  - apiVersion: v2
+    appVersion: v3.3.2
     created: "2023-04-27T16:21:00.079312132Z"
     description: A fast and secure standalone server for resizing and converting remote images. The main principles of imgproxy are simplicity, speed, and security.
     digest: 762e71d47ed6548912e3fa5ebfb4ccfb05d3c3b2920e0d042e3abc89f237b7e3
@@ -1968,6 +2084,52 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/imgproxy-0.1.0/imgproxy-0.1.0.tgz
     version: 0.1.0
   kavach:
+  - apiVersion: v2
+    appVersion: 0.22.3
+    created: "2026-04-28T11:16:14.36862909Z"
+    dependencies:
+    - alias: imgproxy
+      condition: imgproxy.enabled
+      name: imgproxy
+      repository: https://factly.github.io/helm-charts
+      version: 0.2.*
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.7.*
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.0.*
+    - alias: kratos
+      condition: kratos.enabled
+      name: kratos
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.25.*
+    - alias: oathkeeper
+      condition: oathkeeper.enabled
+      name: oathkeeper
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.22.*
+    - alias: keto
+      condition: keto.enabled
+      name: keto
+      repository: https://k8s.ory.sh/helm/charts
+      version: 0.25.*
+    - alias: companion
+      condition: companion.enabled
+      name: companion
+      repository: file://../companion
+      version: 0.1.*
+    description: A Helm chart for Kavach
+    digest: abc9fb44f4ed407396f53cb2d4c2e9258d0c3178082d39a751d92d59e85d1c37
+    name: kavach
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/kavach-0.9.5/kavach-0.9.5.tgz
+    version: 0.9.5
   - apiVersion: v2
     appVersion: 0.22.3
     created: "2024-10-16T11:48:42.140044Z"
@@ -3179,6 +3341,19 @@ entries:
   mande:
   - apiVersion: v2
     appVersion: 0.34.1
+    created: "2026-04-28T11:16:14.611799442Z"
+    description: Open-source application to develop data portals to publish datasets in various formats. Developed in Go and React.
+    digest: 70e9f3855217ad092f3c476f91b40b8b2092076aedaf0bf75a33fe04569a14e1
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: mande
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/mande-0.5.14/mande-0.5.14.tgz
+    version: 0.5.14
+  - apiVersion: v2
+    appVersion: 0.34.1
     created: "2025-06-25T07:13:26.155941603Z"
     description: Open-source application to develop data portals to publish datasets in various formats. Developed in Go and React.
     digest: d06eeea7e3e36dcf84d19d84f3583c13b0c1d4df8dac8c0c6ab83ce9ce47b876
@@ -3581,6 +3756,25 @@ entries:
     - https://github.com/factly/helm-charts/releases/download/mande-0.1.0/mande-0.1.0.tgz
     version: 0.1.0
   meilisearch:
+  - apiVersion: v2
+    appVersion: v1.3.0
+    created: "2026-04-28T11:16:14.871884918Z"
+    description: Meilisearch is an open source, blazingly fast and hyper relevant search-engine that will improve your search experience.
+    digest: ce40d42d13e4f49ad1796960933d93db3497a64d75918fbb8b9f1890976b878c
+    home: https://github.com/meilisearch/meilisearch
+    keywords:
+    - meilisearch
+    - search
+    maintainers:
+    - name: deshetti
+    - name: shreeharsha-factly
+    name: meilisearch
+    sources:
+    - https://github.com/meilisearch/meilisearch
+    type: application
+    urls:
+    - https://github.com/factly/helm-charts/releases/download/meilisearch-0.7.1/meilisearch-0.7.1.tgz
+    version: 0.7.1
   - apiVersion: v2
     appVersion: v1.3.0
     created: "2023-08-06T04:40:15.288896237Z"
