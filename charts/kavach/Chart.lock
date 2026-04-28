@@ -7,7 +7,7 @@ dependencies:
   version: 14.7.16
 - name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 16.0.1
+  version: 16.0.6
 - name: kratos
   repository: https://k8s.ory.sh/helm/charts
   version: 0.25.6
@@ -19,6 +19,6 @@ dependencies:
   version: 0.25.6
 - name: companion
   repository: file://../companion
-  version: 0.1.10
-digest: sha256:25a533ecaba28f8766d7deee9ed0a3216969236662a3f7509d74794e9db1c728
-generated: "2024-10-16T17:16:51.265928+05:30"
+  version: 0.1.11
+digest: sha256:1c0a2b5ac18fb61643f034f39490bb74128e284479b049b86d51d79ca875d496
+generated: "2026-04-28T16:44:18.041769+05:30"
