@@ -49,3 +49,9 @@ spec:
       {{- if .Values.server.service.wf.portName }}
       name: {{ .Values.server.service.wf.portName }}
       {{- end }}
+    - port: {{ .Values.server.service.analytics.port }}
+      targetPort: 8007
+      protocol: TCP
+      {{- if .Values.server.service.analytics.portName }}
+      name: {{ .Values.server.service.analytics.portName }}
+      {{- end }}

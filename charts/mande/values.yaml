@@ -149,6 +149,10 @@ server:
       port: 8006
       portName: api
 
+    analytics:
+      port: 8007
+      portName: analytics
+
   metrics:
     enabled: true
 
