@@ -152,6 +152,18 @@ server:
     analytics:
       port: 8007
       portName: analytics
+    
+    metrics:
+      port: 8001
+      portName: metrics
+
+    mcp:
+      port: 8008
+      portName: mcp
+
+    hydra:
+      port: 8009
+      portName: hydra
 
   metrics:
     enabled: true

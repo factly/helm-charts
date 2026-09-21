@@ -55,3 +55,21 @@ spec:
       {{- if .Values.server.service.analytics.portName }}
       name: {{ .Values.server.service.analytics.portName }}
       {{- end }}
+    - port: {{ .Values.server.service.metrics.port }}
+      targetPort: 8001
+      protocol: TCP
+      {{- if .Values.server.service.metrics.portName }}
+      name: {{ .Values.server.service.metrics.portName }}
+      {{- end }}
+    - port: {{ .Values.server.service.mcp.port }}
+      targetPort: 8008
+      protocol: TCP
+      {{- if .Values.server.service.mcp.portName }}
+      name: {{ .Values.server.service.mcp.portName }}
+      {{- end }}
+    - port: {{ .Values.server.service.hydra.port }}
+      targetPort: 8009
+      protocol: TCP
+      {{- if .Values.server.service.hydra.portName }}
+      name: {{ .Values.server.service.hydra.portName }}
+      {{- end }}
