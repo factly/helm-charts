@@ -128,6 +128,9 @@ spec:
             - name: api-subscriptions
               mountPath: ./app/data/api_subscriptions.json
               subPath: api_subscriptions.json
+            - name: config-mcp
+              mountPath: ./app/data/mcp.json
+              subPath: mcp.json
       volumes:
         - name: mande-invoice-template
           configMap:
@@ -144,6 +147,9 @@ spec:
         - name: api-subscriptions
           configMap:
             name: mande-api-subscriptions
+        - name: config-mcp
+          configMap:
+            name: mande-mcp-configmap
       {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
